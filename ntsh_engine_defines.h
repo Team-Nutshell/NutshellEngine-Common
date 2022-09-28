@@ -14,6 +14,7 @@
 		} \
 	} while(0)
 #else
+#define NTSH_ASSERT(expression) \
 	do { \
 	} while(0)
 #endif
