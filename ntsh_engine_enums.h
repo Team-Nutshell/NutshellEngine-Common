@@ -1,3 +1,5 @@
+#pragma once
+
 typedef enum NtshResult {
 	NTSH_RESULT_SUCCESS,
 	NTSH_RESULT_ASSERT_FAILED,
