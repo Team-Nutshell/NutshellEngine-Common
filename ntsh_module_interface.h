@@ -7,6 +7,7 @@ protected:
     std::string m_name = "";
 public:
     NutshellModuleInterface() {}
+    NutshellModuleInterface(const std::string& name) : m_name(name) {}
     virtual ~NutshellModuleInterface() {}
 
     virtual void init() = 0;
