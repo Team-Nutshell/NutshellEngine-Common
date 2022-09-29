@@ -18,5 +18,10 @@ public:
     }
 };
 
+#ifdef NTSH_OS_WINDOWS
+typedef NutshellModuleInterface* (__stdcall *createModule_t)();
+typedef void (__stdcall *destroyModule_t)(NutshellModuleInterface*);
+#elif NTSH_OS_LINUX
 typedef NutshellModuleInterface* createModule_t();
 typedef void destroyModule_t(NutshellModuleInterface*);
+#endif
