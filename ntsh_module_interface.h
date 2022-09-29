@@ -18,5 +18,5 @@ public:
     }
 };
 
-typedef NutshellModuleInterface* createModule();
-typedef void destroyModule(NutshellModuleInterface*);
+typedef NutshellModuleInterface* createModule_t();
+typedef void destroyModule_t(NutshellModuleInterface*);
