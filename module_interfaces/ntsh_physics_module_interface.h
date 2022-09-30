@@ -12,3 +12,11 @@ public:
     virtual void update(double dt) = 0;
     virtual void destroy() = 0;
 };
+
+#ifdef NTSH_OS_WINDOWS
+typedef NutshellPhysicsModuleInterface* (__stdcall *createPhysicsModule_t)();
+typedef void (__stdcall *destroyPhysicsModule_t)(NutshellPhysicsModuleInterface*);
+#elif NTSH_OS_LINUX
+typedef NutshellPhysicsModuleInterface* createPhysicsModule_t();
+typedef void destroyPhysicsModule_t(NutshellPhysicsModuleInterface*);
+#endif

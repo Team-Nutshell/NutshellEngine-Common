@@ -28,4 +28,5 @@ set(NTSH_DEFINES ${NTSH_COMMON_DEFINES} PARENT_SCOPE)
 
 add_library(Common INTERFACE)
 target_include_directories(Common INTERFACE .)
+target_include_directories(Common INTERFACE module_interfaces)
 add_library(NutshellEngine::Common ALIAS Common)
