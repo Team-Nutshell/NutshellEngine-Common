@@ -15,7 +15,7 @@ public:
     virtual void update(double dt) = 0;
     virtual void destroy() = 0;
 
-    const NtshModuleType getType const {
+    const NtshModuleType getType() const {
         return m_type;
     }
 
