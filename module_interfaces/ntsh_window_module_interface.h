@@ -28,6 +28,9 @@ public:
 	virtual bool isFullscreen() = 0;
 	// If the fullscreen parameter is true, puts the window in fullscreen, else, puts the window in windowed
 	virtual void setFullscreen(bool fullscreen) = 0;
+
+	// Sets the title of the window
+	virtual void setTitle(const std::string& title) = 0;
 };
 
 #ifdef NTSH_OS_WINDOWS
