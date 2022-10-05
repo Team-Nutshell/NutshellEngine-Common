@@ -12,10 +12,10 @@ protected:
 	NtshModuleType m_type = NTSH_MODULE_UNKNOWN;
 	std::string m_name = "";
 
-	NutshellGraphicsModuleInterface* m_graphicsModule;
-	NutshellPhysicsModuleInterface* m_physicsModule;
-	NutshellWindowModuleInterface* m_windowModule;
-	NutshellAudioModuleInterface* m_audioModule;
+	NutshellGraphicsModuleInterface* m_graphicsModule = nullptr;
+	NutshellPhysicsModuleInterface* m_physicsModule = nullptr;
+	NutshellWindowModuleInterface* m_windowModule = nullptr;
+	NutshellAudioModuleInterface* m_audioModule = nullptr;
 public:
 	NutshellModuleInterface() {}
 	NutshellModuleInterface(const NtshModuleType type, const std::string& name) : m_type(type), m_name(name) {}
