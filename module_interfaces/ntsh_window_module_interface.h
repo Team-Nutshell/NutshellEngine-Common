@@ -32,11 +32,3 @@ public:
 	// Sets the title of the window
 	virtual void setTitle(const std::string& title) = 0;
 };
-
-#ifdef NTSH_OS_WINDOWS
-typedef NutshellWindowModuleInterface* (__stdcall *createWindowModule_t)();
-typedef void (__stdcall *destroyWindowModule_t)(NutshellWindowModuleInterface*);
-#elif NTSH_OS_LINUX
-typedef NutshellWindowModuleInterface* createWindowModule_t();
-typedef void destroyWindowModule_t(NutshellWindowModuleInterface*);
-#endif
