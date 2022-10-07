@@ -64,7 +64,7 @@ public:
 	virtual void entityDestroyed(Entity entity) = 0;
 };
 
-template<typename T>
+template <typename T>
 class ComponentArray : public IComponentArray {
 public:
 	void insertData(Entity entity, T component) {
@@ -114,7 +114,7 @@ private:
 
 class ComponentManager {
 public:
-	template<typename T>
+	template <typename T>
 	void registerComponent() {
 		const char* typeName = typeid(T).name();
 		
@@ -125,7 +125,7 @@ public:
 		nextComponent++;
 	}
 
-	template<typename T>
+	template <typename T>
 	Component getComponentId() {
 		const char* typeName = typeid(T).name();
 
@@ -134,22 +134,22 @@ public:
 		return componentTypes[typeName];
 	}
 
-	template<typename T>
+	template <typename T>
 	void addComponent(Entity entity, T component) {
 		getComponentArray<T>()->insertData(entity, component);
 	}
 
-	template<typename T>
+	template <typename T>
 	void removeComponent(Entity entity) {
 		getComponentArray<T>()->removeData(entity);
 	}
 
-	template<typename T>
+	template <typename T>
 	bool hasComponent(Entity entity) {
 		return getComponentArray<T>()->hasComponent(entity);
 	}
 
-	template<typename T>
+	template <typename T>
 	T& getComponent(Entity entity) {
 		return getComponentArray<T>()->getData(entity);
 	}
@@ -165,7 +165,7 @@ private:
 	std::unordered_map<const char*, std::shared_ptr<IComponentArray>> componentArrays;
 	Component nextComponent = 0;
 
-	template<typename T>
+	template <typename T>
 	std::shared_ptr<ComponentArray<T>> getComponentArray() {
 		const char* typeName = typeid(T).name();
 
@@ -182,7 +182,7 @@ public:
 
 class SystemManager {
 public:
-	template<typename T>
+	template <typename T>
 	std::shared_ptr<T> registerSystem() {
 		const char* typeName = typeid(T).name();
 
@@ -193,7 +193,7 @@ public:
 		return system;
 	}
 
-	template<typename T>
+	template <typename T>
 	void setComponents(ComponentMask componentMask) {
 		const char* typeName = typeid(T).name();
 
@@ -246,12 +246,12 @@ public:
 	}
 
 	// Component
-	template<typename T>
+	template <typename T>
 	void registerComponent() {
 		return componentManager->registerComponent<T>();
 	}
 
-	template<typename T>
+	template <typename T>
 	void addComponent(Entity entity, T component) {
 		componentManager->addComponent<T>(entity, component);
 		auto components = entityManager->getComponents(entity);
@@ -260,7 +260,7 @@ public:
 		systemManager->entityComponentMaskChanged(entity, components);
 	}
 
-	template<typename T>
+	template <typename T>
 	void removeComponent(Entity entity) {
 		componentManager->removeComponent<T>(entity);
 		auto components = entityManager->getComponents(entity);
@@ -269,28 +269,28 @@ public:
 		systemManager->entityComponentMaskChanged(entity, components);
 	}
 
-	template<typename T>
+	template <typename T>
 	bool hasComponent(Entity entity) {
 		return componentManager->hasComponent<T>(entity);
 	}
 
-	template<typename T>
+	template <typename T>
 	T& getComponent(Entity entity) {
 		return componentManager->getComponent<T>(entity);
 	}
 
-	template<typename T>
+	template <typename T>
 	Component getComponentId() {
 		return componentManager->getComponentId<T>();
 	}
 
 	// System
-	template<typename T>
+	template <typename T>
 	std::shared_ptr<T> registerSystem() {
 		return systemManager->registerSystem<T>();
 	}
 
-	template<typename T>
+	template <typename T>
 	void setSystemComponents(ComponentMask componentMask) {
 		systemManager->setComponents<T>(componentMask);
 	}
