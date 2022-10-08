@@ -7,7 +7,7 @@
 		(void)(expression); \
 	} while(0)
 
-#ifndef NDEBUG
+#ifdef NTSH_DEBUG
 #define NTSH_ASSERT(expression) \
 	do { \
 		if (!(expression)) { \
