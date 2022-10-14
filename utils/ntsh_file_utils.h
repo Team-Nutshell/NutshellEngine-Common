@@ -1,7 +1,7 @@
 #pragma once
 #include <fstream>
 #include <string>
-#include "../ntsh_engine_defines"
+#include "../ntsh_engine_defines.h"
 
 namespace utils {
 	namespace file {
@@ -11,7 +11,7 @@ namespace utils {
 				return "";
 			}
 			file.seekg(0);
-			std::string fileContent((std::istreambuf_iterator<char>(file)), std::ifstreambuf_iterator<char>());
+			std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 			return fileContent;
 		}
 
@@ -21,7 +21,7 @@ namespace utils {
 				return "";
 			}
 			file.seekg(0);
-			std::string fileContent((std::istreambuf_iterator<char>(file)), std::ifstreambuf_iterator<char>());
+			std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 			return fileContent;
 		}
 
