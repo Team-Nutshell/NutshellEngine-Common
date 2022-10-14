@@ -39,9 +39,9 @@ public:
 
 #ifdef NTSH_OS_WINDOWS
 	// Returns the native Win32 window handle
-	HWND getWindowHandle();
+	virtual HWND getWindowHandle() = 0;
 #elif NTSH_OS_LINUX
 	// Returns the native X window handle
-	Window getWindowHandle();
+	virtual Window getWindowHandle() = 0;
 #endif
 };
