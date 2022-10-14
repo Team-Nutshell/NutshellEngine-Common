@@ -20,3 +20,10 @@
 	do { \
 	} while(0)
 #endif
+
+#define NTSH_EXECUTE_IF_NOT_NULL(pointer, function) \
+	do { \
+		if (pointer) { \
+			pointer->function; \
+		} \
+	} while(0)
