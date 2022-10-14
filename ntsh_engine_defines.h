@@ -27,3 +27,4 @@
 			pointer->function; \
 		} \
 	} while(0)
+	
