@@ -42,10 +42,5 @@ namespace utils {
 			}
 			return filePath.substr(dotPosition + 1);
 		}
-
-		bool exists (const std::string& filePath) {
-			std::ifstream file(filePath);
-			return file.good();
-		}
 	}
 }
