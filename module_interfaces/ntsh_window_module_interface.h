@@ -1,5 +1,10 @@
 #pragma once
 #include "ntsh_module_interface.h"
+#ifdef NTSH_OS_WINDOWS
+#include <windows.h>
+#elif NTSH_OS_LINUX
+#include <X11/Xlib.h>
+#endif
 
 class NutshellWindowModuleInterface : public NutshellModuleInterface {
 protected:
@@ -31,4 +36,12 @@ public:
 
 	// Sets the title of the window
 	virtual void setTitle(const std::string& title) = 0;
+
+#ifdef NTSH_OS_WINDOWS
+	// Returns the native Win32 window handle
+	HWND getWindowHandle();
+#elif NTSH_OS_LINUX
+	// Returns the native X window handle
+	Window getWindowHandle();
+#endif
 };
