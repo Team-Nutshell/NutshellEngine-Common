@@ -35,7 +35,7 @@ public:
 	virtual void setFullscreen(bool fullscreen) = 0;
 
 	// Poll events
-	virtual bool pollEvents() = 0;
+	virtual void pollEvents() = 0;
 
 	// Sets the title of the window
 	virtual void setTitle(const std::string& title) = 0;
