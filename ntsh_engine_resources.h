@@ -15,7 +15,7 @@ typedef enum NtshImageFormat {
 	NTSH_IMAGE_FORMAT_R32G32;
 	NTSH_IMAGE_FORMAT_R32G32B32;
 	NTSH_IMAGE_FORMAT_R32G32B32A32;
-};
+} NtshImageFormat;
 
 struct NtshImage {
 	// Image width
