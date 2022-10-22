@@ -1,6 +1,6 @@
 #pragma once
 #include "ntsh_module_interface.h"
-#include "../ntsh_engine_resources.h"
+#include "../resources/ntsh_resources_audio.h"
 
 typedef uint64_t NtshAudioId;
 
