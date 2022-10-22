@@ -17,9 +17,9 @@ public:
 	virtual void update(double dt) = 0;
 	virtual void destroy() = 0;
 
-	// Send a request to close the window
+	// Sends a request to close the window
 	virtual void close() = 0;
-	// Returns true if there has been a request to close the window, else if there has been no request to close the window
+	// Returns true if there has been a request to close the window, else, returns false
 	virtual bool shouldClose() = 0;
 
 	// Changes the size of the window to width and height
@@ -29,12 +29,12 @@ public:
 	// Returns the height of the window
 	virtual int getHeight() = 0;
 
-	// Returns true if the window is in fullscreen mode, else, return false
+	// Returns true if the window is in fullscreen mode, else, returns false
 	virtual bool isFullscreen() = 0;
 	// If the fullscreen parameter is true, puts the window in fullscreen, else, puts the window in windowed
 	virtual void setFullscreen(bool fullscreen) = 0;
 
-	// Poll events
+	// Polls events
 	virtual void pollEvents() = 0;
 
 	// Sets the title of the window
