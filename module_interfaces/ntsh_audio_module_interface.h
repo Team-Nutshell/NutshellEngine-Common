@@ -15,8 +15,11 @@ public:
 	virtual void update(double dt) = 0;
 	virtual void destroy() = 0;
 
-	// Plays an audio and returns an identifier
-	virtual NtshAudioId play(const NtshAudio& audio) = 0;
+	// Loads the sound described in the audio parameter in the internal format and returns a unique identifier
+	virtual NtshAudioId load(const NtshAudio audio) = 0;
+
+	// Plays the audio with identifier audioId
+	virtual void play(NtshAudioId audioId) = 0;
 	// Pauses the audio with identifier audioId
 	virtual void pause(NtshAudioId audioId) = 0;
 	// Stops the audio with identifier audioId
