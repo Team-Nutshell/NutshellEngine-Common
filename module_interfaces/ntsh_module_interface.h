@@ -1,5 +1,5 @@
 #pragma once
-#include "ecs.h"
+#include "../ecs/ecs.h"
 #include <string>
 
 class NutshellGraphicsModuleInterface;
