@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <vector>
 
 // Image
 typedef enum NtshImageFormat {
@@ -27,6 +28,6 @@ struct NtshImage {
 	// Image format
 	NtshImageFormat format;
 
-	// Data, size can be calculated from width, height and format
-	uint8_t* pData;
+	// Data
+	std::vector<uint8_t> data;
 };
