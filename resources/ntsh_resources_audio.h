@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <vector>
 
 // Audio
 struct NtshAudio {
@@ -16,5 +17,5 @@ struct NtshAudio {
 	size_t size;
 
 	// Data
-	uint8_t* pData;
+	std::vector<uint8_t> data;
 };
