@@ -9,7 +9,7 @@ class NutshellAudioModuleInterface;
 
 class NutshellModuleInterface : public System {
 protected:
-	NtshModuleType m_type = NTSH_MODULE_UNKNOWN;
+	NtshModuleType m_type = NtshModuleType::Unknown;
 	std::string m_name = "";
 
 	NutshellGraphicsModuleInterface* m_graphicsModule = nullptr;

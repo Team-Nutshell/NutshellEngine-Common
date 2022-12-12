@@ -8,7 +8,7 @@ class NutshellAudioModuleInterface : public NutshellModuleInterface {
 protected:
 public:
 	NutshellAudioModuleInterface() {}
-	NutshellAudioModuleInterface(const std::string& name) : NutshellModuleInterface(NTSH_MODULE_AUDIO, name) {}
+	NutshellAudioModuleInterface(const std::string& name) : NutshellModuleInterface(NtshModuleType::Audio, name) {}
 	virtual ~NutshellAudioModuleInterface() {}
 
 	virtual void init() = 0;

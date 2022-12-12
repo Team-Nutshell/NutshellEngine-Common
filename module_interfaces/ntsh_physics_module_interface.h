@@ -5,7 +5,7 @@ class NutshellPhysicsModuleInterface : public NutshellModuleInterface {
 protected:
 public:
 	NutshellPhysicsModuleInterface() {}
-	NutshellPhysicsModuleInterface(const std::string& name) : NutshellModuleInterface(NTSH_MODULE_PHYSICS, name) {}
+	NutshellPhysicsModuleInterface(const std::string& name) : NutshellModuleInterface(NtshModuleType::Physics, name) {}
 	virtual ~NutshellPhysicsModuleInterface() {}
 
 	virtual void init() = 0;
