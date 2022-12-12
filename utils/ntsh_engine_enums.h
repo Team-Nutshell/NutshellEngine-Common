@@ -1,21 +1,21 @@
 #pragma once
 
 enum class NtshResult {
-	SUCCESS,
-	ASSERT_FAILED,
-	MODULE_LIBRARY_LOAD_ERROR,
-	MODULE_SYMBOL_LOAD_ERROR,
-	MODULE_FUNCTION_NOT_IMPLEMENTED,
-	MODULE_ERROR,
-	ASSET_LOADER_FILE_NOT_FOUND,
-	ASSET_LOADER_ERROR,
-	UNKNOWN_ERROR
+	Success,
+	AssertFailed,
+	ModuleLibraryLoadError,
+	ModuleSymbolLoadError,
+	ModuleFunctionNotImplemented,
+	ModuleError,
+	AssetLoaderFileNotFound,
+	AssetLoaderError,
+	UnknownError
 };
 
 enum class NtshModuleType {
-	GRAPHICS,
-	PHYSICS,
-	WINDOW,
-	AUDIO,
-	UNKNOWN
+	Graphics,
+	Physics,
+	Window,
+	Audio,
+	Unknown
 };
