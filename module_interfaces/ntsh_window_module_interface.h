@@ -10,7 +10,7 @@ class NutshellWindowModuleInterface : public NutshellModuleInterface {
 protected:
 public:
 	NutshellWindowModuleInterface() {}
-	NutshellWindowModuleInterface(const std::string& name) : NutshellModuleInterface(NTSH_MODULE_WINDOW, name) {}
+	NutshellWindowModuleInterface(const std::string& name) : NutshellModuleInterface(NtshModuleType::Window, name) {}
 	virtual ~NutshellWindowModuleInterface() {}
 
 	virtual void init() = 0;
