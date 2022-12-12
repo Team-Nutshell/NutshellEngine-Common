@@ -1,6 +1,6 @@
 #pragma once
 
-typedef enum NtshResult {
+enum NtshResult {
 	NTSH_RESULT_SUCCESS,
 	NTSH_RESULT_ASSERT_FAILED,
 	NTSH_RESULT_MODULE_LIBRARY_LOAD_ERROR,
@@ -10,12 +10,12 @@ typedef enum NtshResult {
 	NTSH_RESULT_ASSET_LOADER_FILE_NOT_FOUND,
 	NTSH_RESULT_ASSET_LOADER_ERROR,
 	NTSH_RESULT_UNKNOWN_ERROR
-} NtshResult;
+};
 
-typedef enum NtshModuleType {
+enum NtshModuleType {
 	NTSH_MODULE_GRAPHICS,
 	NTSH_MODULE_PHYSICS,
 	NTSH_MODULE_WINDOW,
 	NTSH_MODULE_AUDIO,
 	NTSH_MODULE_UNKNOWN
-} NtshModuleType;
+};
