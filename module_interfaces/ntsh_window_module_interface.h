@@ -42,16 +42,16 @@ public:
 	virtual void setTitle(const std::string& title) = 0;
 
 	// Gets the state of the keyboard key. None is the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
-	NtshInputState getKeyState(NtshInputKeyboardKey key);
+	virtual NtshInputState getKeyState(NtshInputKeyboardKey key) = 0;
 	// Gets the state of the mouse button. None is the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
-	NtshInputState getButtonState(NtshInputMouseButton button);
+	virtual NtshInputState getButtonState(NtshInputMouseButton button) = 0;
 
 	// Sets the mouse position
-	void setMousePosition(int x, int y);
+	virtual void setMousePosition(int x, int y) = 0;
 	// Gets the mouse horizontal position
-	int getMouseXPosition();
+	virtual int getMouseXPosition() = 0;
 	// Gets the mouse vertical position
-	int getMouseYPosition();
+	virtual int getMouseYPosition() = 0;
 
 #ifdef NTSH_OS_WINDOWS
 	// Returns the native Win32 window handle
