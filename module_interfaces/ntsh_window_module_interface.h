@@ -1,5 +1,6 @@
 #pragma once
 #include "ntsh_module_interface.h"
+#include "../utils/ntsh_engine_input_enums.h"
 #ifdef NTSH_OS_WINDOWS
 #include <windows.h>
 #elif NTSH_OS_LINUX
@@ -39,6 +40,18 @@ public:
 
 	// Sets the title of the window
 	virtual void setTitle(const std::string& title) = 0;
+
+	// Gets the state of the keyboard key. None is the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
+	NtshInputState getKeyState(NtshInputKeyboardKey key);
+	// Gets the state of the mouse button. None is the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
+	NtshInputState getButtonState(NtshInputMouseButton button);
+
+	// Sets the mouse position
+	void setMousePosition(int x, int y);
+	// Gets the mouse horizontal position
+	int getMouseXPosition();
+	// Gets the mouse vertical position
+	int getMouseYPosition();
 
 #ifdef NTSH_OS_WINDOWS
 	// Returns the native Win32 window handle
