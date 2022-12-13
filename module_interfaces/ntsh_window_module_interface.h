@@ -46,12 +46,17 @@ public:
 	// Gets the state of the mouse button. None is the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
 	virtual NtshInputState getButtonState(NtshInputMouseButton button) = 0;
 
-	// Sets the mouse position
-	virtual void setMousePosition(int x, int y) = 0;
-	// Gets the mouse horizontal position
-	virtual int getMouseXPosition() = 0;
-	// Gets the mouse vertical position
-	virtual int getMouseYPosition() = 0;
+	// Sets the mouse cursor position
+	virtual void setCursorPosition(int x, int y) = 0;
+	// Gets the mouse cursor horizontal position
+	virtual int getCursorXPosition() = 0;
+	// Gets the mouse cursor vertical position
+	virtual int getCursorYPosition() = 0;
+
+	// Returns true if the mouse cursor is visible, else, returns false
+	virtual bool isCursorVisible() = 0;
+	// If the mouse cursor is visible, hides it, else, shows it
+	virtual void setCursorVisibility(bool visible) = 0;
 
 #ifdef NTSH_OS_WINDOWS
 	// Returns the native Win32 window handle
