@@ -21,7 +21,7 @@
 	} while(0)
 #endif
 
-#define NTSH_EXECUTE_IF_NOT_NULL(pointer, function) \
+#define NTSH_POINTER_EXECUTE(pointer, function) \
 	do { \
 		if (pointer) { \
 			pointer->function; \
