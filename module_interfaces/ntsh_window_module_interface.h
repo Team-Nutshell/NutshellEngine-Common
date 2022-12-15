@@ -1,9 +1,9 @@
 #pragma once
 #include "ntsh_module_interface.h"
 #include "../utils/ntsh_engine_input_enums.h"
-#ifdef NTSH_OS_WINDOWS
+#if defined(NTSH_OS_WINDOWS)
 #include <windows.h>
-#elif NTSH_OS_LINUX
+#elif defined(NTSH_OS_LINUX)
 #include <X11/Xlib.h>
 #endif
 
@@ -58,10 +58,10 @@ public:
 	// If the mouse cursor is visible, hides it, else, shows it
 	virtual void setCursorVisibility(bool visible) = 0;
 
-#ifdef NTSH_OS_WINDOWS
+#if defined(NTSH_OS_WINDOWS)
 	// Returns the native Win32 window handle
 	virtual HWND getNativeHandle() = 0;
-#elif NTSH_OS_LINUX
+#elif defined(NTSH_OS_LINUX)
 	// Returns the native X window handle
 	virtual Window getNativeHandle() = 0;
 #endif
