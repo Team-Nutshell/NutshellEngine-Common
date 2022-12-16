@@ -74,10 +74,10 @@ public:
 	virtual void setCursorVisibility(NtshWindowId windowId, bool visible) = 0;
 
 #if defined(NTSH_OS_WINDOWS)
-	// Returns the native Win32 window handle
-	virtual HWND getNativeHandle() = 0;
+	// Returns the native Win32 window handle of the window with identifier windowId
+	virtual HWND getNativeHandle(NtshWindowId windowId) = 0;
 #elif defined(NTSH_OS_LINUX)
-	// Returns the native X window handle
-	virtual Window getNativeHandle() = 0;
+	// Returns the native X window handle of the window with identifier windowId
+	virtual Window getNativeHandle(NtshWindowId windowId) = 0;
 #endif
 };
