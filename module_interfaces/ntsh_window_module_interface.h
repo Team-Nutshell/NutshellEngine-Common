@@ -8,7 +8,6 @@
 #endif
 
 class NutshellWindowModuleInterface : public NutshellModuleInterface {
-protected:
 public:
 	NutshellWindowModuleInterface() {}
 	NutshellWindowModuleInterface(const std::string& name) : NutshellModuleInterface(NtshModuleType::Window, name) {}

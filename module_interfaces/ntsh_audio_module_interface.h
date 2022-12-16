@@ -5,7 +5,6 @@
 typedef uint64_t NtshAudioId;
 
 class NutshellAudioModuleInterface : public NutshellModuleInterface {
-protected:
 public:
 	NutshellAudioModuleInterface() {}
 	NutshellAudioModuleInterface(const std::string& name) : NutshellModuleInterface(NtshModuleType::Audio, name) {}

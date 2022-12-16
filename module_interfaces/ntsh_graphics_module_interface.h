@@ -2,7 +2,6 @@
 #include "ntsh_module_interface.h"
 
 class NutshellGraphicsModuleInterface : public NutshellModuleInterface {
-protected:
 public:
 	NutshellGraphicsModuleInterface() {}
 	NutshellGraphicsModuleInterface(const std::string& name) : NutshellModuleInterface(NtshModuleType::Graphics, name) {}
