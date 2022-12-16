@@ -50,8 +50,8 @@ public:
 	// If the fullscreen parameter is true, puts the window with identifier windowId in fullscreen, else, puts the window with identifier windowId in windowed
 	virtual void setFullscreen(NtshWindowId windowId, bool fullscreen) = 0;
 
-	// Polls events of the window with identifier windowId
-	virtual void pollEvents(NtshWindowId windowId) = 0;
+	// Polls events of the windows
+	virtual void pollEvents() = 0;
 
 	// Sets the title of the window with identifier windowId
 	virtual void setTitle(NtshWindowId windowId, const std::string& title) = 0;
@@ -59,7 +59,7 @@ public:
 	// Gets the state of the keyboard key. None is the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
 	virtual NtshInputState getKeyState(NtshWindowId windowId, NtshInputKeyboardKey key) = 0;
 	// Gets the state of the mouse button. None is the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
-	virtual NtshInputState getButtonState(NtshWindowId windowId, NtshInputMouseButton button) = 0;
+	virtual NtshInputState getMouseButtonState(NtshWindowId windowId, NtshInputMouseButton mouseButton) = 0;
 
 	// Sets the mouse cursor position
 	virtual void setCursorPosition(NtshWindowId windowId, int x, int y) = 0;
