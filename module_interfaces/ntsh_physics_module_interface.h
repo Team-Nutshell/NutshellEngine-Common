@@ -2,7 +2,6 @@
 #include "ntsh_module_interface.h"
 
 class NutshellPhysicsModuleInterface : public NutshellModuleInterface {
-protected:
 public:
 	NutshellPhysicsModuleInterface() {}
 	NutshellPhysicsModuleInterface(const std::string& name) : NutshellModuleInterface(NtshModuleType::Physics, name) {}
