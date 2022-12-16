@@ -45,10 +45,10 @@ public:
 	// Returns the vertical position of the window with identifier windowId
 	virtual int getPositionY(NtshWindowId windowId) = 0;
 
-	// Returns true if the window with identifier windowId is in fullscreen mode, else, returns false
-	virtual bool isFullscreen(NtshWindowId windowId) = 0;
 	// If the fullscreen parameter is true, puts the window with identifier windowId in fullscreen, else, puts the window with identifier windowId in windowed
 	virtual void setFullscreen(NtshWindowId windowId, bool fullscreen) = 0;
+	// Returns true if the window with identifier windowId is in fullscreen mode, else, returns false
+	virtual bool isFullscreen(NtshWindowId windowId) = 0;
 
 	// Polls events of the windows
 	virtual void pollEvents() = 0;
@@ -64,14 +64,14 @@ public:
 	// Sets the mouse cursor position
 	virtual void setCursorPosition(NtshWindowId windowId, int x, int y) = 0;
 	// Gets the mouse cursor horizontal position
-	virtual int getCursorXPosition(NtshWindowId windowId) = 0;
+	virtual int getCursorPositionX(NtshWindowId windowId) = 0;
 	// Gets the mouse cursor vertical position
-	virtual int getCursorYPosition(NtshWindowId windowId) = 0;
+	virtual int getCursorPositionY(NtshWindowId windowId) = 0;
 
-	// Returns true if the mouse cursor is visible in the window with identifier windowId, else, returns false
-	virtual bool isCursorVisible(NtshWindowId windowId) = 0;
 	// If the mouse cursor is visible in the window with identifier windowId, hides it, else, shows it
 	virtual void setCursorVisibility(NtshWindowId windowId, bool visible) = 0;
+	// Returns true if the mouse cursor is visible in the window with identifier windowId, else, returns false
+	virtual bool isCursorVisible(NtshWindowId windowId) = 0;
 
 #if defined(NTSH_OS_WINDOWS)
 	// Returns the native Win32 window handle of the window with identifier windowId
