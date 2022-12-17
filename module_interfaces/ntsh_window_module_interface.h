@@ -28,6 +28,8 @@ public:
 	// Returns true if there has been a request to close the window with identifier windowId, else, returns false
 	virtual bool shouldClose(NtshWindowId windowId) = 0;
 
+	// Returns true if the window with identifier windowId is open, else, returns false
+	virtual bool isOpen(NtshWindowId windowId) = 0;
 	// Returns the number of opened windows
 	virtual uint64_t windowCount() = 0;
 
