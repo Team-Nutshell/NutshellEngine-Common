@@ -23,13 +23,11 @@ public:
 
 	// Opens a new window and returns a unique identifier
 	virtual NtshWindowId open() = 0;
-	// Sends a request to close the window with identifier windowId
-	virtual void close(NtshWindowId windowId) = 0;
-	// Returns true if there has been a request to close the window with identifier windowId, else, returns false
-	virtual bool shouldClose(NtshWindowId windowId) = 0;
-
 	// Returns true if the window with identifier windowId is open, else, returns false
 	virtual bool isOpen(NtshWindowId windowId) = 0;
+	// Closes the window with identifier windowId
+	virtual void close(NtshWindowId windowId) = 0;
+
 	// Returns the number of opened windows
 	virtual uint64_t windowCount() = 0;
 
