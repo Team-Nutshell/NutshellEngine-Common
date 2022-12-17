@@ -22,10 +22,10 @@ public:
 	virtual void destroy() = 0;
 
 	// Opens a new window and returns a unique identifier
-	virtual NtshWindowId open() = 0;
+	virtual NtshWindowId open(int width, int height, const std::string& title) = 0;
 	// Returns true if the window with identifier windowId is open, else, returns false
 	virtual bool isOpen(NtshWindowId windowId) = 0;
-	// Closes the window with identifier windowId
+	// Flags the window to be closed at the next update
 	virtual void close(NtshWindowId windowId) = 0;
 
 	// Returns the number of opened windows
