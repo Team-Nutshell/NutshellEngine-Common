@@ -20,6 +20,12 @@ enum class NtshImageFormat {
 	Unknown
 };
 
+enum class NtshImageColorSpace {
+	Linear,
+	SRGB,
+	Unknown
+};
+
 struct NtshImage {
 	// Image width
 	uint32_t width = 0;
@@ -28,7 +34,10 @@ struct NtshImage {
 	uint32_t height = 0;
 
 	// Image format
-	NtshImageFormat format = NTSH_IMAGE_FORMAT_UNKNOWN;
+	NtshImageFormat format = NtshImageFormat::Unknown;
+
+	// Image color space
+	NtshImageColorSpace colorSpace = NtshImageColorSpace::Unknown;
 
 	// Data
 	std::vector<uint8_t> data;
@@ -69,18 +78,19 @@ struct NtshVertex {
 };
 
 // Mesh
-enum class NtshTopology {
+enum class NtshMeshTopology {
 	TriangleList,
 	TriangleStrip,
 	LineList,
 	LineStrip,
-	PointList
+	PointList,
+	Unknown
 };
 
 struct NtshMesh {
 	std::vector<NtshVertex> vertices;
 	std::vector<uint32_t> indices;
-	NtshTopology topology = NTSH_TOPOLOGY_TRIANGLE_LIST;
+	NtshMeshTopology topology = NtshMeshTopology::Unknown;
 };
 
 // Model
