@@ -4,21 +4,21 @@
 #include <utility>
 
 // Image
-typedef enum NtshImageFormat {
-	NTSH_IMAGE_FORMAT_R8,
-	NTSH_IMAGE_FORMAT_R8G8,
-	NTSH_IMAGE_FORMAT_R8G8B8,
-	NTSH_IMAGE_FORMAT_R8G8B8A8,
-	NTSH_IMAGE_FORMAT_R16,
-	NTSH_IMAGE_FORMAT_R16G16,
-	NTSH_IMAGE_FORMAT_R16G16B16,
-	NTSH_IMAGE_FORMAT_R16G16B16A16,
-	NTSH_IMAGE_FORMAT_R32,
-	NTSH_IMAGE_FORMAT_R32G32,
-	NTSH_IMAGE_FORMAT_R32G32B32,
-	NTSH_IMAGE_FORMAT_R32G32B32A32,
-	NTSH_IMAGE_FORMAT_UNKNOWN
-} NtshImageFormat;
+enum class NtshImageFormat {
+	R8,
+	R8G8,
+	R8G8B8,
+	R8G8B8A8,
+	R16,
+	R16G16,
+	R16G16B16,
+	R16G16B16A16,
+	R32,
+	R32G32,
+	R32G32B32,
+	R32G32B32A32,
+	Unknown
+};
 
 struct NtshImage {
 	// Image width
@@ -69,13 +69,13 @@ struct NtshVertex {
 };
 
 // Mesh
-typedef enum NtshTopology {
-	NTSH_TOPOLOGY_TRIANGLE_LIST,
-	NTSH_TOPOLOGY_TRIANGLE_STRIP,
-	NTSH_TOPOLOGY_LINE_LIST,
-	NTSH_TOPOLOGY_LINE_STRIP,
-	NTSH_TOPOLOGY_POINT_LIST
-} NtshTopology;
+enum class NtshTopology {
+	TriangleList,
+	TriangleStrip,
+	LineList,
+	LineStrip,
+	PointList
+};
 
 struct NtshMesh {
 	std::vector<NtshVertex> vertices;
