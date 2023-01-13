@@ -4,8 +4,12 @@
 #include <vector>
 #include <utility>
 
+namespace Ntsh {
+
 // Image
-enum class NtshImageFormat {
+typedef uint64_t ImageId;
+
+enum class ImageFormat {
 	R8,
 	R8G8,
 	R8G8B8,
@@ -21,13 +25,13 @@ enum class NtshImageFormat {
 	Unknown
 };
 
-enum class NtshImageColorSpace {
+enum class ImageColorSpace {
 	Linear,
 	SRGB,
 	Unknown
 };
 
-struct NtshImage {
+struct Image {
 	// Image width
 	uint32_t width = 0;
 	
@@ -35,40 +39,52 @@ struct NtshImage {
 	uint32_t height = 0;
 
 	// Image format
-	NtshImageFormat format = NtshImageFormat::Unknown;
+	ImageFormat format = ImageFormat::Unknown;
 
 	// Image color space
-	NtshImageColorSpace colorSpace = NtshImageColorSpace::Unknown;
+	ImageColorSpace colorSpace = ImageColorSpace::Unknown;
 
 	// Data
 	std::vector<uint8_t> data;
 };
 
 // Material
-struct NtshMaterial {
+struct Material {
 	// Diffuse (base color) texture
-	NtshImage* diffuseTexture = nullptr;
+	Image* diffuseTexture = nullptr;
 
 	// Normal texture
-	NtshImage* normalTexture = nullptr;
+	Image* normalTexture = nullptr;
 
 	// Metalness, Roughness and Occlusion textures can be the same one
 	// In that case, R = Occlusion, G = Roughness, B = Metalness
 	// Metalness texture
-	NtshImage* metalnessTexture = nullptr;
+	Image* metalnessTexture = nullptr;
 
 	// Roughness texture
-	NtshImage* roughnessTexture = nullptr;
+	Image* roughnessTexture = nullptr;
 	
 	// Occlusion texture
-	NtshImage* occlusionTexture = nullptr;
+	Image* occlusionTexture = nullptr;
 	
 	// Emissive texture
-	NtshImage* emissiveTexture = nullptr;
+	Image* emissiveTexture = nullptr;
+};
+
+// Mesh
+typedef uint64_t MeshId;
+
+enum class MeshTopology {
+	TriangleList,
+	TriangleStrip,
+	LineList,
+	LineStrip,
+	PointList,
+	Unknown
 };
 
 // Vertex
-struct NtshVertex {
+struct Vertex {
 	std::array<float, 3> position = { 0.0f, 0.0f, 0.0f };
 	std::array<float, 3> normal = { 0.0f, 0.0f, 0.0f };
 	std::array<float, 2> uv = { 0.0f, 0.0f };
@@ -78,23 +94,15 @@ struct NtshVertex {
 	std::array<float, 4> weights = { 0.0f, 0.0f, 0.0f, 0.0f };
 };
 
-// Mesh
-enum class NtshMeshTopology {
-	TriangleList,
-	TriangleStrip,
-	LineList,
-	LineStrip,
-	PointList,
-	Unknown
-};
-
-struct NtshMesh {
-	std::vector<NtshVertex> vertices;
+struct Mesh {
+	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
-	NtshMeshTopology topology = NtshMeshTopology::Unknown;
+	MeshTopology topology = MeshTopology::Unknown;
 };
 
 // Model
-struct NtshModel {
-	std::vector<std::pair<NtshMesh, NtshMaterial>> primitives;
+struct Model {
+	std::vector<std::pair<Mesh, Material>> primitives;
 };
+
+}

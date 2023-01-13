@@ -3,8 +3,12 @@
 #include <cstddef>
 #include <vector>
 
-// Audio
-struct NtshAudio {
+namespace Ntsh {
+
+// Sound
+typedef uint64_t SoundId;
+
+struct Sound {
 	// Number of channels (1 = Mono, 2 = Stereo, ...)
 	uint8_t channels;
 
@@ -20,3 +24,5 @@ struct NtshAudio {
 	// Data
 	std::vector<uint8_t> data;
 };
+
+}

@@ -1,6 +1,8 @@
 #pragma once
 
-enum class NtshInputMouseButton {
+namespace Ntsh {
+
+enum class InputMouseButton {
 	Any, // Any mouse button
 	One, // Left mouse button
 	Two, // Right mouse button
@@ -11,3 +13,5 @@ enum class NtshInputMouseButton {
 	Seven, // Additional mouse button 7
 	Eight // Additional mouse button 8
 };
+
+}

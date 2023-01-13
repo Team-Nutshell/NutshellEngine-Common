@@ -2,8 +2,6 @@
 #include "ntsh_module_interface.h"
 #include "../resources/ntsh_resources_audio.h"
 
-typedef uint64_t NtshAudioId;
-
 class NutshellAudioModuleInterface : public NutshellModuleInterface {
 public:
 	NutshellAudioModuleInterface() {}
@@ -14,26 +12,26 @@ public:
 	virtual void update(double dt) = 0;
 	virtual void destroy() = 0;
 
-	// Loads the sound described in the audio parameter in the internal format and returns a unique identifier
-	virtual NtshAudioId load(const NtshAudio audio) = 0;
+	// Loads the sound described in the sound parameter in the internal format and returns a unique identifier
+	virtual Ntsh::SoundId load(const Ntsh::Sound sound) = 0;
 
-	// Plays the audio with identifier audioId
-	virtual void play(NtshAudioId audioId) = 0;
-	// Pauses the audio with identifier audioId
-	virtual void pause(NtshAudioId audioId) = 0;
-	// Stops the audio with identifier audioId
-	virtual void stop(NtshAudioId audioId) = 0;
+	// Plays the sound with identifier soundId
+	virtual void play(Ntsh::SoundId soundId) = 0;
+	// Pauses the sound with identifier soundId
+	virtual void pause(Ntsh::SoundId soundId) = 0;
+	// Stops the sound with identifier soundId
+	virtual void stop(Ntsh::SoundId soundId) = 0;
 
-	// Returns true if the audio with identifier audioId is currently playing, else, returns false
-	virtual bool isPlaying(NtshAudioId audioId) = 0;
+	// Returns true if the sound with identifier soundId is currently playing, else, returns false
+	virtual bool isPlaying(Ntsh::SoundId soundId) = 0;
 
-	// Sets the gain of the audio with identifier audioId
-	virtual void setGain(NtshAudioId audioId, float newGain) = 0;
-	// Gets the gain of the audio with identifier audioId
-	virtual float getGain(NtshAudioId audioId) = 0;
+	// Sets the gain of the sound with identifier soundId
+	virtual void setGain(Ntsh::SoundId soundId, float newGain) = 0;
+	// Gets the gain of the sound with identifier soundId
+	virtual float getGain(Ntsh::SoundId soundId) = 0;
 
-	// Sets the pitch of the audio with identifier audioId
-	virtual void setPitch(NtshAudioId audioId, float newPitch) = 0;
-	// Gets the pitch of the audio with identifier audioId
-	virtual float getPitch(NtshAudioId audioId) = 0;
+	// Sets the pitch of the sound with identifier soundId
+	virtual void setPitch(Ntsh::SoundId soundId, float newPitch) = 0;
+	// Gets the pitch of the sound with identifier soundId
+	virtual float getPitch(Ntsh::SoundId soundId) = 0;
 };

@@ -2,9 +2,6 @@
 #include "ntsh_module_interface.h"
 #include "../resources/ntsh_resources_graphics.h"
 
-typedef uint64_t NtshMeshId;
-typedef uint64_t NtshImageId;
-
 class NutshellGraphicsModuleInterface : public NutshellModuleInterface {
 public:
 	NutshellGraphicsModuleInterface() {}
@@ -16,7 +13,7 @@ public:
 	virtual void destroy() = 0;
 
 	// Loads the mesh described in the mesh parameter in the internal format and returns a unique identifier
-	virtual NtshMeshId load(const NtshMesh mesh) = 0;
+	virtual Ntsh::MeshId load(const Ntsh::Mesh mesh) = 0;
 	// Loads the image described in the image parameter in the internal format and returns a unique identifier
-	virtual NtshImageId load(const NtshImage image) = 0;
+	virtual Ntsh::ImageId load(const Ntsh::Image image) = 0;
 };

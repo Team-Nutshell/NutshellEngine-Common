@@ -1,6 +1,8 @@
 #pragma once
 
-enum class NtshInputKeyboardKey {
+namespace Ntsh {
+
+enum class InputKeyboardKey {
 	Any, // Any key
 	A, // Letter A
 	B, // Letter B
@@ -65,3 +67,5 @@ enum class NtshInputKeyboardKey {
 	F11, // F11
 	F12, // F12
 };
+
+}

@@ -1,6 +1,8 @@
 #pragma once
 
-enum class NtshResult {
+namespace Ntsh {
+
+enum class Result {
 	Success,
 	AssertFailed,
 	ModuleLibraryLoadError,
@@ -12,10 +14,12 @@ enum class NtshResult {
 	UnknownError
 };
 
-enum class NtshModuleType {
+enum class ModuleType {
 	Graphics,
 	Physics,
 	Window,
 	Audio,
 	Unknown
 };
+
+}
