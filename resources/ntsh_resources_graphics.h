@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <array>
 #include <vector>
 #include <utility>
 
@@ -68,13 +69,13 @@ struct NtshMaterial {
 
 // Vertex
 struct NtshVertex {
-	float position[3] = { 0.0f, 0.0f, 0.0f };
-	float normal[3] = { 0.0f, 0.0f, 0.0f };
-	float uv[2] = { 0.0f, 0.0f };
-	float color[3] = { 0.0f, 0.0f, 0.0f };
-	float tangent[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-	float joints[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-	float weights[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	std::array<float, 3> position = { 0.0f, 0.0f, 0.0f };
+	std::array<float, 3> normal = { 0.0f, 0.0f, 0.0f };
+	std::array<float, 2> uv = { 0.0f, 0.0f };
+	std::array<float, 3> color = { 0.0f, 0.0f, 0.0f };
+	std::array<float, 4> tangent = { 0.0f, 0.0f, 0.0f, 0.0f };
+	std::array<float, 4> joints = { 0.0f, 0.0f, 0.0f, 0.0f };
+	std::array<float, 4> weights = { 0.0f, 0.0f, 0.0f, 0.0f };
 };
 
 // Mesh
