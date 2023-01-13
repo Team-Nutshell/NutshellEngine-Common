@@ -5,7 +5,7 @@
 class NutshellGraphicsModuleInterface : public NutshellModuleInterface {
 public:
 	NutshellGraphicsModuleInterface() {}
-	NutshellGraphicsModuleInterface(const std::string& name) : NutshellModuleInterface(NtshModuleType::Graphics, name) {}
+	NutshellGraphicsModuleInterface(const std::string& name) : NutshellModuleInterface(Ntsh::ModuleType::Graphics, name) {}
 	virtual ~NutshellGraphicsModuleInterface() {}
 
 	virtual void init() = 0;
