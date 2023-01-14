@@ -1,5 +1,5 @@
 #pragma once
-#include "../ecs/ecs.h"
+#include "../ecs/ecs_includes.h"
 #include <string>
 
 class NutshellGraphicsModuleInterface;
@@ -16,6 +16,8 @@ protected:
 	NutshellPhysicsModuleInterface* m_physicsModule = nullptr;
 	NutshellWindowModuleInterface* m_windowModule = nullptr;
 	NutshellAudioModuleInterface* m_audioModule = nullptr;
+
+	ECS* m_ecs;
 public:
 	NutshellModuleInterface() {}
 	NutshellModuleInterface(const Ntsh::ModuleType type, const std::string& name) : m_type(type), m_name(name) {}
@@ -38,5 +40,9 @@ public:
 		m_physicsModule = physicsModule;
 		m_windowModule = windowModule;
 		m_audioModule = audioModule;
+	}
+
+	void setECS(ECS* ecs) {
+		m_ecs = ecs;
 	}
 };
