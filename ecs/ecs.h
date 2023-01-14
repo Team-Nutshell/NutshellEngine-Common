@@ -189,7 +189,6 @@ public:
 		NTSH_ASSERT(systems.find(typeName) == systems.end());
 
 		systems.insert({ typeName, system });
-		return system;
 	}
 
 	template <typename T>
