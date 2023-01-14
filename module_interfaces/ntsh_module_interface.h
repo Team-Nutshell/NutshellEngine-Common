@@ -9,7 +9,7 @@ class NutshellAudioModuleInterface;
 
 class NutshellModuleInterface : public System {
 protected:
-	NtshModuleType m_type = NtshModuleType::Unknown;
+	Ntsh::ModuleType m_type = Ntsh::ModuleType::Unknown;
 	std::string m_name = "";
 
 	NutshellGraphicsModuleInterface* m_graphicsModule = nullptr;
@@ -18,14 +18,14 @@ protected:
 	NutshellAudioModuleInterface* m_audioModule = nullptr;
 public:
 	NutshellModuleInterface() {}
-	NutshellModuleInterface(const NtshModuleType type, const std::string& name) : m_type(type), m_name(name) {}
+	NutshellModuleInterface(const Ntsh::ModuleType type, const std::string& name) : m_type(type), m_name(name) {}
 	virtual ~NutshellModuleInterface() {}
 
 	virtual void init() = 0;
 	virtual void update(double dt) = 0;
 	virtual void destroy() = 0;
 
-	const NtshModuleType getType() const {
+	const Ntsh::ModuleType getType() const {
 		return m_type;
 	}
 
