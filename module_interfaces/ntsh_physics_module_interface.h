@@ -13,5 +13,5 @@ public:
 	virtual void destroy() = 0;
 
 	// Returns true if the two shapes are intersecting with each other, else, returns false
-	virtual bool intersect(NtshColliderShape* shape1, NtshColliderShape* shape2) = 0;
+	virtual bool intersect(Ntsh::ColliderShape* shape1, Ntsh::ColliderShape* shape2) = 0;
 };
