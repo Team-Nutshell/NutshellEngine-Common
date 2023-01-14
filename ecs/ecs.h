@@ -183,12 +183,11 @@ public:
 class SystemManager {
 public:
 	template <typename T>
-	std::shared_ptr<T> registerSystem() {
+	void registerSystem(System* system) {
 		const char* typeName = typeid(T).name();
 
 		NTSH_ASSERT(systems.find(typeName) == systems.end());
 
-		std::shared_ptr<T> system = std::make_shared<T>();
 		systems.insert({ typeName, system });
 		return system;
 	}
@@ -223,7 +222,7 @@ public:
 	}
 private:
 	std::unordered_map<const char*, ComponentMask> componentMasks;
-	std::unordered_map<const char*, std::shared_ptr<System>> systems;
+	std::unordered_map<const char*, System*> systems;
 };
 
 class ECS {
