@@ -34,10 +34,9 @@ struct ColliderAABB: public ColliderShape {
 struct ColliderCapsule: public ColliderShape {
 	ColliderCapsule(): ColliderShape(ColliderShapeType::Capsule) {}
 
-	std::array<float, 3> center1 = { 0.0f, 0.0f, 0.0f };
-	float radius1 = 0.0f;
-	std::array<float, 3> center2 = { 0.0f, 0.0f, 0.0f };
-	float radius2 = 0.0f;
+	std::array<float, 3> base = { 0.0f, 0.0f, 0.0f };
+	std::array<float, 3> tip = { 0.0f, 0.0f, 0.0f };
+	float radius = 0.0f;
 };
 
 }
