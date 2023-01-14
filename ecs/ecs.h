@@ -285,8 +285,8 @@ public:
 
 	// System
 	template <typename T>
-	std::shared_ptr<T> registerSystem() {
-		return systemManager->registerSystem<T>();
+	void registerSystem(System* system) {
+		systemManager->registerSystem<T>(system);
 	}
 
 	template <typename T>
