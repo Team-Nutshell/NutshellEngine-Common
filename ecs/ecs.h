@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <memory>
 #include <set>
+#include <string>
 
 #define MAX_ENTITIES 4096
 #define MAX_COMPONENTS 32
@@ -116,7 +117,7 @@ class ComponentManager {
 public:
 	template <typename T>
 	void registerComponent() {
-		const char* typeName = typeid(T).name();
+		std::string typeName = std::string(typeid(T).name());
 		
 		NTSH_ASSERT(componentTypes.find(typeName) == componentTypes.end());
 
@@ -127,7 +128,7 @@ public:
 
 	template <typename T>
 	Component getComponentId() {
-		const char* typeName = typeid(T).name();
+		std::string typeName = std::string(typeid(T).name());
 
 		NTSH_ASSERT(componentTypes.find(typeName) != componentTypes.end());
 
@@ -161,13 +162,13 @@ public:
 		}
 	}
 private:
-	std::unordered_map<const char*, Component> componentTypes;
-	std::unordered_map<const char*, std::shared_ptr<IComponentArray>> componentArrays;
+	std::unordered_map<std::string, Component> componentTypes;
+	std::unordered_map<std::string, std::shared_ptr<IComponentArray>> componentArrays;
 	Component nextComponent = 0;
 
 	template <typename T>
 	std::shared_ptr<ComponentArray<T>> getComponentArray() {
-		const char* typeName = typeid(T).name();
+		std::string typeName = std::string(typeid(T).name());
 
 		NTSH_ASSERT(componentTypes.find(typeName) != componentTypes.end());
 
@@ -184,7 +185,7 @@ class SystemManager {
 public:
 	template <typename T>
 	void registerSystem(System* system) {
-		const char* typeName = typeid(T).name();
+		std::string typeName = std::string(typeid(T).name());
 
 		NTSH_ASSERT(systems.find(typeName) == systems.end());
 
@@ -193,7 +194,7 @@ public:
 
 	template <typename T>
 	void setComponents(ComponentMask componentMask) {
-		const char* typeName = typeid(T).name();
+		std::string typeName = std::string(typeid(T).name());
 
 		NTSH_ASSERT(systems.find(typeName) != systems.end());
 
@@ -220,8 +221,8 @@ public:
 		}
 	}
 private:
-	std::unordered_map<const char*, ComponentMask> componentMasks;
-	std::unordered_map<const char*, System*> systems;
+	std::unordered_map<std::string, ComponentMask> componentMasks;
+	std::unordered_map<std::string, System*> systems;
 };
 
 class ECS {
