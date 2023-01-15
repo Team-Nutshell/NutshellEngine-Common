@@ -27,7 +27,7 @@ namespace NtshEngn {
 		}
 
 		Entity createEntity() {
-			NTSH_ASSERT(numberOfEntities < MAX_ENTITIES);
+			NTSHENGN_ASSERT(numberOfEntities < MAX_ENTITIES);
 
 			Entity id = entities.front();
 			entities.pop();
@@ -37,7 +37,7 @@ namespace NtshEngn {
 		}
 
 		void destroyEntity(Entity entity) {
-			NTSH_ASSERT(entity < MAX_ENTITIES);
+			NTSHENGN_ASSERT(entity < MAX_ENTITIES);
 
 			componentMasks[entity].reset();
 			entities.push(entity);
@@ -45,13 +45,13 @@ namespace NtshEngn {
 		}
 
 		void setComponents(Entity entity, ComponentMask componentMask) {
-			NTSH_ASSERT(entity < MAX_ENTITIES);
+			NTSHENGN_ASSERT(entity < MAX_ENTITIES);
 
 			componentMasks[entity] = componentMask;
 		}
 
 		ComponentMask getComponents(Entity entity) {
-			NTSH_ASSERT(entity < MAX_ENTITIES);
+			NTSHENGN_ASSERT(entity < MAX_ENTITIES);
 
 			return componentMasks[entity];
 		}
@@ -71,7 +71,7 @@ namespace NtshEngn {
 	class ComponentArray : public IComponentArray {
 	public:
 		void insertData(Entity entity, T component) {
-			NTSH_ASSERT(entityToIndex.find(entity) == entityToIndex.end());
+			NTSHENGN_ASSERT(entityToIndex.find(entity) == entityToIndex.end());
 
 			size_t tmp = validSize;
 			entityToIndex[entity] = tmp;
@@ -81,7 +81,7 @@ namespace NtshEngn {
 		}
 
 		void removeData(Entity entity) {
-			NTSH_ASSERT(entityToIndex.find(entity) != entityToIndex.end());
+			NTSHENGN_ASSERT(entityToIndex.find(entity) != entityToIndex.end());
 
 			size_t tmp = entityToIndex[entity];
 			components[tmp] = components[validSize - 1];
@@ -98,7 +98,7 @@ namespace NtshEngn {
 		}
 
 		T& getData(Entity entity) {
-			NTSH_ASSERT(entityToIndex.find(entity) != entityToIndex.end());
+			NTSHENGN_ASSERT(entityToIndex.find(entity) != entityToIndex.end());
 
 			return components[entityToIndex[entity]];
 		}
@@ -121,7 +121,7 @@ namespace NtshEngn {
 		void registerComponent() {
 			std::string typeName = std::string(typeid(T).name());
 			
-			NTSH_ASSERT(componentTypes.find(typeName) == componentTypes.end());
+			NTSHENGN_ASSERT(componentTypes.find(typeName) == componentTypes.end());
 
 			componentTypes.insert({ typeName, nextComponent });
 			componentArrays.insert({ typeName, std::make_shared<ComponentArray<T>>() });
@@ -132,7 +132,7 @@ namespace NtshEngn {
 		Component getComponentId() {
 			std::string typeName = std::string(typeid(T).name());
 
-			NTSH_ASSERT(componentTypes.find(typeName) != componentTypes.end());
+			NTSHENGN_ASSERT(componentTypes.find(typeName) != componentTypes.end());
 
 			return componentTypes[typeName];
 		}
@@ -172,7 +172,7 @@ namespace NtshEngn {
 		std::shared_ptr<ComponentArray<T>> getComponentArray() {
 			std::string typeName = std::string(typeid(T).name());
 
-			NTSH_ASSERT(componentTypes.find(typeName) != componentTypes.end());
+			NTSHENGN_ASSERT(componentTypes.find(typeName) != componentTypes.end());
 
 			return std::static_pointer_cast<ComponentArray<T>>(componentArrays[typeName]);
 		}
@@ -189,7 +189,7 @@ namespace NtshEngn {
 		void registerSystem(System* system) {
 			std::string typeName = std::string(typeid(T).name());
 
-			NTSH_ASSERT(systems.find(typeName) == systems.end());
+			NTSHENGN_ASSERT(systems.find(typeName) == systems.end());
 
 			systems.insert({ typeName, system });
 		}
@@ -198,7 +198,7 @@ namespace NtshEngn {
 		void setComponents(ComponentMask componentMask) {
 			std::string typeName = std::string(typeid(T).name());
 
-			NTSH_ASSERT(systems.find(typeName) != systems.end());
+			NTSHENGN_ASSERT(systems.find(typeName) != systems.end());
 
 			componentMasks.insert({ typeName, componentMask });
 		}
