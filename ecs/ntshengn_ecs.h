@@ -215,7 +215,7 @@ namespace NtshEngn {
 				auto const& type = pair.first;
 				auto const& system = pair.second;
 				auto const& systemComponentMask = componentMasks[type];
-				if (entityComponentMask | systemComponentMask) {
+				if ((entityComponentMask & systemComponentMask).any()) {
 					system->entities.insert(entity);
 				} else {
 					system->entities.erase(entity);

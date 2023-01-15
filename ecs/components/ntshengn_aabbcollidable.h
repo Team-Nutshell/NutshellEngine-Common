@@ -1,5 +1,5 @@
 #pragma once
-#include "../../resources/ntshengn__resources_physics.h"
+#include "../../resources/ntshengn_resources_physics.h"
 
 namespace NtshEngn {
 
