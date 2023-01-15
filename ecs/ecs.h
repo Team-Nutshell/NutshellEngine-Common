@@ -213,7 +213,7 @@ public:
 			auto const& type = pair.first;
 			auto const& system = pair.second;
 			auto const& systemComponentMask = componentMasks[type];
-			if ((entityComponentMask & systemComponentMask) == systemComponentMask) {
+			if (entityComponentMask | systemComponentMask) {
 				system->entities.insert(entity);
 			} else {
 				system->entities.erase(entity);
