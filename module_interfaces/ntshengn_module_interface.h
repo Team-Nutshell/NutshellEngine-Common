@@ -1,4 +1,5 @@
 #pragma once
+#include "../utils/ntshengn_enums.h"
 #include "../ecs/ntshengn_ecs_includes.h"
 #include <string>
 
