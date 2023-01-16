@@ -20,7 +20,7 @@ namespace NtshEngn {
 		WindowModuleInterface* m_windowModule = nullptr;
 		AudioModuleInterface* m_audioModule = nullptr;
 
-		ECS* m_ecs;
+		ECS* m_ecs = nullptr;
 	public:
 		ModuleInterface() {}
 		ModuleInterface(const ModuleType type, const std::string& name) : m_type(type), m_name(name) {}
