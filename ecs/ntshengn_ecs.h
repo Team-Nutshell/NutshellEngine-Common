@@ -167,8 +167,8 @@ namespace NtshEngn {
 		}
 
 		void entityDestroyed(Entity entity) {
-			for (auto const& pair : m_componentArrays) {
-				auto const& componentArray = pair.second;
+			for (const auto& pair : m_componentArrays) {
+				const std::shared_ptr<IComponentArray>& componentArray = pair.second;
 				componentArray->entityDestroyed(entity);
 			}
 		}
@@ -214,17 +214,17 @@ namespace NtshEngn {
 		}
 
 		void entityDestroyed(Entity entity) {
-			for (auto const& pair : m_systems) {
-				auto const& system = pair.second;
+			for (const auto& pair : m_systems) {
+				System* system = pair.second;
 				system->m_entities.erase(entity);
 			}
 		}
 
 		void entityComponentMaskChanged(Entity entity, ComponentMask entityComponentMask) {
-			for (auto const& pair : m_systems) {
-				auto const& type = pair.first;
-				auto const& system = pair.second;
-				auto const& systemComponentMask = m_componentMasks[type];
+			for (const auto& pair : m_systems) {
+				const std::string& type = pair.first;
+				System* system = pair.second;
+				ComponentMask systemComponentMask = m_componentMasks[type];
 				if ((entityComponentMask & systemComponentMask).any()) {
 					system->m_entities.insert(entity);
 				} else {
@@ -269,7 +269,7 @@ namespace NtshEngn {
 		template <typename T>
 		void addComponent(Entity entity, T component) {
 			m_componentManager->addComponent<T>(entity, component);
-			auto components = m_entityManager->getComponents(entity);
+			ComponentMask components = m_entityManager->getComponents(entity);
 			components.set(m_componentManager->getComponentId<T>(), true);
 			m_entityManager->setComponents(entity, components);
 			m_systemManager->entityComponentMaskChanged(entity, components);
@@ -278,7 +278,7 @@ namespace NtshEngn {
 		template <typename T>
 		void removeComponent(Entity entity) {
 			m_componentManager->removeComponent<T>(entity);
-			auto components = m_entityManager->getComponents(entity);
+			ComponentMask components = m_entityManager->getComponents(entity);
 			components.set(m_componentManager->getComponentId<T>(), false);
 			m_entityManager->setComponents(entity, components);
 			m_systemManager->entityComponentMaskChanged(entity, components);
