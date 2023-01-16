@@ -249,6 +249,8 @@ namespace NtshEngn {
 		Entity createEntity() {
 			Entity newEntity = m_entityManager->createEntity();
 			addComponent(newEntity, Transform{});
+			
+			return newEntity;
 		}
 
 		void destroyEntity(Entity entity) {
