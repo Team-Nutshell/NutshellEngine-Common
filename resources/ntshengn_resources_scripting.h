@@ -11,7 +11,7 @@ namespace NtshEngn {
 	class WindowModuleInterface;
 	class AudioModuleInterface;
 	class ECS;
-	using Entity = int32_t;
+	using Entity = uint32_t;
 
 	// Script
 	struct Script {
