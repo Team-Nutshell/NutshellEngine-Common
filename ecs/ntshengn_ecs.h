@@ -6,6 +6,7 @@
 #include "components/ntshengn_spherecollidable.h"
 #include "components/ntshengn_aabbcollidable.h"
 #include "components/ntshengn_capsulecollidable.h"
+#include "components/ntshengn_scriptable.h"
 #include <stdexcept>
 #include <bitset>
 #include <queue>
