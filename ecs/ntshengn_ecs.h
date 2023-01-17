@@ -216,10 +216,24 @@ namespace NtshEngn {
 			m_componentMasks.insert({ typeName, componentMask });
 		}
 
-		void entityDestroyed(Entity entity) {
+		void entityDestroyed(Entity entity, ComponentMask entityComponents) {
 			for (const auto& pair : m_systems) {
+				const std::string& type = pair.first;
 				System* system = pair.second;
-				system->m_entities.erase(entity);
+				const ComponentMask systemComponentMask = m_componentMasks[type];
+				const ComponentMask entityAndSystemComponentMask = entityComponents & systemComponentMask;
+
+				bool entityInSystem = false;
+				for (uint8_t i = 0; i < MAX_COMPONENTS; i++) {
+					if (entityAndSystemComponentMask[i]) {
+						entityInSystem = true;
+						system->onEntityComponentRemoved(entity, i);
+					}
+				}
+
+				if (entityInSystem) {
+					system->m_entities.erase(entity);
+				}
 			}
 		}
 
@@ -269,9 +283,10 @@ namespace NtshEngn {
 		}
 
 		void destroyEntity(Entity entity) {
+			ComponentMask entityComponents = m_entityManager->getComponents(entity);
+			m_systemManager->entityDestroyed(entity, entityComponents);
 			m_entityManager->destroyEntity(entity);
 			m_componentManager->entityDestroyed(entity);
-			m_systemManager->entityDestroyed(entity);
 		}
 
 		// Component
