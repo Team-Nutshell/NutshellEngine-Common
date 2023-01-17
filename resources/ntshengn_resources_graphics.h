@@ -102,24 +102,24 @@ namespace NtshEngn {
 	// Material
 	struct Material {
 		// Diffuse (base color) texture
-		std::pair<Image*, ImageSampler> diffuseTexture = nullptr;
+		std::pair<Image*, ImageSampler> diffuseTexture;
 
 		// Normal texture
-		std::pair<Image*, ImageSampler> normalTexture = nullptr;
+		std::pair<Image*, ImageSampler> normalTexture;
 
 		// Metalness, Roughness and Occlusion textures can be the same one
 		// In that case, R = Occlusion, G = Roughness, B = Metalness
 		// Metalness texture
-		std::pair<Image*, ImageSampler> metalnessTexture = nullptr;
+		std::pair<Image*, ImageSampler> metalnessTexture;
 
 		// Roughness texture
-		std::pair<Image*, ImageSampler> roughnessTexture = nullptr;
+		std::pair<Image*, ImageSampler> roughnessTexture;
 		
 		// Occlusion texture
-		std::pair<Image*, ImageSampler> occlusionTexture = nullptr;
+		std::pair<Image*, ImageSampler> occlusionTexture;
 		
 		// Emissive texture
-		std::pair<Image*, ImageSampler> emissiveTexture = nullptr;
+		std::pair<Image*, ImageSampler> emissiveTexture;
 	};
 
 	// Mesh
