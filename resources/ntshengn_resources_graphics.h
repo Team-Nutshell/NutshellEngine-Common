@@ -31,6 +31,30 @@ namespace NtshEngn {
 		Unknown
 	};
 
+	enum class ImageSamplerFilter {
+		Linear,
+		Nearest,
+		Unknown
+	};
+
+	enum class ImageSamplerAddressMode {
+		Repeat,
+		MirroredRepeat,
+		ClampToEdge,
+		ClampToBorder,
+		Unknown
+	};
+
+	enum class ImageSamplerBorderColor {
+		FloatTransparentBlack,
+		IntTransparentBlack,
+		FloatOpaqueBlack,
+		IntOpaqueBlack,
+		FloatOpaqueWhite,
+		IntOpaqueWhite,
+		Unknown
+	};
+
 	struct Image {
 		// Image width
 		uint32_t width = 0;
@@ -48,27 +72,54 @@ namespace NtshEngn {
 		std::vector<uint8_t> data;
 	};
 
+	// Image Sampler
+	struct ImageSampler {
+		// Magnification filter
+		ImageSamplerFilter magFilter = ImageSamplerFilter::Unknown;
+
+		// Minification filter
+		ImageSamplerFilter minFilter = ImageSamplerFilter::Unknown;
+
+		// Mipmap filter
+		ImageSamplerFilter mipmapFilter = ImageSamplerFilter::Unknown;
+
+		// Address mode U
+		ImageSamplerAddressMode addressModeU = ImageSamplerAddressMode::Unknown;
+
+		// Address mode V
+		ImageSamplerAddressMode addressModeV = ImageSamplerAddressMode::Unknown;
+
+		// Address mode W
+		ImageSamplerAddressMode addressModeW = ImageSamplerAddressMode::Unknown;
+
+		// Border color
+		ImageSamplerBorderColor borderColor = ImageSamplerBorderColor::Unknown;
+
+		// Anisotropy
+		float anisotropyLevel = 0.0f;
+	};
+
 	// Material
 	struct Material {
 		// Diffuse (base color) texture
-		Image* diffuseTexture = nullptr;
+		std::pair<Image*, ImageSampler> diffuseTexture = nullptr;
 
 		// Normal texture
-		Image* normalTexture = nullptr;
+		std::pair<Image*, ImageSampler> normalTexture = nullptr;
 
 		// Metalness, Roughness and Occlusion textures can be the same one
 		// In that case, R = Occlusion, G = Roughness, B = Metalness
 		// Metalness texture
-		Image* metalnessTexture = nullptr;
+		std::pair<Image*, ImageSampler> metalnessTexture = nullptr;
 
 		// Roughness texture
-		Image* roughnessTexture = nullptr;
+		std::pair<Image*, ImageSampler> roughnessTexture = nullptr;
 		
 		// Occlusion texture
-		Image* occlusionTexture = nullptr;
+		std::pair<Image*, ImageSampler> occlusionTexture = nullptr;
 		
 		// Emissive texture
-		Image* emissiveTexture = nullptr;
+		std::pair<Image*, ImageSampler> emissiveTexture = nullptr;
 	};
 
 	// Mesh
