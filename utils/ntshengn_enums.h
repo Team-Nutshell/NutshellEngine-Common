@@ -9,8 +9,8 @@ namespace NtshEngn {
 		ModuleSymbolLoadError,
 		ModuleFunctionNotImplemented,
 		ModuleError,
-		AssetLoaderFileNotFound,
-		AssetLoaderError,
+		AssetManagerFileNotFound,
+		AssetManagerError,
 		UnknownError
 	};
 
