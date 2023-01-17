@@ -190,6 +190,9 @@ namespace NtshEngn {
 
 	class System {
 	public:
+		virtual void onEntityComponentAdded(Entity entity, Component componentID) { NTSHENGN_UNUSED(entity); NTSHENGN_UNUSED(componentID); }
+		virtual void onEntityComponentRemoved(Entity entity, Component componentID) { NTSHENGN_UNUSED(entity); NTSHENGN_UNUSED(componentID); }
+	public:
 		std::set<Entity> m_entities;
 	};
 
@@ -220,15 +223,26 @@ namespace NtshEngn {
 			}
 		}
 
-		void entityComponentMaskChanged(Entity entity, ComponentMask entityComponentMask) {
+		void entityComponentMaskChanged(Entity entity, ComponentMask oldEntityComponentMask, ComponentMask newEntityComponentMask, Component componentID) {
 			for (const auto& pair : m_systems) {
 				const std::string& type = pair.first;
 				System* system = pair.second;
-				ComponentMask systemComponentMask = m_componentMasks[type];
-				if ((entityComponentMask & systemComponentMask).any()) {
-					system->m_entities.insert(entity);
-				} else {
-					system->m_entities.erase(entity);
+				const ComponentMask systemComponentMask = m_componentMasks[type];
+				const ComponentMask oldAndSystemComponentMasks = oldEntityComponentMask & systemComponentMask;
+				const ComponentMask newAndSystemComponentMasks = newEntityComponentMask & systemComponentMask;
+				if (oldAndSystemComponentMasks != newAndSystemComponentMasks) { // A Component used in the system has been added or removed
+					if (newAndSystemComponentMasks.to_ulong() > oldAndSystemComponentMasks.to_ulong()) { // A Component has been added
+						system->onEntityComponentAdded(entity, componentID);
+						if (oldAndSystemComponentMasks.none()) { // The entity is new in the system
+							system->m_entities.insert(entity);
+						}
+					}
+					else if (newAndSystemComponentMasks.to_ulong() < oldAndSystemComponentMasks.to_ulong()) { // A Component has been removed
+						system->onEntityComponentRemoved(entity, componentID);
+						if (newAndSystemComponentMasks.none()) { // The entity has no more component for the system
+							system->m_entities.erase(entity);
+						}
+					}
 				}
 			}
 		}
@@ -269,19 +283,23 @@ namespace NtshEngn {
 		template <typename T>
 		void addComponent(Entity entity, T component) {
 			m_componentManager->addComponent<T>(entity, component);
-			ComponentMask components = m_entityManager->getComponents(entity);
-			components.set(m_componentManager->getComponentId<T>(), true);
-			m_entityManager->setComponents(entity, components);
-			m_systemManager->entityComponentMaskChanged(entity, components);
+			ComponentMask oldComponents = m_entityManager->getComponents(entity);
+			ComponentMask newComponents = oldComponents;
+			Component componentID = m_componentManager->getComponentId<T>();
+			newComponents.set(componentID, true);
+			m_entityManager->setComponents(entity, newComponents);
+			m_systemManager->entityComponentMaskChanged(entity, oldComponents, newComponents, componentID);
 		}
 
 		template <typename T>
 		void removeComponent(Entity entity) {
+			ComponentMask oldComponents = m_entityManager->getComponents(entity);
+			ComponentMask newComponents = oldComponents;
+			Component componentID = m_componentManager->getComponentId<T>();
+			newComponents.set(componentID, false);
+			m_entityManager->setComponents(entity, newComponents);
+			m_systemManager->entityComponentMaskChanged(entity, oldComponents, newComponents, componentID);
 			m_componentManager->removeComponent<T>(entity);
-			ComponentMask components = m_entityManager->getComponents(entity);
-			components.set(m_componentManager->getComponentId<T>(), false);
-			m_entityManager->setComponents(entity, components);
-			m_systemManager->entityComponentMaskChanged(entity, components);
 		}
 
 		template <typename T>
