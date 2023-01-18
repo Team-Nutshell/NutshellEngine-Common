@@ -14,6 +14,8 @@ namespace NtshEngn {
 	struct ColliderShape {
 		ColliderShape(const ColliderShapeType shapeType): type(shapeType) {}
 
+		ColliderShapeType getType() { return type; }
+
 	protected:
 		ColliderShapeType type = ColliderShapeType::Unknown;
 	};
