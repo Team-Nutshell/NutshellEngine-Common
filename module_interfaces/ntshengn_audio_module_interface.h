@@ -15,7 +15,7 @@ namespace NtshEngn {
 		virtual void destroy() = 0;
 
 		// Loads the sound described in the sound parameter in the internal format and returns a unique identifier
-		virtual SoundId load(const Sound sound) = 0;
+		virtual SoundId load(const Sound& sound) = 0;
 
 		// Plays the sound with identifier soundId
 		virtual void play(SoundId soundId) = 0;

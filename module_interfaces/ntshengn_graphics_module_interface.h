@@ -15,9 +15,9 @@ namespace NtshEngn {
 		virtual void destroy() = 0;
 
 		// Loads the mesh described in the mesh parameter in the internal format and returns a unique identifier
-		virtual MeshId load(const Mesh mesh) = 0;
+		virtual MeshId load(const Mesh& mesh) = 0;
 		// Loads the image described in the image parameter in the internal format and returns a unique identifier
-		virtual ImageId load(const Image image) = 0;
+		virtual ImageId load(const Image& image) = 0;
 	};
 
 }
