@@ -4,8 +4,8 @@
 namespace NtshEngn {
 
 	struct Renderable {
-		Mesh mesh;
-		Material material;
+		Mesh* mesh = nullptr;
+		Material* material = nullptr;
 	};
 
 }
