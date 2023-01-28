@@ -9,6 +9,7 @@ namespace NtshEngn {
 	class PhysicsModuleInterface;
 	class WindowModuleInterface;
 	class AudioModuleInterface;
+	class AssetManager;
 
 	class ModuleInterface : public System {
 	protected:
@@ -21,6 +22,8 @@ namespace NtshEngn {
 		AudioModuleInterface* m_audioModule = nullptr;
 
 		ECS* m_ecs = nullptr;
+
+		AssetManager* m_assetManager = nullptr;
 	public:
 		ModuleInterface() {}
 		ModuleInterface(const ModuleType type, const std::string& name) : m_type(type), m_name(name) {}
@@ -47,6 +50,10 @@ namespace NtshEngn {
 
 		void setECS(ECS* ecs) {
 			m_ecs = ecs;
+		}
+
+		void setAssetManager(AssetManager* assetManager) {
+			m_assetManager = assetManager;
 		}
 	};
 
