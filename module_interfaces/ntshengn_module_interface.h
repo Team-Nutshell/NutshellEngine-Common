@@ -24,6 +24,7 @@ namespace NtshEngn {
 		ECS* m_ecs = nullptr;
 
 		AssetManager* m_assetManager = nullptr;
+		
 	public:
 		ModuleInterface() {}
 		ModuleInterface(const ModuleType type, const std::string& name) : m_type(type), m_name(name) {}
