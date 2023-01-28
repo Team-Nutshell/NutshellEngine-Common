@@ -11,6 +11,7 @@ namespace NtshEngn {
 	class WindowModuleInterface;
 	class AudioModuleInterface;
 	class ECS;
+	class AssetManager;
 	using Entity = uint32_t;
 
 	// Script
@@ -22,25 +23,28 @@ namespace NtshEngn {
 		virtual void destroy() = 0;
 
 		std::unique_ptr<Script> clone() { return std::unique_ptr<Script>(clone_impl()); }
-		void setEntityID(Entity entityID) { m_entityID = entityID; }
-		void setModules(GraphicsModuleInterface* graphicsModule, PhysicsModuleInterface* physicsModule, WindowModuleInterface* windowModule, AudioModuleInterface* audioModule) {
-			m_graphicsModule = graphicsModule;
-			m_physicsModule = physicsModule;
-			m_windowModule = windowModule;
-			m_audioModule = audioModule;
+		void setEntityID(Entity passEntityID) { entityID = passEntityID; }
+		void setModules(GraphicsModuleInterface* passGraphicsModule, PhysicsModuleInterface* passPhysicsModule, WindowModuleInterface* passWindowModule, AudioModuleInterface* passAudioModule) {
+			graphicsModule = passGraphicsModule;
+			physicsModule = passPhysicsModule;
+			windowModule = passWindowModule;
+			audioModule = passAudioModule;
 		}
-		void setECS(ECS* ecs) { m_ecs = ecs; }
+		void setECS(ECS* passECS) { ecs = passECS; }
+		void setAssetManager(AssetManager* passAssetManager) { assetManager = passAssetManager; }
 	protected:
 		virtual Script* clone_impl() = 0;
 
-		Entity m_entityID = 0;
+		Entity entityID = 0;
 
-		GraphicsModuleInterface* m_graphicsModule = nullptr;
-		PhysicsModuleInterface* m_physicsModule = nullptr;
-		WindowModuleInterface* m_windowModule = nullptr;
-		AudioModuleInterface* m_audioModule = nullptr;
+		GraphicsModuleInterface* graphicsModule = nullptr;
+		PhysicsModuleInterface* physicsModule = nullptr;
+		WindowModuleInterface* windowModule = nullptr;
+		AudioModuleInterface* audioModule = nullptr;
 
-		ECS* m_ecs = nullptr;
+		ECS* ecs = nullptr;
+
+		AssetManager* assetManager = nullptr;
 	};
 
 }
