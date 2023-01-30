@@ -4,7 +4,7 @@
 
 namespace NtshEngn {
 
-	std::string readAscii(const std::string& filePath) {
+	inline std::string readAscii(const std::string& filePath) {
 		std::ifstream file(filePath, std::ios::in | std::ios::ate);
 		if (!file.is_open()) {
 			return "";
@@ -14,7 +14,7 @@ namespace NtshEngn {
 		return fileContent;
 	}
 
-	std::string readBinary(const std::string& filePath) {
+	inline std::string readBinary(const std::string& filePath) {
 		std::ifstream file(filePath, std::ios::in | std::ios::ate | std::ios::binary);
 		if (!file.is_open()) {
 			return "";
@@ -24,7 +24,7 @@ namespace NtshEngn {
 		return fileContent;
 	}
 
-	std::string filename(const std::string& filePath) {
+	inline std::string filename(const std::string& filePath) {
 		size_t slashPosition = filePath.find_last_of('/');
 		if (slashPosition == std::string::npos) {
 			slashPosition = filePath.find_last_of('\\');
@@ -35,7 +35,7 @@ namespace NtshEngn {
 		return filePath.substr(slashPosition + 1);
 	}
 
-	std::string extension(const std::string& filePath) {
+	inline std::string extension(const std::string& filePath) {
 		size_t dotPosition = filePath.find_last_of('.');
 		if (dotPosition == std::string::npos) {
 			return "";
