@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 #define NTSHENGN_SCRIPT(scriptName) \
 	protected: \
