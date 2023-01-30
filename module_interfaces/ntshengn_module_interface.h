@@ -42,6 +42,10 @@ namespace NtshEngn {
 			return m_name;
 		}
 
+		const ComponentMask getComponentMask() const {
+			return ComponentMask();
+		}
+
 		void setModules(GraphicsModuleInterface* graphicsModule, PhysicsModuleInterface* physicsModule, WindowModuleInterface* windowModule, AudioModuleInterface* audioModule) {
 			m_graphicsModule = graphicsModule;
 			m_physicsModule = physicsModule;
