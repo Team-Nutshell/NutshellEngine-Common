@@ -21,6 +21,7 @@ endif()
 set(NTSHENGN_DEFINES ${NTSHENGN_COMMON_DEFINES} PARENT_SCOPE)
 
 add_library(Common INTERFACE)
+target_include_directories(Common INTERFACE asset_manager)
 target_include_directories(Common INTERFACE module_interfaces)
 target_include_directories(Common INTERFACE resources)
 target_include_directories(Common INTERFACE utils)

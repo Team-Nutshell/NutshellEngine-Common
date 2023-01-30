@@ -1,6 +1,7 @@
 #pragma once
 #include "../utils/ntshengn_enums.h"
 #include "../ecs/ntshengn_ecs.h"
+#include "../asset_manager/ntshengn_asset_manager.h"
 #include <string>
 
 namespace NtshEngn {
@@ -9,7 +10,6 @@ namespace NtshEngn {
 	class PhysicsModuleInterface;
 	class WindowModuleInterface;
 	class AudioModuleInterface;
-	class AssetManager;
 
 	class ModuleInterface : public System {
 	protected:
