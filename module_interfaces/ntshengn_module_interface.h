@@ -42,7 +42,7 @@ namespace NtshEngn {
 			return m_name;
 		}
 
-		const ComponentMask getComponentMask() const {
+		virtual const ComponentMask getComponentMask() const {
 			return ComponentMask();
 		}
 
