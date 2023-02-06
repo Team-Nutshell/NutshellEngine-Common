@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 
 namespace NtshEngn {
 
@@ -14,7 +15,7 @@ namespace NtshEngn {
 	// Spot Light : position = Transform.position, direction = Transform.rotation, cutoffs = Transform.scale.xy
 	struct Light {
 		LightType type;
-		float color[3];
+		std::array<float, 3> color;
 	};
 
 }
