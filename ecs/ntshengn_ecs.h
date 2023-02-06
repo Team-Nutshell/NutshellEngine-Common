@@ -3,6 +3,7 @@
 #include "components/ntshengn_ecs_transform.h"
 #include "components/ntshengn_ecs_renderable.h"
 #include "components/ntshengn_ecs_camera.h"
+#include "components/ntshengn_ecs_light.h"
 #include "components/ntshengn_ecs_sphere_collidable.h"
 #include "components/ntshengn_ecs_aabb_collidable.h"
 #include "components/ntshengn_ecs_capsule_collidable.h"
