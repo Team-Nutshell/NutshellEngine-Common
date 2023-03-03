@@ -5,6 +5,8 @@
 #include <windows.h>
 #elif defined(NTSHENGN_OS_LINUX)
 #include <X11/Xlib.h>
+#undef None
+#undef Success
 #endif
 
 #define NTSHENGN_MAIN_WINDOW 0
