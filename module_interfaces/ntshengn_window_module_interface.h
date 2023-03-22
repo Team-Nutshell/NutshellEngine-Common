@@ -71,7 +71,7 @@ namespace NtshEngn {
 		// Returns the native window handle of the window with identifier windowId
 		virtual NativeWindowHandle getNativeHandle(WindowId windowId) = 0;
 		// Returns the native window additional information of the window with identifier windowId
-		virtual NativeWindowAdditionalInformation getNativeHandle(WindowId windowId) = 0;
+		virtual NativeWindowAdditionalInformation getNativeAdditionalInformation(WindowId windowId) = 0;
 	};
 
 }
