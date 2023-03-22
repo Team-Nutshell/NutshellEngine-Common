@@ -5,6 +5,10 @@ namespace NtshEngn {
 	// Window
 	typedef uint64_t WindowId;
 
+	// Native window handle
+	typedef void* NativeWindowHandle;
+	typedef void* NativeWindowAdditionalInformation;
+
 	// Input
 	enum class InputState {
 		None, // State when the input is neutral

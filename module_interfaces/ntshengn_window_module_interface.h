@@ -1,13 +1,6 @@
 #pragma once
 #include "ntshengn_module_interface.h"
 #include "../resources/ntshengn_resources_window.h"
-#if defined(NTSHENGN_OS_WINDOWS)
-#include <windows.h>
-#elif defined(NTSHENGN_OS_LINUX)
-#include <X11/Xlib.h>
-#undef None
-#undef Success
-#endif
 
 #define NTSHENGN_MAIN_WINDOW 0
 
@@ -75,13 +68,10 @@ namespace NtshEngn {
 		// Returns true if the mouse cursor is visible in the window with identifier windowId, else, returns false
 		virtual bool isCursorVisible(WindowId windowId) = 0;
 
-	#if defined(NTSHENGN_OS_WINDOWS)
-		// Returns the native Win32 window handle of the window with identifier windowId
-		virtual HWND getNativeHandle(WindowId windowId) = 0;
-	#elif defined(NTSHENGN_OS_LINUX)
-		// Returns the native X window handle of the window with identifier windowId
-		virtual Window getNativeHandle(WindowId windowId) = 0;
-	#endif
+		// Returns the native window handle of the window with identifier windowId
+		virtual NativeWindowHandle getNativeHandle(WindowId windowId) = 0;
+		// Returns the native window additional information of the window with identifier windowId
+		virtual NativeWindowAdditionalInformation getNativeHandle(WindowId windowId) = 0;
 	};
 
 }
