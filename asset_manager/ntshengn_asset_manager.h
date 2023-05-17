@@ -8,6 +8,7 @@
 #include <iterator>
 #include <cstdlib>
 #include <cstring>
+#include <cmath>
 #include <unordered_map>
 #include <array>
 
@@ -123,6 +124,48 @@ namespace NtshEngn {
 			}
 
 			NTSHENGN_ASSET_MANAGER_ERROR("Could not destroy image resource.", Result::AssetManagerError);
+		}
+
+	public:
+		void calculateTangents(Mesh& mesh) {
+			std::vector<std::array<float, 3>> tan1(mesh.vertices.size(), { 0.0f, 0.0f, 0.0f });
+			std::vector<std::array<float, 3>> tan2(mesh.vertices.size(), { 0.0f, 0.0f, 0.0f });
+			for (size_t i = 0; i < mesh.indices.size(); i += 3) {
+				Vertex& vertex0 = mesh.vertices[mesh.indices[i]];
+				Vertex& vertex1 = mesh.vertices[mesh.indices[i + 1]];
+				Vertex& vertex2 = mesh.vertices[mesh.indices[i + 2]];
+
+				const std::array<float, 3> dPos1 = { vertex1.position[0] - vertex0.position[0], vertex1.position[1] - vertex0.position[1], vertex1.position[2] - vertex0.position[2] };
+				const std::array<float, 3> dPos2 = { vertex2.position[0] - vertex0.position[0], vertex2.position[1] - vertex0.position[1], vertex2.position[2] - vertex0.position[2] };
+
+				const std::array<float, 2> dUV1 = { vertex1.uv[0] - vertex0.uv[0], vertex1.uv[1] - vertex0.uv[1] };
+				const std::array<float, 2> dUV2 = { vertex2.uv[0] - vertex0.uv[0], vertex2.uv[1] - vertex0.uv[1] };
+
+				const float r = 1.0f / (dUV1[0] * dUV2[1] - dUV1[1] * dUV2[0]);
+
+				const std::array<float, 3> uDir = { (dPos1[0] * dUV2[1] - dPos2[0] * dUV1[1]) * r, (dPos1[1] * dUV2[1] - dPos2[1] * dUV1[1]) * r, (dPos1[2] * dUV2[1] - dPos2[2] * dUV1[1]) * r };
+				const std::array<float, 3> vDir = { (dPos2[0] * dUV1[0] - dPos1[0] * dUV2[0]) * r, (dPos2[1] * dUV1[0] - dPos1[1] * dUV2[0]) * r, (dPos2[2] * dUV1[0] - dPos1[2] * dUV2[0]) * r };
+
+				tan1[mesh.indices[i]] = { tan1[mesh.indices[i]][0] + uDir[0], tan1[mesh.indices[i]][1] + uDir[1], tan1[mesh.indices[i]][2] + uDir[2] };
+				tan1[mesh.indices[i + 1]] = { tan1[mesh.indices[i + 1]][0] + uDir[0], tan1[mesh.indices[i + 1]][1] + uDir[1], tan1[mesh.indices[i + 1]][2] + uDir[2] };
+				tan1[mesh.indices[i + 2]] = { tan1[mesh.indices[i + 2]][0] + uDir[0], tan1[mesh.indices[i + 2]][1] + uDir[1], tan1[mesh.indices[i + 2]][2] + uDir[2] };
+
+				tan2[mesh.indices[i]] = { tan2[mesh.indices[i]][0] + vDir[0], tan2[mesh.indices[i]][1] + vDir[1], tan2[mesh.indices[i]][2] + vDir[2] };
+				tan2[mesh.indices[i + 1]] = { tan2[mesh.indices[i + 1]][0] + vDir[0], tan2[mesh.indices[i + 1]][1] + vDir[1], tan2[mesh.indices[i + 1]][2] + vDir[2] };
+				tan2[mesh.indices[i + 2]] = { tan2[mesh.indices[i + 2]][0] + vDir[0], tan2[mesh.indices[i + 2]][1] + vDir[1], tan2[mesh.indices[i + 2]][2] + vDir[2] };
+			}
+
+			for (size_t i = 0; i < mesh.vertices.size(); i++) {
+				const float ndott = mesh.vertices[i].normal[0] * tan1[i][0] + mesh.vertices[i].normal[1] * tan1[i][1] + mesh.vertices[i].normal[2] * tan1[i][2];
+				const std::array<float, 3> ncrosst = { mesh.vertices[i].normal[1] * tan1[i][2] - mesh.vertices[i].normal[2] * tan1[i][1], mesh.vertices[i].normal[2] * tan1[i][0] - mesh.vertices[i].normal[0] * tan1[i][2], mesh.vertices[i].normal[0] * tan1[i][1] - mesh.vertices[i].normal[1] * tan1[i][0] };
+
+				const std::array<float, 3> unnormalizedTangent = { tan1[i][0] - mesh.vertices[i].normal[0] * ndott, tan1[i][1] - mesh.vertices[i].normal[1] * ndott, tan1[i][2] - mesh.vertices[i].normal[2] * ndott };
+				const float unnormalizedTangentLength = std::sqrt(unnormalizedTangent[0] * unnormalizedTangent[0] + unnormalizedTangent[1] * unnormalizedTangent[1] + unnormalizedTangent[2] * unnormalizedTangent[2]);
+				const std::array<float, 3> normalizedTangent = { unnormalizedTangent[0] / unnormalizedTangentLength, unnormalizedTangent[1] / unnormalizedTangentLength, unnormalizedTangent[2] / unnormalizedTangentLength };
+				const float tangentSign = (ncrosst[0] * tan2[i][0] + ncrosst[1] * tan2[i][1] + ncrosst[2] * tan2[i][2]) < 0.0f ? -1.0f : 1.0f;
+
+				mesh.vertices[i].tangent = { normalizedTangent[0], normalizedTangent[1], normalizedTangent[2], tangentSign };
+			}
 		}
 
 	private:
@@ -359,6 +402,8 @@ namespace NtshEngn {
 			}
 
 			model.primitives.push_back({ mesh, {} });
+
+			calculateTangents(mesh);
 
 			file.close();
 		}
