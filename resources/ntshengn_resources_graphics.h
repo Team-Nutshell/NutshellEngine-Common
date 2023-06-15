@@ -101,7 +101,7 @@ namespace NtshEngn {
 
 	// Texture
 	struct Texture {
-		Image* image;
+		Image* image = nullptr;
 		ImageSampler imageSampler;
 	};
 
