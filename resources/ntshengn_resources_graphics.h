@@ -99,27 +99,33 @@ namespace NtshEngn {
 		float anisotropyLevel = 0.0f;
 	};
 
+	// Texture
+	struct Texture {
+		Image* image;
+		ImageSampler imageSampler;
+	};
+
 	// Material
 	struct Material {
 		// Diffuse (base color) texture
-		std::pair<Image*, ImageSampler> diffuseTexture;
+		Texture diffuseTexture;
 
 		// Normal texture
-		std::pair<Image*, ImageSampler> normalTexture;
+		Texture normalTexture;
 
 		// Metalness, Roughness and Occlusion textures can be the same one
 		// In that case, R = Occlusion, G = Roughness, B = Metalness
 		// Metalness texture
-		std::pair<Image*, ImageSampler> metalnessTexture;
+		Texture metalnessTexture;
 
 		// Roughness texture
-		std::pair<Image*, ImageSampler> roughnessTexture;
+		Texture roughnessTexture;
 		
 		// Occlusion texture
-		std::pair<Image*, ImageSampler> occlusionTexture;
+		Texture occlusionTexture;
 		
 		// Emissive texture
-		std::pair<Image*, ImageSampler> emissiveTexture;
+		Texture emissiveTexture;
 	};
 
 	// Mesh
