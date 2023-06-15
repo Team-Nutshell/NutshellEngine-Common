@@ -158,8 +158,13 @@ namespace NtshEngn {
 	};
 
 	// Model
+	struct ModelPrimitive {
+		Mesh mesh;
+		Material material;
+	}
+
 	struct Model {
-		std::vector<std::pair<Mesh, Material>> primitives;
+		std::vector<ModelPrimitive> primitives;
 	};
 
 }
