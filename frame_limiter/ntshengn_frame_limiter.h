@@ -6,21 +6,15 @@ namespace NtshEngn {
 
 	class FrameLimiter {
 	public:
-		double wait(double dt) {
+		void wait(double frameStart) {
 			if (m_maxFPS != 0) {
+				double currentTime = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now().time_since_epoch()).count();
 				double maxFPSToMilliseconds = 1000.0 / static_cast<double>(m_maxFPS);
-				if (dt < maxFPSToMilliseconds) {
-					double currentTime = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now().time_since_epoch()).count();
-					double busyWaitingNow = currentTime;
-					while ((busyWaitingNow - currentTime) < (maxFPSToMilliseconds - dt)) {
-						busyWaitingNow = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now().time_since_epoch()).count();
-					}
-
-					return maxFPSToMilliseconds;
+				if ((currentTime - frameStart) < maxFPSToMilliseconds) {
+					double busyWaitingStart = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now().time_since_epoch()).count();
+					while ((std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now().time_since_epoch()).count() - busyWaitingStart) < (maxFPSToMilliseconds - (currentTime - frameStart)));
 				}
 			}
-
-			return dt;
 		}
 
 		void setMaxFPS(uint32_t maxFPS) {
