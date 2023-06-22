@@ -80,7 +80,7 @@ namespace NtshEngn {
 		F9, // F9
 		F10, // F10
 		F11, // F11
-		F12, // F12
+		F12 // F12
 	};
 
 	enum class InputMouseButton {
