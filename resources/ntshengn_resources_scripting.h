@@ -3,7 +3,7 @@
 
 #define NTSHENGN_SCRIPT(scriptName) \
 	protected: \
-	scriptName* clone_impl() { return new scriptName(*this); }
+	scriptName* cloneImpl() { return new scriptName(*this); }
 
 namespace NtshEngn {
 
@@ -13,6 +13,7 @@ namespace NtshEngn {
 	class AudioModuleInterface;
 	class ECS;
 	class AssetManager;
+	class FrameLimiter;
 	using Entity = uint32_t;
 
 	// Script
@@ -23,7 +24,7 @@ namespace NtshEngn {
 		virtual void update(double dt) = 0;
 		virtual void destroy() = 0;
 
-		std::unique_ptr<Script> clone() { return std::unique_ptr<Script>(clone_impl()); }
+		std::unique_ptr<Script> clone() { return std::unique_ptr<Script>(cloneImpl()); }
 		void setEntityID(Entity passEntityID) { entityID = passEntityID; }
 		void setModules(GraphicsModuleInterface* passGraphicsModule, PhysicsModuleInterface* passPhysicsModule, WindowModuleInterface* passWindowModule, AudioModuleInterface* passAudioModule) {
 			graphicsModule = passGraphicsModule;
@@ -33,8 +34,10 @@ namespace NtshEngn {
 		}
 		void setECS(ECS* passECS) { ecs = passECS; }
 		void setAssetManager(AssetManager* passAssetManager) { assetManager = passAssetManager; }
+		void setFrameLimiter(FrameLimiter* passFrameLimiter) { frameLimiter = passFrameLimiter; }
+
 	protected:
-		virtual Script* clone_impl() = 0;
+		virtual Script* cloneImpl() = 0;
 
 		Entity entityID = 0;
 
@@ -46,6 +49,8 @@ namespace NtshEngn {
 		ECS* ecs = nullptr;
 
 		AssetManager* assetManager = nullptr;
+
+		FrameLimiter* frameLimiter = nullptr;
 	};
 
 }
