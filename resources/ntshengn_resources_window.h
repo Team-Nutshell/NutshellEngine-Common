@@ -65,6 +65,10 @@ namespace NtshEngn {
 		Num7, // Numpad 7
 		Num8, // Numpad 8
 		Num9, // Numpad 9
+		NumPlus, // Numpad +
+		NumMinus, // Numpad -
+		NumTimes, // Numpad *
+		NumDivision, // Numpad /
 		Left, // Left Arrow
 		Right, // Right Arrow
 		Up, // Up Arrow
