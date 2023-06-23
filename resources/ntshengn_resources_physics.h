@@ -42,4 +42,10 @@ namespace NtshEngn {
 		float radius = 0.0f;
 	};
 
+	struct IntersectionInformation {
+		bool hasIntersected = false;
+		std::array<float, 3> intersectionNormal = { 0.0f, 0.0f, 0.0f };
+		float intersectionDepth = 0.0f;
+	};
+
 }
