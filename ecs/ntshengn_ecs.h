@@ -4,6 +4,7 @@
 #include "components/ntshengn_ecs_renderable.h"
 #include "components/ntshengn_ecs_camera.h"
 #include "components/ntshengn_ecs_light.h"
+#include "components/ntshengn_ecs_rigidbody.h"
 #include "components/ntshengn_ecs_sphere_collidable.h"
 #include "components/ntshengn_ecs_aabb_collidable.h"
 #include "components/ntshengn_ecs_capsule_collidable.h"
@@ -195,8 +196,9 @@ namespace NtshEngn {
 	public:
 		virtual void onEntityComponentAdded(Entity entity, Component componentID) { NTSHENGN_UNUSED(entity); NTSHENGN_UNUSED(componentID); }
 		virtual void onEntityComponentRemoved(Entity entity, Component componentID) { NTSHENGN_UNUSED(entity); NTSHENGN_UNUSED(componentID); }
+		
 	public:
-		std::set<Entity> m_entities;
+		std::set<Entity> entities;
 	};
 
 	class SystemManager {
@@ -235,7 +237,7 @@ namespace NtshEngn {
 				}
 
 				if (entityInSystem) {
-					system->m_entities.erase(entity);
+					system->entities.erase(entity);
 				}
 			}
 		}
@@ -251,13 +253,13 @@ namespace NtshEngn {
 					if (newAndSystemComponentMasks.to_ulong() > oldAndSystemComponentMasks.to_ulong()) { // A Component has been added
 						system->onEntityComponentAdded(entity, componentID);
 						if (oldAndSystemComponentMasks.none()) { // The entity is new in the system
-							system->m_entities.insert(entity);
+							system->entities.insert(entity);
 						}
 					}
 					else if (newAndSystemComponentMasks.to_ulong() < oldAndSystemComponentMasks.to_ulong()) { // A Component has been removed
 						system->onEntityComponentRemoved(entity, componentID);
 						if (newAndSystemComponentMasks.none()) { // The entity has no more component for the system
-							system->m_entities.erase(entity);
+							system->entities.erase(entity);
 						}
 					}
 				}

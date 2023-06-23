@@ -12,19 +12,6 @@ namespace NtshEngn {
 	class AudioModuleInterface;
 
 	class ModuleInterface : public System {
-	protected:
-		ModuleType m_type = ModuleType::Unknown;
-		std::string m_name = "";
-
-		GraphicsModuleInterface* m_graphicsModule = nullptr;
-		PhysicsModuleInterface* m_physicsModule = nullptr;
-		WindowModuleInterface* m_windowModule = nullptr;
-		AudioModuleInterface* m_audioModule = nullptr;
-
-		ECS* m_ecs = nullptr;
-
-		AssetManager* m_assetManager = nullptr;
-		
 	public:
 		ModuleInterface() {}
 		ModuleInterface(const ModuleType type, const std::string& name) : m_type(type), m_name(name) {}
@@ -46,20 +33,35 @@ namespace NtshEngn {
 			return ComponentMask();
 		}
 
-		void setModules(GraphicsModuleInterface* graphicsModule, PhysicsModuleInterface* physicsModule, WindowModuleInterface* windowModule, AudioModuleInterface* audioModule) {
-			m_graphicsModule = graphicsModule;
-			m_physicsModule = physicsModule;
-			m_windowModule = windowModule;
-			m_audioModule = audioModule;
+		void setModules(GraphicsModuleInterface* passGraphicsModule, PhysicsModuleInterface* passPhysicsModule, WindowModuleInterface* passWindowModule, AudioModuleInterface* passAudioModule) {
+			graphicsModule = passGraphicsModule;
+			physicsModule = passPhysicsModule;
+			windowModule = passWindowModule;
+			audioModule = passAudioModule;
 		}
 
-		void setECS(ECS* ecs) {
-			m_ecs = ecs;
+		void setECS(ECS* passECS) {
+			ecs = passECS;
 		}
 
-		void setAssetManager(AssetManager* assetManager) {
-			m_assetManager = assetManager;
+		void setAssetManager(AssetManager* passAssetManager) {
+			assetManager = passAssetManager;
 		}
+		
+	protected:
+		GraphicsModuleInterface* graphicsModule = nullptr;
+		PhysicsModuleInterface* physicsModule = nullptr;
+		WindowModuleInterface* windowModule = nullptr;
+		AudioModuleInterface* audioModule = nullptr;
+
+		ECS* ecs = nullptr;
+
+		AssetManager* assetManager = nullptr;
+
+	private:
+		
+		ModuleType m_type = ModuleType::Unknown;
+		std::string m_name = "";
 	};
 
 }
