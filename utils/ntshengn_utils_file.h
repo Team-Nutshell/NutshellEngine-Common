@@ -11,6 +11,7 @@ namespace NtshEngn {
 		}
 		file.seekg(0);
 		std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+		
 		return fileContent;
 	}
 
@@ -21,6 +22,7 @@ namespace NtshEngn {
 		}
 		file.seekg(0);
 		std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+		
 		return fileContent;
 	}
 
@@ -32,6 +34,7 @@ namespace NtshEngn {
 				return filePath;
 			}
 		}
+		
 		return filePath.substr(slashPosition + 1);
 	}
 
@@ -40,6 +43,7 @@ namespace NtshEngn {
 		if (dotPosition == std::string::npos) {
 			return "";
 		}
+		
 		return filePath.substr(dotPosition + 1);
 	}
 
