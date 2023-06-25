@@ -16,7 +16,7 @@ namespace NtshEngn {
 
 		ColliderShapeType getType() const { return type; }
 
-	protected:
+	private:
 		ColliderShapeType type = ColliderShapeType::Unknown;
 	};
 
