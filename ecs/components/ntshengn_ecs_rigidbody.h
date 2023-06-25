@@ -11,6 +11,8 @@ namespace NtshEngn {
 		float mass = 1.0f;
 		float inertia = 1.0f;
 		float restitution = 0.0f;
+		float staticFriction = 0.0f;
+		float dynamicFriction = 0.0f;
 	};
 
 }
