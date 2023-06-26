@@ -11,6 +11,7 @@
 #include <cmath>
 #include <unordered_map>
 #include <array>
+#include <utility>
 
 namespace NtshEngn {
 
@@ -166,6 +167,52 @@ namespace NtshEngn {
 
 				mesh.vertices[i].tangent = { normalizedTangent[0], normalizedTangent[1], normalizedTangent[2], tangentSign };
 			}
+		}
+
+		std::pair<std::array<float, 3>, std::array<float, 3>> calculateAABB(const Mesh& mesh) {
+			std::array<float, 3> min = { std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max() };
+			std::array<float, 3> max = { std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest() };
+			for (const Vertex& vertex : mesh.vertices) {
+				if (vertex.position[0] < min[0]) {
+					min[0] = vertex.position[0];
+				}
+				if (vertex.position[0] > max[0]) {
+					max[0] = vertex.position[0];
+				}
+
+				if (vertex.position[1] < min[1]) {
+					min[1] = vertex.position[1];
+				}
+				if (vertex.position[1] > max[1]) {
+					max[1] = vertex.position[1];
+				}
+
+				if (vertex.position[2] < min[2]) {
+					min[2] = vertex.position[2];
+				}
+				if (vertex.position[2] > max[2]) {
+					max[2] = vertex.position[2];
+				}
+			}
+
+			const float epsilon = 0.0001f;
+
+			if (min[0] == max[0]) {
+				min[0] -= epsilon;
+				max[0] += epsilon;
+			}
+
+			if (min[1] == max[1]) {
+				min[1] -= epsilon;
+				max[1] += epsilon;
+			}
+
+			if (min[2] == max[2]) {
+				min[2] -= epsilon;
+				max[2] += epsilon;
+			}
+
+			return { min, max };
 		}
 
 	private:
