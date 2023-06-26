@@ -14,7 +14,7 @@ namespace NtshEngn {
 		virtual void update(double dt) = 0;
 		virtual void destroy() = 0;
 
-		// Returns true if the two shapes are intersecting with each other, else, returns false
+		// Returns an IntersectionInformation structure containing information about the intersection
 		virtual IntersectionInformation intersect(const ColliderShape* shape1, const ColliderShape* shape2) = 0;
 	};
 
