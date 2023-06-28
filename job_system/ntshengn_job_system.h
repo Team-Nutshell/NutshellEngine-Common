@@ -1,9 +1,11 @@
 #pragma once
 #include "ntshengn_job_queue.h"
+#include <thread>
 #include <mutex>
 #include <condition_variable>
 #include <atomic>
 #include <functional>
+#include <algorithm>
 #include <cstdint>
 
 namespace NtshEngn {
@@ -29,7 +31,7 @@ namespace NtshEngn {
 			m_sharedData.running.store(true);
 
 			for (uint32_t threadID = 0; threadID < m_numThreads; threadID++) {
-				std::thread worker([&m_sharedData = m_sharedData] () {
+				m_threads.emplace_back([&m_sharedData = m_sharedData] () {
 					std::function<void()> job;
 
 					while (m_sharedData.running.load()) {
@@ -43,8 +45,6 @@ namespace NtshEngn {
 						}
 					}
 				});
-
-				worker.detach();
 			}
 		}
 
@@ -52,6 +52,9 @@ namespace NtshEngn {
 			m_sharedData.running.store(false);
 			for (uint32_t threadID = 0; threadID < m_numThreads; threadID++) {
 				m_sharedData.wakeCondition.notify_one();
+			}
+			for (uint32_t threadID = 0; threadID < m_numThreads; threadID++) {
+				m_threads[threadID].join();
 			}
 		}
 
@@ -107,6 +110,7 @@ namespace NtshEngn {
 
 	private:
 		uint32_t m_numThreads = 0;
+		std::vector<std::thread> m_threads;
 		JobSharedData m_sharedData;
 	};
 
