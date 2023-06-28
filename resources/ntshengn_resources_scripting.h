@@ -14,6 +14,7 @@ namespace NtshEngn {
 	class ECS;
 	class AssetManager;
 	class FrameLimiter;
+	class JobSystem;
 	using Entity = uint32_t;
 
 	// Script
@@ -35,6 +36,7 @@ namespace NtshEngn {
 		void setECS(ECS* passECS) { ecs = passECS; }
 		void setAssetManager(AssetManager* passAssetManager) { assetManager = passAssetManager; }
 		void setFrameLimiter(FrameLimiter* passFrameLimiter) { frameLimiter = passFrameLimiter; }
+		void setJobSystem(JobSystem* passJobSystem) { jobSystem = passJobSystem; }
 
 	protected:
 		virtual Script* cloneImpl() = 0;
@@ -51,6 +53,8 @@ namespace NtshEngn {
 		AssetManager* assetManager = nullptr;
 
 		FrameLimiter* frameLimiter = nullptr;
+
+		JobSystem* jobSystem = nullptr;
 	};
 
 }

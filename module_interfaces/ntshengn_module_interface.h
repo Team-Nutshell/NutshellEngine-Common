@@ -2,6 +2,7 @@
 #include "../utils/ntshengn_enums.h"
 #include "../ecs/ntshengn_ecs.h"
 #include "../asset_manager/ntshengn_asset_manager.h"
+#include "../job_system/ntshengn_job_system.h"
 #include <string>
 
 namespace NtshEngn {
@@ -47,6 +48,10 @@ namespace NtshEngn {
 		void setAssetManager(AssetManager* passAssetManager) {
 			assetManager = passAssetManager;
 		}
+
+		void setJobSystem(JobSystem* passJobSystem) {
+			jobSystem = passJobSystem;
+		}
 		
 	protected:
 		GraphicsModuleInterface* graphicsModule = nullptr;
@@ -58,8 +63,9 @@ namespace NtshEngn {
 
 		AssetManager* assetManager = nullptr;
 
+		JobSystem* jobSystem = nullptr;
+
 	private:
-		
 		ModuleType m_type = ModuleType::Unknown;
 		std::string m_name = "";
 	};
