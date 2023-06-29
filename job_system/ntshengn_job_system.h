@@ -25,7 +25,7 @@ namespace NtshEngn {
 
 	class JobSystem {
 	public:
-		JobSystem() {
+		void init() {
 			m_numThreads = std::max(1u, std::thread::hardware_concurrency());
 			m_sharedData.currentJobs.store(0);
 			m_sharedData.running = true;
@@ -48,7 +48,7 @@ namespace NtshEngn {
 			}
 		}
 
-		~JobSystem() {
+		void destroy() {
 			m_sharedData.running = false;
 			m_sharedData.wakeCondition.notify_all();
 			for (uint32_t threadID = 0; threadID < m_numThreads; threadID++) {
