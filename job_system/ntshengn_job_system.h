@@ -15,7 +15,7 @@ namespace NtshEngn {
 		std::condition_variable wakeCondition;
 		std::mutex wakeMutex;
 		std::atomic<uint32_t> currentJobs;
-		std::atomic<bool> running;
+		bool running;
 	};
 
 	struct JobDispatchArguments {
@@ -28,13 +28,13 @@ namespace NtshEngn {
 		JobSystem() {
 			m_numThreads = std::max(1u, std::thread::hardware_concurrency());
 			m_sharedData.currentJobs.store(0);
-			m_sharedData.running.store(true);
+			m_sharedData.running = true;
 
 			for (uint32_t threadID = 0; threadID < m_numThreads; threadID++) {
 				m_threads.emplace_back([&m_sharedData = m_sharedData] () {
 					std::function<void()> job;
 
-					while (m_sharedData.running.load()) {
+					while (m_sharedData.running) {
 						if (m_sharedData.jobQueue.pop_front(job)) {
 							job();
 							m_sharedData.currentJobs.fetch_sub(1);
@@ -49,10 +49,8 @@ namespace NtshEngn {
 		}
 
 		~JobSystem() {
-			m_sharedData.running.store(false);
-			for (uint32_t threadID = 0; threadID < m_numThreads; threadID++) {
-				m_sharedData.wakeCondition.notify_one();
-			}
+			m_sharedData.running = false;
+			m_sharedData.wakeCondition.notify_all();
 			for (uint32_t threadID = 0; threadID < m_numThreads; threadID++) {
 				m_threads[threadID].join();
 			}
