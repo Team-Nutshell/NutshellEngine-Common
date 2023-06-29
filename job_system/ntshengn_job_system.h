@@ -99,7 +99,9 @@ namespace NtshEngn {
 		}
 		
 		void wait() {
-			while (isBusy()) {}
+			while (isBusy()) {
+				std::this_thread::yield();
+			}
 		}
 
 		uint32_t getNumThreads() const {
