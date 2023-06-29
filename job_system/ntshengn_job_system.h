@@ -31,7 +31,7 @@ namespace NtshEngn {
 			m_sharedData.running = true;
 
 			for (uint32_t threadID = 0; threadID < m_numThreads; threadID++) {
-				m_threads.emplace_back([&m_sharedData = sharedData]() {
+				m_threads.emplace_back([&sharedData = m_sharedData]() {
 					std::function<void()> job;
 
 					while (sharedData.running) {
