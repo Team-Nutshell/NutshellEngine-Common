@@ -31,17 +31,17 @@ namespace NtshEngn {
 			m_sharedData.running = true;
 
 			for (uint32_t threadID = 0; threadID < m_numThreads; threadID++) {
-				m_threads.emplace_back([&m_sharedData = m_sharedData] () {
+				m_threads.emplace_back([&m_sharedData = sharedData]() {
 					std::function<void()> job;
 
-					while (m_sharedData.running) {
-						if (m_sharedData.jobQueue.pop_front(job)) {
+					while (sharedData.running) {
+						if (sharedData.jobQueue.pop_front(job)) {
 							job();
-							m_sharedData.currentJobs.fetch_sub(1);
+							sharedData.currentJobs.fetch_sub(1);
 						}
 						else {
-							std::unique_lock<std::mutex> lock(m_sharedData.wakeMutex);
-							m_sharedData.wakeCondition.wait(lock);
+							std::unique_lock<std::mutex> lock(sharedData.wakeMutex);
+							sharedData.wakeCondition.wait(lock);
 						}
 					}
 				});
@@ -77,7 +77,7 @@ namespace NtshEngn {
 				const uint32_t workerJobOffset = workerIndex * jobsPerWorker;
 				const uint32_t workerJobEnd = std::min(workerJobOffset + jobsPerWorker, jobCount);
 
-				std::function<void()> dispatchJobForWorker = [workerJobOffset, workerJobEnd, workerIndex, job] () {
+				std::function<void()> dispatchJobForWorker = [workerJobOffset, workerJobEnd, workerIndex, job]() {
 					JobDispatchArguments dispatchArguments;
 					dispatchArguments.workerIndex = workerIndex;
 
