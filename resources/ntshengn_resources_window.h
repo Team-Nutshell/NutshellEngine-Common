@@ -3,7 +3,7 @@
 namespace NtshEngn {
 
 	// Window
-	typedef uint64_t WindowId;
+	typedef uint64_t WindowID;
 
 	// Native window handle
 	typedef void* NativeWindowHandle;

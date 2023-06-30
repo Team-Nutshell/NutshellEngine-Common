@@ -15,27 +15,27 @@ namespace NtshEngn {
 		virtual void destroy() = 0;
 
 		// Loads the sound described in the sound parameter in the internal format and returns a unique identifier
-		virtual SoundId load(const Sound& sound) = 0;
+		virtual SoundID load(const Sound& sound) = 0;
 
-		// Plays the sound with identifier soundId
-		virtual void play(SoundId soundId) = 0;
-		// Pauses the sound with identifier soundId
-		virtual void pause(SoundId soundId) = 0;
-		// Stops the sound with identifier soundId
-		virtual void stop(SoundId soundId) = 0;
+		// Plays the sound with identifier soundID
+		virtual void play(SoundID soundID) = 0;
+		// Pauses the sound with identifier soundID
+		virtual void pause(SoundID soundID) = 0;
+		// Stops the sound with identifier soundID
+		virtual void stop(SoundID soundID) = 0;
 
-		// Returns true if the sound with identifier soundId is currently playing, else, returns false
-		virtual bool isPlaying(SoundId soundId) = 0;
+		// Returns true if the sound with identifier soundID is currently playing, else, returns false
+		virtual bool isPlaying(SoundID soundID) = 0;
 
-		// Sets the gain of the sound with identifier soundId
-		virtual void setGain(SoundId soundId, float newGain) = 0;
-		// Gets the gain of the sound with identifier soundId
-		virtual float getGain(SoundId soundId) = 0;
+		// Sets the gain of the sound with identifier soundID
+		virtual void setGain(SoundID soundID, float newGain) = 0;
+		// Gets the gain of the sound with identifier soundID
+		virtual float getGain(SoundID soundID) = 0;
 
-		// Sets the pitch of the sound with identifier soundId
-		virtual void setPitch(SoundId soundId, float newPitch) = 0;
-		// Gets the pitch of the sound with identifier soundId
-		virtual float getPitch(SoundId soundId) = 0;
+		// Sets the pitch of the sound with identifier soundID
+		virtual void setPitch(SoundID soundID, float newPitch) = 0;
+		// Gets the pitch of the sound with identifier soundID
+		virtual float getPitch(SoundID soundID) = 0;
 	};
 
 }

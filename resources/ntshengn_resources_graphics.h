@@ -7,7 +7,7 @@
 namespace NtshEngn {
 
 	// Image
-	typedef uint64_t ImageId;
+	typedef uint64_t ImageID;
 
 	enum class ImageFormat {
 		R8,
@@ -129,7 +129,7 @@ namespace NtshEngn {
 	};
 
 	// Mesh
-	typedef uint64_t MeshId;
+	typedef uint64_t MeshID;
 
 	enum class MeshTopology {
 		TriangleList,
