@@ -65,7 +65,7 @@ namespace NtshEngn {
 		}
 
 		void dispatch(uint32_t jobCount, uint32_t jobsPerWorker, const std::function<void(JobDispatchArguments)>& job) {
-			if (jobCount == 0 || jobsPerWorker == 0) {
+			if ((jobCount == 0) || (jobsPerWorker == 0)) {
 				return;
 			}
 
