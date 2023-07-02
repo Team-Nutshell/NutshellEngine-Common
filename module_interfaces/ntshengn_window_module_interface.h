@@ -4,7 +4,7 @@
 
 namespace NtshEngn {
 
-	class Image;
+	struct Image;
 
 	class WindowModuleInterface : public ModuleInterface {
 	public:
