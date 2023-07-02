@@ -1,6 +1,7 @@
 #pragma once
 #include "ntshengn_module_interface.h"
 #include "../resources/ntshengn_resources_window.h"
+#include "../resources/ntshengn_resources_graphics.h"
 
 namespace NtshEngn {
 
@@ -60,6 +61,8 @@ namespace NtshEngn {
 
 		// Sets the title of the window with identifier windowID
 		virtual void setTitle(WindowID windowID, const std::string& title) = 0;
+		// Sets the icon of the window with identifier windowID
+		virtual void setIcon(WindowID windowID, const Image& image) = 0;
 
 		// Gets the state of the keyboard key. None is the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
 		virtual InputState getKeyState(WindowID windowID, InputKeyboardKey key) = 0;
