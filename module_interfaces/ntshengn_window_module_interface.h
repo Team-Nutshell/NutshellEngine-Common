@@ -4,6 +4,8 @@
 
 namespace NtshEngn {
 
+	struct Image;
+
 	class WindowModuleInterface : public ModuleInterface {
 	public:
 		WindowModuleInterface() {}
@@ -61,7 +63,7 @@ namespace NtshEngn {
 		// Sets the title of the window with identifier windowID
 		virtual void setTitle(WindowID windowID, const std::string& title) = 0;
 		// Sets the icon of the window with identifier windowID
-		virtual void setIcon(WindowID windowID, uint32_t width, uint32_t height, uint8_t* pixels) = 0;
+		virtual void setIcon(WindowID windowID, const Image& image) = 0;
 
 		// Gets the state of the keyboard key. None is the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
 		virtual InputState getKeyState(WindowID windowID, InputKeyboardKey key) = 0;
