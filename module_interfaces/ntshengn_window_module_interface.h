@@ -1,9 +1,10 @@
 #pragma once
 #include "ntshengn_module_interface.h"
 #include "../resources/ntshengn_resources_window.h"
-#include "../resources/ntshengn_resources_graphics.h"
 
 namespace NtshEngn {
+
+	class Image;
 
 	class WindowModuleInterface : public ModuleInterface {
 	public:
