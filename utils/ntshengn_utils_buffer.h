@@ -13,6 +13,7 @@ namespace NtshEngn {
 		explicit Buffer(size_t size) : m_data(size), m_cursor(0) {}
 		Buffer(const std::byte* data, size_t size) : m_data(size), m_cursor(0) {
 			write(data, size);
+			setCursorPosition(0);
 		}
 		Buffer(const Buffer& other) : m_data(other.m_data), m_cursor(other.m_cursor) {}
 		Buffer& operator=(const Buffer& other) {
@@ -34,6 +35,9 @@ namespace NtshEngn {
 
 		size_t read(std::byte* dataToRead, size_t size) {
 			size_t actualSize = (m_cursor + size) > m_data.size() ? (m_data.size() - m_cursor) : size;
+			if (actualSize == 0) {
+				return 0;
+			}
 			std::copy(m_data.begin() + m_cursor,m_data.begin() + m_cursor + size, dataToRead);
 
 			m_cursor += actualSize;
