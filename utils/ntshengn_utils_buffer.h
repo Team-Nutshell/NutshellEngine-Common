@@ -38,7 +38,7 @@ namespace NtshEngn {
 			if (actualSize == 0) {
 				return 0;
 			}
-			std::copy(m_data.begin() + m_cursor, m_data.begin() + m_cursor + size, dataToRead);
+			std::copy(m_data.begin() + m_cursor, m_data.begin() + m_cursor + actualSize, dataToRead);
 
 			m_cursor += actualSize;
 			
