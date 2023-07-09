@@ -128,7 +128,7 @@ namespace NtshEngn {
 		}
 
 	public:
-		void calculateTangents(Mesh& mesh) {
+		static void calculateTangents(Mesh& mesh) {
 			std::vector<std::array<float, 3>> tan1(mesh.vertices.size(), { 0.0f, 0.0f, 0.0f });
 			std::vector<std::array<float, 3>> tan2(mesh.vertices.size(), { 0.0f, 0.0f, 0.0f });
 			for (size_t i = 0; i < mesh.indices.size(); i += 3) {
@@ -169,7 +169,7 @@ namespace NtshEngn {
 			}
 		}
 
-		std::pair<std::array<float, 3>, std::array<float, 3>> calculateAABB(const Mesh& mesh) {
+		static std::pair<std::array<float, 3>, std::array<float, 3>> calculateAABB(const Mesh& mesh) {
 			std::array<float, 3> min = { std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max() };
 			std::array<float, 3> max = { std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest() };
 			for (const Vertex& vertex : mesh.vertices) {
