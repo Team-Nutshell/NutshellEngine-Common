@@ -47,12 +47,28 @@ namespace NtshEngn {
 			return id;
 		}
 
+		Entity createEntity(const std::string& name) {
+			NTSHENGN_ASSERT(m_nameToEntity.find(name) == m_nameToEntity.end());
+
+			Entity id = createEntity();
+			m_nameToEntity[name] = id;
+			m_entityToName[id] = name;
+
+			return id;
+		}
+
 		void destroyEntity(Entity entity) {
 			NTSHENGN_ASSERT(entity < MAX_ENTITIES);
 
 			m_componentMasks[entity].reset();
 			m_entities.push(entity);
 			m_numberOfEntities--;
+
+			if (m_entityToName.find(entity) != m_entityToName.end()) {
+				std::string entityName = m_entityToName[entity];
+				m_entityToName.erase(entity);
+				m_nameToEntity.erase(entityName);
+			}
 		}
 
 		void setComponents(Entity entity, ComponentMask componentMask) {
@@ -67,9 +83,30 @@ namespace NtshEngn {
 			return m_componentMasks[entity];
 		}
 
+		void setEntityName(Entity entity, const std::string& name) {
+			NTSHENGN_ASSERT(m_nameToEntity.find(name) == m_nameToEntity.end());
+
+			m_nameToEntity[name] = entity;
+			m_entityToName[entity] = name;
+		}
+
+		std::string getEntityName(Entity entity) {
+			NTSHENGN_ASSERT(m_entityToName.find(entity) != m_entityToName.end());
+
+			return m_entityToName[entity];
+		}
+
+		Entity findEntityByName(const std::string& name) {
+			NTSHENGN_ASSERT(m_nameToEntity.find(name) != m_nameToEntity.end());
+
+			return m_nameToEntity[name];
+		}
+
 	private:
 		std::queue<Entity> m_entities;
 		std::array<ComponentMask, MAX_ENTITIES> m_componentMasks;
+		std::unordered_map<Entity, std::string> m_entityToName;
+		std::unordered_map<std::string, Entity> m_nameToEntity;
 		uint32_t m_numberOfEntities = 0;
 	};
 
@@ -287,11 +324,30 @@ namespace NtshEngn {
 			return newEntity;
 		}
 
+		Entity createEntity(const std::string& name) {
+			Entity newEntity = m_entityManager->createEntity(name);
+			addComponent(newEntity, Transform{});
+			
+			return newEntity;
+		}
+
 		void destroyEntity(Entity entity) {
 			ComponentMask entityComponents = m_entityManager->getComponents(entity);
 			m_systemManager->entityDestroyed(entity, entityComponents);
 			m_entityManager->destroyEntity(entity);
 			m_componentManager->entityDestroyed(entity);
+		}
+
+		void setEntityName(Entity entity, const std::string& name) {
+			m_entityManager->setEntityName(entity, name);
+		}
+
+		std::string getEntityName(Entity entity) {
+			return m_entityManager->getEntityName(entity);
+		}
+
+		Entity findEntityByName(const std::string& name) {
+			return m_entityManager->findEntityByName(name);
 		}
 
 		// Component
