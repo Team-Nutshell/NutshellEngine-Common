@@ -31,7 +31,7 @@ namespace NtshEngn {
 				loadSoundWav(filePath, newSound);
 			}
 			else {
-				NTSHENGN_ASSET_MANAGER_ERROR("Sound file extension \"." + extension(filePath) + "\" not supported.", Result::AssetManagerError);
+				NTSHENGN_ASSET_MANAGER_ERROR("Sound file extension \"." + File::extension(filePath) + "\" not supported.", Result::AssetManagerError);
 			}
 
 			m_soundResources.push_front(newSound);
@@ -54,7 +54,7 @@ namespace NtshEngn {
 				loadModelObj(filePath, newModel);
 			}
 			else {
-				NTSHENGN_ASSET_MANAGER_ERROR("Model file extension \"." + extension(filePath) + "\" not supported.", Result::AssetManagerError);
+				NTSHENGN_ASSET_MANAGER_ERROR("Model file extension \"." + File::extension(filePath) + "\" not supported.", Result::AssetManagerError);
 			}
 
 			m_modelResources.push_front(newModel);
@@ -77,7 +77,7 @@ namespace NtshEngn {
 				
 			}
 			else {
-				NTSHENGN_ASSET_MANAGER_ERROR("Image file extension \"." + extension(filePath) + "\" not supported.", Result::AssetManagerError);
+				NTSHENGN_ASSET_MANAGER_ERROR("Image file extension \"." + File::extension(filePath) + "\" not supported.", Result::AssetManagerError);
 			}
 
 			m_imageResources.push_front(newImage);
