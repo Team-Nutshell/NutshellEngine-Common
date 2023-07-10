@@ -27,7 +27,7 @@ namespace NtshEngn {
 		Sound* loadSound(const std::string& filePath) {
 			Sound newSound;
 
-			if (extension(filePath) == "wav") {
+			if (File::extension(filePath) == "wav") {
 				loadSoundWav(filePath, newSound);
 			}
 			else {
@@ -50,7 +50,7 @@ namespace NtshEngn {
 		Model* loadModel(const std::string& filePath) {
 			Model newModel;
 
-			if (extension(filePath) == "obj") {
+			if (File::extension(filePath) == "obj") {
 				loadModelObj(filePath, newModel);
 			}
 			else {
@@ -73,7 +73,7 @@ namespace NtshEngn {
 		Image* loadImage(const std::string& filePath) {
 			Image newImage;
 
-			if (extension(filePath) == "") {
+			if (File::extension(filePath) == "") {
 				
 			}
 			else {
