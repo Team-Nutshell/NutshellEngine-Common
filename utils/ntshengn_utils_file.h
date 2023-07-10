@@ -48,6 +48,6 @@ namespace NtshEngn {
 			
 			return filePath.substr(dotPosition + 1);
 		}
-	}
+	};
 
 }
