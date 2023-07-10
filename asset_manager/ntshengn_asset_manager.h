@@ -327,7 +327,6 @@ namespace NtshEngn {
 		}
 
 		void loadModelObj(const std::string& filePath, Model& model) {
-			NTSHENGN_UNUSED(model);
 			std::ifstream file(filePath);
 
 			// Open file
