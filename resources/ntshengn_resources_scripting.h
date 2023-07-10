@@ -28,7 +28,7 @@ namespace NtshEngn {
 
 		std::unique_ptr<Script> clone() { return std::unique_ptr<Script>(cloneImpl()); }
 		void setEntityID(Entity passEntityID) { entityID = passEntityID; }
-		void setModules(GraphicsModuleInterface* passGraphicsModule, PhysicsModuleInterface* passPhysicsModule, WindowModuleInterface* passWindowModule, AudioModuleInterface* passAudioModule) {
+		void setSystemModules(GraphicsModuleInterface* passGraphicsModule, PhysicsModuleInterface* passPhysicsModule, WindowModuleInterface* passWindowModule, AudioModuleInterface* passAudioModule) {
 			graphicsModule = passGraphicsModule;
 			physicsModule = passPhysicsModule;
 			windowModule = passWindowModule;

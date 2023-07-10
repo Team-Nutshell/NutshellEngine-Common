@@ -1,15 +1,15 @@
 #pragma once
-#include "ntshengn_module_interface.h"
+#include "ntshengn_system_module_interface.h"
 #include "../resources/ntshengn_resources_window.h"
 
 namespace NtshEngn {
 
 	struct Image;
 
-	class WindowModuleInterface : public ModuleInterface {
+	class WindowModuleInterface : public SystemModuleInterface {
 	public:
 		WindowModuleInterface() {}
-		WindowModuleInterface(const std::string& name) : ModuleInterface(ModuleType::Window, name) {}
+		WindowModuleInterface(const std::string& name) : SystemModuleInterface(ModuleType::Window, name) {}
 		virtual ~WindowModuleInterface() {}
 
 		virtual void init() = 0;

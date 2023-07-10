@@ -1,13 +1,13 @@
 #pragma once
-#include "ntshengn_module_interface.h"
+#include "ntshengn_system_module_interface.h"
 #include "../resources/ntshengn_resources_graphics.h"
 
 namespace NtshEngn {
 
-	class GraphicsModuleInterface : public ModuleInterface {
+	class GraphicsModuleInterface : public SystemModuleInterface {
 	public:
 		GraphicsModuleInterface() {}
-		GraphicsModuleInterface(const std::string& name) : ModuleInterface(ModuleType::Graphics, name) {}
+		GraphicsModuleInterface(const std::string& name) : SystemModuleInterface(ModuleType::Graphics, name) {}
 		virtual ~GraphicsModuleInterface() {}
 
 		virtual void init() = 0;

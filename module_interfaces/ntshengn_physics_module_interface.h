@@ -1,13 +1,13 @@
 #pragma once
-#include "ntshengn_module_interface.h"
+#include "ntshengn_system_module_interface.h"
 #include "../resources/ntshengn_resources_physics.h"
 
 namespace NtshEngn {
 
-	class PhysicsModuleInterface : public ModuleInterface {
+	class PhysicsModuleInterface : public SystemModuleInterface {
 	public:
 		PhysicsModuleInterface() {}
-		PhysicsModuleInterface(const std::string& name) : ModuleInterface(ModuleType::Physics, name) {}
+		PhysicsModuleInterface(const std::string& name) : SystemModuleInterface(ModuleType::Physics, name) {}
 		virtual ~PhysicsModuleInterface() {}
 
 		virtual void init() = 0;

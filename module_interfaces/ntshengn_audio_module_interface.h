@@ -1,13 +1,13 @@
 #pragma once
-#include "ntshengn_module_interface.h"
+#include "ntshengn_system_module_interface.h"
 #include "../resources/ntshengn_resources_audio.h"
 
 namespace NtshEngn {
 
-	class AudioModuleInterface : public ModuleInterface {
+	class AudioModuleInterface : public SystemModuleInterface {
 	public:
 		AudioModuleInterface() {}
-		AudioModuleInterface(const std::string& name) : ModuleInterface(ModuleType::Audio, name) {}
+		AudioModuleInterface(const std::string& name) : SystemModuleInterface(ModuleType::Audio, name) {}
 		virtual ~AudioModuleInterface() {}
 
 		virtual void init() = 0;
