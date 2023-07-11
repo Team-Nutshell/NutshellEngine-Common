@@ -126,6 +126,7 @@ namespace NtshEngn {
 		
 		// Emissive texture
 		Texture emissiveTexture;
+		float emissiveFactor = 1.0f;
 	};
 
 	// Mesh
