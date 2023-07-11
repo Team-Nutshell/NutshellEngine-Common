@@ -19,6 +19,7 @@ namespace NtshEngn {
 		Physics,
 		Window,
 		Audio,
+		AssetLoader,
 		Unknown
 	};
 
