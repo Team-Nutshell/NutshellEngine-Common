@@ -3,6 +3,7 @@
 #include "../resources/ntshengn_resources_audio.h"
 #include "../resources/ntshengn_resources_graphics.h"
 #include <string>
+#include <array>
 
 namespace NtshEngn {
 
@@ -18,6 +19,11 @@ namespace NtshEngn {
 		virtual Image loadImage(const std::string& filePath) = 0;
 		// Loads the model in file at path filePath
 		virtual Model loadModel(const std::string& filePath) = 0;
+
+		// Calculate tangents for mesh
+		virtual void calculateTangents(Mesh& mesh) = 0;
+		// Calculate and return the mesh's AABB
+		virtual std::array<std::array<float, 3>, 2> calculateAABB(const Mesh& mesh) = 0;
 	};
 
 }
