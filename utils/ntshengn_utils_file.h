@@ -48,6 +48,18 @@ namespace NtshEngn {
 			
 			return filePath.substr(dotPosition + 1);
 		}
+
+		static std::string directory(const std::string& filePath) {
+			size_t slashPosition = filePath.find_last_of('/');
+			if (slashPosition == std::string::npos) {
+				slashPosition = filePath.find_last_of('\\');
+				if (slashPosition == std::string::npos) {
+					return filePath;
+				}
+			}
+			
+			return filePath.substr(0, slashPosition + 1);
+		}
 	};
 
 }
