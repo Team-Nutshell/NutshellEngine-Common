@@ -82,6 +82,11 @@ namespace NtshEngn {
 		// Returns true if the mouse cursor is visible in the window with identifier windowID, else, returns false
 		virtual bool isCursorVisible(WindowID windowID) = 0;
 
+		// Returns the horizontal mouse scroll offset between the last and current frame
+		virtual float getMouseScrollOffsetX(WindowID windowID) = 0;
+		// Returns the vertical mouse scroll offset between the last and current frame
+		virtual float getMouseScrollOffsetY(WindowID windowID) = 0;
+
 		// Returns the native window handle of the window with identifier windowID
 		virtual NativeWindowHandle getNativeHandle(WindowID windowID) = 0;
 		// Returns the native window additional information of the window with identifier windowID
