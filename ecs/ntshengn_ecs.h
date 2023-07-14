@@ -83,6 +83,10 @@ namespace NtshEngn {
 			return m_componentMasks[entity];
 		}
 
+		bool entityHasName(Entity entity) {
+			return m_entityToName.find(entity) != m_entityToName.end();
+		}
+
 		void setEntityName(Entity entity, const std::string& name) {
 			NTSHENGN_ASSERT(m_nameToEntity.find(name) == m_nameToEntity.end());
 
@@ -340,6 +344,10 @@ namespace NtshEngn {
 
 		void setEntityName(Entity entity, const std::string& name) {
 			m_entityManager->setEntityName(entity, name);
+		}
+
+		bool entityHasName(Entity entity) {
+			return m_entityManager->entityHasName(entity);
 		}
 
 		std::string getEntityName(Entity entity) {
