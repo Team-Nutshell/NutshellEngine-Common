@@ -129,6 +129,9 @@ namespace NtshEngn {
 
 		// Alpha cutoff
 		float alphaCutoff = 0.0f;
+
+		// Index of refraction
+		float indexOfRefraction = 1.0f;
 	};
 
 	// Mesh
