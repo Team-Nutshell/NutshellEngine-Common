@@ -88,9 +88,9 @@ namespace NtshEngn {
 		virtual float getMouseScrollOffsetY(WindowID windowID) = 0;
 
 		// Returns the width of the main monitor
-		virtual float getMonitorWidth() = 0;
+		virtual int getMonitorWidth() = 0;
 		// Returns the height of the main monitor
-		virtual float getMonitorHeight() = 0;
+		virtual int getMonitorHeight() = 0;
 		// Returns the display scaling ratio
 		virtual float getDisplayScaling() = 0;
 
