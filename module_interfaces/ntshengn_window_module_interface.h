@@ -91,6 +91,8 @@ namespace NtshEngn {
 		virtual int getMonitorWidth() = 0;
 		// Returns the height of the main monitor
 		virtual int getMonitorHeight() = 0;
+		// Returns the refresh rate of the main monitor
+		virtual int getMonitorRefreshRate() = 0;
 		// Returns the display scaling ratio
 		virtual float getDisplayScaling() = 0;
 
