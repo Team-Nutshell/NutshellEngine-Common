@@ -65,16 +65,16 @@ namespace NtshEngn {
 		// Sets the icon of the window with identifier windowID
 		virtual void setIcon(WindowID windowID, const Image& image) = 0;
 
-		// Gets the state of the keyboard key. None if the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
+		// Returns the state of the keyboard key. None if the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
 		virtual InputState getKeyState(WindowID windowID, InputKeyboardKey key) = 0;
-		// Gets the state of the mouse button. None if the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
+		// Returns the state of the mouse button. None if the input is neutral, Pressed the first frame it is being pressed, Held from the second frame it is pressed, Released the frame it is being released
 		virtual InputState getMouseButtonState(WindowID windowID, InputMouseButton mouseButton) = 0;
 
 		// Sets the mouse cursor position
 		virtual void setCursorPosition(WindowID windowID, int x, int y) = 0;
-		// Gets the mouse cursor horizontal position
+		// Returns the mouse cursor horizontal position
 		virtual int getCursorPositionX(WindowID windowID) = 0;
-		// Gets the mouse cursor vertical position
+		// Returns the mouse cursor vertical position
 		virtual int getCursorPositionY(WindowID windowID) = 0;
 
 		// If the mouse cursor is visible in the window with identifier windowID, hides it, else, shows it
