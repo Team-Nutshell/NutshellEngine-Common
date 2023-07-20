@@ -11,6 +11,7 @@ namespace NtshEngn {
 		ModuleError,
 		AssetManagerFileNotFound,
 		AssetManagerError,
+		JSONError,
 		UnknownError
 	};
 
