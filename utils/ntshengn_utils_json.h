@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <forward_list>
 #include <unordered_map>
 #include <variant>
 
@@ -57,7 +58,7 @@ namespace NtshEngn {
 		class Node {
 		public:
 			// Construct JSON::Type::Object
-			Node(const std::unordered_map<std::string, Node> children) : m_type(Type::Object), m_value(children) {}
+			Node(const std::unordered_map<std::string, Node*> children) : m_type(Type::Object), m_value(children) {}
 
 			// Construct JSON::Type::Number
 			Node(float number) : m_type(Type::Number), m_value(number) {}
@@ -66,7 +67,7 @@ namespace NtshEngn {
 			Node(const std::string& string) : m_type(Type::String), m_value(string) {}
 
 			// Construct JSON::Type::Array
-			Node(const std::vector<Node>& array) : m_type(Type::Array), m_value(array) {}
+			Node(const std::vector<Node*>& array) : m_type(Type::Array), m_value(array) {}
 
 			// Construct JSON::Type::Boolean
 			Node(bool boolean) : m_type(Type::Boolean), m_value(boolean) {}
@@ -79,9 +80,9 @@ namespace NtshEngn {
 			}
 
 			// Access JSON::Type::Object
-			const Node& operator[](const std::string& childName) {
+			const Node* operator[](const std::string& childName) {
 				NTSHENGN_ASSERT(m_type == Type::Object);
-				const std::unordered_map<std::string, Node>& valObject = std::get<std::unordered_map<std::string, Node>>(m_value);
+				const std::unordered_map<std::string, Node*>& valObject = std::get<std::unordered_map<std::string, Node*>>(m_value);
 				NTSHENGN_ASSERT(valObject.find(childName) != valObject.end());
 
 				return valObject.at(childName);
@@ -104,9 +105,9 @@ namespace NtshEngn {
 			}
 
 			// Access JSON::Type::Array
-			const Node& operator[](const size_t element) {
+			const Node* operator[](const size_t element) {
 				NTSHENGN_ASSERT(m_type == Type::Array);
-				const std::vector<Node>& val = std::get<std::vector<Node>>(m_value);
+				const std::vector<Node*>& val = std::get<std::vector<Node*>>(m_value);
 				NTSHENGN_ASSERT(element < val.size());
 
 				return val.at(element);
@@ -121,9 +122,9 @@ namespace NtshEngn {
 			}
 
 			// Add object to JSON::Type::Object
-			void addObject(const std::string& childName, Node childNode) {
+			void addObject(const std::string& childName, Node* childNode) {
 				NTSHENGN_ASSERT((m_type == Type::Object) || (m_type == Type::Null));
-				std::unordered_map<std::string, Node>& val = std::get<std::unordered_map<std::string, Node>>(m_value);
+				std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
 				NTSHENGN_ASSERT(val.find(childName) == val.end());
 
 				m_type = Type::Object;
@@ -149,9 +150,9 @@ namespace NtshEngn {
 			}
 
 			// Add object to JSON::Type::Array
-			void addObject(Node element) {
+			void addObject(Node* element) {
 				NTSHENGN_ASSERT((m_type == Type::Array) || (m_type == Type::Null));
-				std::vector<Node>& val = std::get<std::vector<Node>>(m_value);
+				std::vector<Node*>& val = std::get<std::vector<Node*>>(m_value);
 
 				m_type = Type::Array;
 				val.push_back(element);
@@ -172,11 +173,11 @@ namespace NtshEngn {
 
 				switch (m_type) {
 				case Type::Object: {
-					std::unordered_map<std::string, Node>& val = std::get<std::unordered_map<std::string, Node>>(m_value);
+					std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
 					jsonString += (indentFirst ? indentation : "") + "{\n";
-					for (std::unordered_map<std::string, Node>::iterator it = val.begin(); it != val.end(); it++) {
-						jsonString += indentation + "\t\"" + it->first + "\": " + it->second.to_string(indentationLevel + 1);
-						std::unordered_map<std::string, Node>::iterator tmp = it;
+					for (std::unordered_map<std::string, Node*>::iterator it = val.begin(); it != val.end(); it++) {
+						jsonString += indentation + "\t\"" + it->first + "\": " + it->second->to_string(indentationLevel + 1);
+						std::unordered_map<std::string, Node*>::iterator tmp = it;
 						tmp++;
 						jsonString += (tmp != val.end()) ? ",\n" : "\n";
 					}
@@ -197,10 +198,10 @@ namespace NtshEngn {
 				}
 
 				case Type::Array: {
-					std::vector<Node>& val = std::get<std::vector<Node>>(m_value);
+					std::vector<Node*>& val = std::get<std::vector<Node*>>(m_value);
 					jsonString += (indentFirst ? indentation : "") + "[\n";
 					for (size_t i = 0; i < val.size(); i++) {
-						jsonString += val[i].to_string(indentationLevel + 1, true);
+						jsonString += val[i]->to_string(indentationLevel + 1, true);
 						jsonString += (i < (val.size() - 1)) ? ",\n" : "\n";
 					}
 					jsonString += indentation + "]";
@@ -217,6 +218,9 @@ namespace NtshEngn {
 					jsonString += (indentFirst ? indentation : "") + "null";
 					break;
 				}
+
+				default:
+					break;
 				}
 
 				return jsonString;
@@ -224,8 +228,10 @@ namespace NtshEngn {
 
 		private:
 			Type m_type;
-			std::variant<std::unordered_map<std::string, Node>, float, std::string, std::vector<Node>, bool> m_value;
+			std::variant<std::unordered_map<std::string, Node*>, float, std::string, std::vector<Node*>, bool> m_value;
 		};
+
+		std::forward_list<Node> nodes;
 
 		enum class TokenType {
 			CurlyBracketOpen,
@@ -277,7 +283,7 @@ namespace NtshEngn {
 				Token token;
 
 				char c;
-				
+
 				if (m_file.eof()) {
 					NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): reached end-of-file early.", Result::JSONError);
 				}
@@ -287,7 +293,7 @@ namespace NtshEngn {
 				if (c == '"') {
 					token.type = TokenType::String;
 					token.value = "";
-					
+
 					m_file.get(c);
 					while (c != '\"') {
 						token.value += c;
@@ -325,7 +331,7 @@ namespace NtshEngn {
 						if (m_file.eof()) {
 							break;
 						}
-						
+
 						if ((c == '-') || (c == '.') || (c == 'e') || ((c >= '0') && (c <= '9'))) {
 							token.value += c;
 						}
@@ -451,13 +457,12 @@ namespace NtshEngn {
 
 		class Parser {
 		public:
-			Parser(Lexer& lexer): m_lexer(lexer) {}
+			Parser(Lexer& lexer) : m_lexer(lexer) {}
 
 			Node parse() {
 				Node root;
 				bool rootInitialized = false;
-				
-				std::string key = "";
+
 				while (!m_lexer.endOfFile()) {
 					Token token = m_lexer.getNextToken();
 					Node node;
@@ -486,6 +491,9 @@ namespace NtshEngn {
 						node = Node(token.value == "true");
 						break;
 					}
+
+					default:
+						break;
 					}
 
 					if (!rootInitialized) {
@@ -500,7 +508,7 @@ namespace NtshEngn {
 
 		private:
 			Node parseObject() {
-				Node objectNode = Node(std::unordered_map<std::string, Node>());
+				Node objectNode = Node(std::unordered_map<std::string, Node*>());
 
 				bool endOfObject = false;
 				while (!endOfObject) {
@@ -548,9 +556,13 @@ namespace NtshEngn {
 					case TokenType::EndOfFile: {
 						NTSHENGN_JSON_ERROR("Reached end-of-file while parsing an object.", Result::JSONError);
 					}
+
+					default:
+						break;
 					}
 
-					objectNode.addObject(keyToken.value, node);
+					nodes.push_front(node);
+					objectNode.addObject(keyToken.value, &nodes.front());
 
 					// Next token is either a comma or a curly bracket close
 					if (m_lexer.getNextToken().type == TokenType::CurlyBracketClose) {
@@ -562,7 +574,7 @@ namespace NtshEngn {
 			}
 
 			Node parseArray() {
-				Node arrayNode = Node(std::vector<Node>());
+				Node arrayNode = Node(std::vector<Node*>());
 
 				bool endOfArray = false;
 				while (!endOfArray) {
@@ -597,9 +609,13 @@ namespace NtshEngn {
 					case TokenType::EndOfFile: {
 						NTSHENGN_JSON_ERROR("Reached end-of-file while parsing an array.", Result::JSONError);
 					}
+
+					default:
+						break;
 					}
 
-					arrayNode.addObject(node);
+					nodes.push_front(node);
+					arrayNode.addObject(&nodes.front());
 
 					// Next token is either a comma or an array bracket close
 					if (m_lexer.getNextToken().type == TokenType::ArrayBracketClose) {
@@ -609,7 +625,7 @@ namespace NtshEngn {
 
 				return arrayNode;
 			}
-		
+
 		private:
 			Lexer& m_lexer;
 		};
@@ -617,14 +633,13 @@ namespace NtshEngn {
 		Node read(const std::string& filePath) {
 			Lexer lexer(filePath);
 			Parser parser(lexer);
-			
+
 			return parser.parse();
 		}
 
 		std::string to_string(Node& root) {
 			return root.to_string(0);
 		}
-
 	}
 
 }
