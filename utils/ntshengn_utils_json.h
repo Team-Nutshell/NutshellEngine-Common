@@ -439,13 +439,6 @@ namespace NtshEngn {
 				return token;
 			}
 
-			void backToPreviousToken() {
-				if (m_file.eof()) {
-					m_file.clear();
-				}
-				m_file.seekg(m_previousPosition);
-			}
-
 			bool endOfFile() {
 				return m_file.eof();
 			}
