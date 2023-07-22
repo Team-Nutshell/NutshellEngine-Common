@@ -44,8 +44,8 @@
 
 namespace NtshEngn {
 
-	namespace JSON {
-
+	class JSON {
+	public:
 		enum class Type {
 			Object,
 			Number,
@@ -77,6 +77,13 @@ namespace NtshEngn {
 
 			Type getType() {
 				return m_type;
+			}
+
+			bool hasObject(const std::string& childName) {
+				NTSHENGN_ASSERT(m_type == Type::Object);
+				const std::unordered_map<std::string, Node*>& valObject = std::get<std::unordered_map<std::string, Node*>>(m_value);
+
+				return (valObject.find(childName) != valObject.end());
 			}
 
 			// Access JSON::Type::Object
@@ -167,6 +174,10 @@ namespace NtshEngn {
 				val = boolean;
 			}
 
+			std::string to_string() {
+				return to_string(0);
+			}
+
 			std::string to_string(size_t indentationLevel, bool indentFirst = false) {
 				std::string jsonString = "";
 				const std::string indentation = std::string(indentationLevel, '\t');
@@ -231,8 +242,7 @@ namespace NtshEngn {
 			std::variant<std::unordered_map<std::string, Node*>, float, std::string, std::vector<Node*>, bool> m_value;
 		};
 
-		std::forward_list<Node> nodes;
-
+	private:
 		enum class TokenType {
 			CurlyBracketOpen,
 			CurlyBracketClose,
@@ -254,15 +264,16 @@ namespace NtshEngn {
 
 		class Lexer {
 		public:
-			Lexer(const std::string& filePath) {
-				m_file.open(filePath, std::fstream::in);
-				if (!m_file.is_open()) {
-					NTSHENGN_JSON_ERROR("Cannot open JSON file \"" + filePath + "\".", Result::JSONError);
-				}
-			}
 			~Lexer() {
 				if (m_file.is_open()) {
 					m_file.close();
+				}
+			}
+
+			void open(const std::string& filePath) {
+				m_file.open(filePath, std::fstream::in);
+				if (!m_file.is_open()) {
+					NTSHENGN_JSON_ERROR("Cannot open JSON file \"" + filePath + "\".", Result::JSONError);
 				}
 			}
 
@@ -450,9 +461,9 @@ namespace NtshEngn {
 
 		class Parser {
 		public:
-			Parser(Lexer& lexer) : m_lexer(lexer) {}
-
-			Node parse() {
+			Node parse(const std::string& filePath) {
+				m_lexer.open(filePath);
+				
 				Node root;
 				bool rootInitialized = false;
 
@@ -554,8 +565,8 @@ namespace NtshEngn {
 						break;
 					}
 
-					nodes.push_front(node);
-					objectNode.addObject(keyToken.value, &nodes.front());
+					m_nodes.push_front(node);
+					objectNode.addObject(keyToken.value, &m_nodes.front());
 
 					// Next token is either a comma or a curly bracket close
 					if (m_lexer.getNextToken().type == TokenType::CurlyBracketClose) {
@@ -607,8 +618,8 @@ namespace NtshEngn {
 						break;
 					}
 
-					nodes.push_front(node);
-					arrayNode.addObject(&nodes.front());
+					m_nodes.push_front(node);
+					arrayNode.addObject(&m_nodes.front());
 
 					// Next token is either a comma or an array bracket close
 					if (m_lexer.getNextToken().type == TokenType::ArrayBracketClose) {
@@ -620,20 +631,18 @@ namespace NtshEngn {
 			}
 
 		private:
-			Lexer& m_lexer;
+			Lexer m_lexer;
+			
+			std::forward_list<Node> m_nodes;
 		};
 
+	public:
 		Node read(const std::string& filePath) {
-			Lexer lexer(filePath);
-			Parser parser(lexer);
-
-			return parser.parse();
+			return m_parser.parse(filePath);
 		}
 
-		std::string to_string(Node& root) {
-			return root.to_string(0);
-		}
-		
-	}
+	private:
+		Parser m_parser;
+	};
 
 }
