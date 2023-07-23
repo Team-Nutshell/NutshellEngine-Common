@@ -81,48 +81,86 @@ namespace NtshEngn {
 
 			bool hasObject(const std::string& childName) {
 				NTSHENGN_ASSERT(m_type == Type::Object);
-				const std::unordered_map<std::string, Node*>& valObject = std::get<std::unordered_map<std::string, Node*>>(m_value);
 
-				return (valObject.find(childName) != valObject.end());
+				const std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
+
+				return (val.find(childName) != val.end());
+			}
+
+			size_t size() {
+				NTSHENGN_ASSERT((m_type == Type::Object) || (m_type == Type::Array));
+
+				size_t size = 0;
+				if (m_type == Type::Object) {
+					size = std::get<std::unordered_map<std::string, Node*>>(m_value).size();
+				}
+				else if (m_type == Type::Array) {
+					size = std::get<std::vector<Node*>>(m_value).size();
+				}
+
+				return size;
 			}
 
 			// Access JSON::Type::Object
-			const Node* operator[](const std::string& childName) {
+			Node& operator[](const std::string& childName) {
 				NTSHENGN_ASSERT(m_type == Type::Object);
-				const std::unordered_map<std::string, Node*>& valObject = std::get<std::unordered_map<std::string, Node*>>(m_value);
-				NTSHENGN_ASSERT(valObject.find(childName) != valObject.end());
 
-				return valObject.at(childName);
+				const std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
+				NTSHENGN_ASSERT(val.find(childName) != val.end());
+
+				return *val.at(childName);
+			}
+
+			const Node& operator[](const std::string& childName) const {
+				NTSHENGN_ASSERT(m_type == Type::Object);
+
+				const std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
+				NTSHENGN_ASSERT(val.find(childName) != val.end());
+
+				return *val.at(childName);
 			}
 
 			// Access JSON::Type::Number
 			float getNumber() {
 				NTSHENGN_ASSERT(m_type == Type::Number);
-				const float valNumber = std::get<float>(m_value);
 
-				return valNumber;
+				const float val = std::get<float>(m_value);
+
+				return val;
 			}
 
 			// Access JSON::Type::String
 			std::string getString() {
 				NTSHENGN_ASSERT(m_type == Type::String);
+
 				const std::string& val = std::get<std::string>(m_value);
 
 				return val;
 			}
 
 			// Access JSON::Type::Array
-			const Node* operator[](const size_t element) {
+			Node& operator[](const size_t element) {
 				NTSHENGN_ASSERT(m_type == Type::Array);
+
 				const std::vector<Node*>& val = std::get<std::vector<Node*>>(m_value);
 				NTSHENGN_ASSERT(element < val.size());
 
-				return val.at(element);
+				return *val.at(element);
+			}
+
+			const Node& operator[](const size_t element) const {
+				NTSHENGN_ASSERT(m_type == Type::Array);
+
+				const std::vector<Node*>& val = std::get<std::vector<Node*>>(m_value);
+				NTSHENGN_ASSERT(element < val.size());
+
+				return *val.at(element);
 			}
 
 			// Access JSON::Type::Boolean
 			bool getBoolean() {
 				NTSHENGN_ASSERT(m_type == Type::Boolean);
+
 				const bool val = std::get<bool>(m_value);
 
 				return val;
@@ -131,6 +169,7 @@ namespace NtshEngn {
 			// Add object to JSON::Type::Object
 			void addObject(const std::string& childName, Node* childNode) {
 				NTSHENGN_ASSERT((m_type == Type::Object) || (m_type == Type::Null));
+
 				std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
 				NTSHENGN_ASSERT(val.find(childName) == val.end());
 
@@ -141,6 +180,7 @@ namespace NtshEngn {
 			// Set number to JSON::Type::Number
 			void setNumber(float number) {
 				NTSHENGN_ASSERT((m_type == Type::Number) || (m_type == Type::Null));
+
 				float& val = std::get<float>(m_value);
 
 				m_type = Type::Number;
@@ -150,6 +190,7 @@ namespace NtshEngn {
 			// Set string to JSON::Type::String
 			void setString(const std::string& string) {
 				NTSHENGN_ASSERT((m_type == Type::String) || (m_type == Type::Null));
+
 				std::string& val = std::get<std::string>(m_value);
 
 				m_type = Type::String;
@@ -159,6 +200,7 @@ namespace NtshEngn {
 			// Add object to JSON::Type::Array
 			void addObject(Node* element) {
 				NTSHENGN_ASSERT((m_type == Type::Array) || (m_type == Type::Null));
+
 				std::vector<Node*>& val = std::get<std::vector<Node*>>(m_value);
 
 				m_type = Type::Array;
@@ -168,6 +210,7 @@ namespace NtshEngn {
 			// Set boolean to JSON::Type::Boolean
 			void setBoolean(bool boolean) {
 				NTSHENGN_ASSERT((m_type == Type::Boolean) || (m_type == Type::Null));
+				
 				bool& val = std::get<bool>(m_value);
 
 				m_type = Type::Boolean;
