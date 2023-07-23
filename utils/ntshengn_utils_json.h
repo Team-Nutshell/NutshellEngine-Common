@@ -322,10 +322,10 @@ namespace NtshEngn {
 
 			char nextCharacter() {
 				char c = ' ';
-				while ((c == ' ') || (c == '\n') || (c == '\t')) {
+				while ((c == ' ') || (c == '\n') || (c == '\r') || (c == '\t')) {
 					m_file.get(c);
 
-					if (((c == ' ') || (c == '\n') || (c == '\t')) && m_file.eof()) {
+					if (((c == ' ') || (c == '\n') || (c == '\r') || (c == '\t')) && m_file.eof()) {
 						return '\0';
 					}
 				}
