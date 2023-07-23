@@ -28,6 +28,16 @@ namespace NtshEngn {
 			return fileContent;
 		}
 
+		static void writeAscii(const std::string& filePath, const std::string& content) {
+			std::ofstream file(filePath, std::ios::out);
+			file << content;
+		}
+
+		static void writeBinary(const std::string& filePath, const std::string& content) {
+			std::ofstream file(filePath, std::ios::out | std::ios::binary);
+			file << content;
+		}
+
 		static std::string filename(const std::string& filePath) {
 			size_t slashPosition = filePath.find_last_of('/');
 			if (slashPosition == std::string::npos) {
