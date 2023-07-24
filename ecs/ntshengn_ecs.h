@@ -33,16 +33,18 @@ namespace NtshEngn {
 	public:
 		EntityManager() {
 			for (Entity entity = 0; entity < MAX_ENTITIES; entity++) {
-				m_entities.push(entity);
+				m_availableEntities.push(entity);
 			}
 		}
 
 		Entity createEntity() {
 			NTSHENGN_ASSERT(m_numberOfEntities < MAX_ENTITIES);
 
-			Entity id = m_entities.front();
-			m_entities.pop();
+			Entity id = m_availableEntities.front();
+			m_availableEntities.pop();
 			m_numberOfEntities++;
+
+			m_existingEntities.insert(id);
 
 			return id;
 		}
@@ -61,8 +63,10 @@ namespace NtshEngn {
 			NTSHENGN_ASSERT(entity < MAX_ENTITIES);
 
 			m_componentMasks[entity].reset();
-			m_entities.push(entity);
+			m_availableEntities.push(entity);
 			m_numberOfEntities--;
+
+			m_existingEntities.erase(entity);
 
 			if (m_entityToName.find(entity) != m_entityToName.end()) {
 				std::string entityName = m_entityToName[entity];
@@ -106,8 +110,13 @@ namespace NtshEngn {
 			return m_nameToEntity[name];
 		}
 
+		const std::set<Entity>& getExistingEntities() {
+			return m_existingEntities;
+		}
+
 	private:
-		std::queue<Entity> m_entities;
+		std::queue<Entity> m_availableEntities;
+		std::set<Entity> m_existingEntities;
 		std::array<ComponentMask, MAX_ENTITIES> m_componentMasks;
 		std::unordered_map<Entity, std::string> m_entityToName;
 		std::unordered_map<std::string, Entity> m_nameToEntity;
@@ -340,6 +349,12 @@ namespace NtshEngn {
 			m_systemManager->entityDestroyed(entity, entityComponents);
 			m_entityManager->destroyEntity(entity);
 			m_componentManager->entityDestroyed(entity);
+		}
+
+		void destroyAllEntities() {
+			while (!m_entityManager->getExistingEntities().empty()) {
+				destroyEntity(*m_entityManager->getExistingEntities().rbegin());
+			}
 		}
 
 		void setEntityName(Entity entity, const std::string& name) {
