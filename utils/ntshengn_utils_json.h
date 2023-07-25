@@ -75,11 +75,11 @@ namespace NtshEngn {
 			// Construct JSON::Type::Null
 			Node() : m_type(Type::Null), m_value() {}
 
-			Type getType() {
+			Type getType() const {
 				return m_type;
 			}
 
-			bool hasObject(const std::string& childName) {
+			bool hasObject(const std::string& childName) const {
 				NTSHENGN_ASSERT(m_type == Type::Object);
 
 				const std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
@@ -87,7 +87,7 @@ namespace NtshEngn {
 				return (val.find(childName) != val.end());
 			}
 
-			size_t size() {
+			size_t size() const {
 				NTSHENGN_ASSERT((m_type == Type::Object) || (m_type == Type::Array));
 
 				size_t size = 0;
@@ -121,7 +121,7 @@ namespace NtshEngn {
 			}
 
 			// Access JSON::Type::Number
-			float getNumber() {
+			float getNumber() const {
 				NTSHENGN_ASSERT(m_type == Type::Number);
 
 				const float val = std::get<float>(m_value);
@@ -130,7 +130,7 @@ namespace NtshEngn {
 			}
 
 			// Access JSON::Type::String
-			std::string getString() {
+			std::string getString() const {
 				NTSHENGN_ASSERT(m_type == Type::String);
 
 				const std::string& val = std::get<std::string>(m_value);
@@ -158,7 +158,7 @@ namespace NtshEngn {
 			}
 
 			// Access JSON::Type::Boolean
-			bool getBoolean() {
+			bool getBoolean() const {
 				NTSHENGN_ASSERT(m_type == Type::Boolean);
 
 				const bool val = std::get<bool>(m_value);
@@ -217,21 +217,21 @@ namespace NtshEngn {
 				val = boolean;
 			}
 
-			std::string to_string() {
+			std::string to_string() const {
 				return to_string(0);
 			}
 
-			std::string to_string(size_t indentationLevel, bool indentFirst = false) {
+			std::string to_string(size_t indentationLevel, bool indentFirst = false) const {
 				std::string jsonString = "";
 				const std::string indentation = std::string(indentationLevel, '\t');
 
 				switch (m_type) {
 				case Type::Object: {
-					std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
+					const std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
 					jsonString += (indentFirst ? indentation : "") + "{\n";
-					for (std::unordered_map<std::string, Node*>::iterator it = val.begin(); it != val.end(); it++) {
+					for (std::unordered_map<std::string, Node*>::const_iterator it = val.begin(); it != val.end(); it++) {
 						jsonString += indentation + "\t\"" + it->first + "\": " + it->second->to_string(indentationLevel + 1);
-						std::unordered_map<std::string, Node*>::iterator tmp = it;
+						std::unordered_map<std::string, Node*>::const_iterator tmp = it;
 						tmp++;
 						jsonString += (tmp != val.end()) ? ",\n" : "\n";
 					}
@@ -252,7 +252,7 @@ namespace NtshEngn {
 				}
 
 				case Type::Array: {
-					std::vector<Node*>& val = std::get<std::vector<Node*>>(m_value);
+					const std::vector<Node*>& val = std::get<std::vector<Node*>>(m_value);
 					jsonString += (indentFirst ? indentation : "") + "[\n";
 					for (size_t i = 0; i < val.size(); i++) {
 						jsonString += val[i]->to_string(indentationLevel + 1, true);
