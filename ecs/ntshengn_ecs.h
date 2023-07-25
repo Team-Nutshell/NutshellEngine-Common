@@ -1,5 +1,6 @@
 #pragma once
 #include "../utils/ntshengn_defines.h"
+#include "../utils/ntshengn_utils_bimap.h"
 #include "components/ntshengn_ecs_transform.h"
 #include "components/ntshengn_ecs_renderable.h"
 #include "components/ntshengn_ecs_camera.h"
@@ -50,11 +51,10 @@ namespace NtshEngn {
 		}
 
 		Entity createEntity(const std::string& name) {
-			NTSHENGN_ASSERT(m_nameToEntity.find(name) == m_nameToEntity.end());
+			NTSHENGN_ASSERT(!m_entityNames.exist(name));
 
 			Entity id = createEntity();
-			m_nameToEntity[name] = id;
-			m_entityToName[id] = name;
+			m_entityNames.insert_or_assign(id, name);
 
 			return id;
 		}
@@ -68,10 +68,8 @@ namespace NtshEngn {
 
 			m_existingEntities.erase(entity);
 
-			if (m_entityToName.find(entity) != m_entityToName.end()) {
-				std::string entityName = m_entityToName[entity];
-				m_entityToName.erase(entity);
-				m_nameToEntity.erase(entityName);
+			if (m_entityNames.exist(entity)) {
+				m_entityNames.erase(entity);
 			}
 		}
 
@@ -88,26 +86,25 @@ namespace NtshEngn {
 		}
 
 		bool entityHasName(Entity entity) {
-			return m_entityToName.find(entity) != m_entityToName.end();
+			return m_entityNames.exist(entity);
 		}
 
 		void setEntityName(Entity entity, const std::string& name) {
-			NTSHENGN_ASSERT(m_nameToEntity.find(name) == m_nameToEntity.end());
+			NTSHENGN_ASSERT(!m_entityNames.exist(name));
 
-			m_nameToEntity[name] = entity;
-			m_entityToName[entity] = name;
+			m_entityNames.insert_or_assign(entity, name);
 		}
 
 		std::string getEntityName(Entity entity) {
-			NTSHENGN_ASSERT(m_entityToName.find(entity) != m_entityToName.end());
+			NTSHENGN_ASSERT(m_entityNames.exist(entity));
 
-			return m_entityToName[entity];
+			return m_entityNames[entity];
 		}
 
 		Entity findEntityByName(const std::string& name) {
-			NTSHENGN_ASSERT(m_nameToEntity.find(name) != m_nameToEntity.end());
+			NTSHENGN_ASSERT(m_entityNames.exist(name));
 
-			return m_nameToEntity[name];
+			return m_entityNames[name];
 		}
 
 		const std::set<Entity>& getExistingEntities() {
@@ -118,8 +115,7 @@ namespace NtshEngn {
 		std::queue<Entity> m_availableEntities;
 		std::set<Entity> m_existingEntities;
 		std::array<ComponentMask, MAX_ENTITIES> m_componentMasks;
-		std::unordered_map<Entity, std::string> m_entityToName;
-		std::unordered_map<std::string, Entity> m_nameToEntity;
+		Bimap<Entity, std::string> m_entityNames;
 		uint32_t m_numberOfEntities = 0;
 	};
 
@@ -135,10 +131,9 @@ namespace NtshEngn {
 		void insertData(Entity entity, T component) {
 			NTSHENGN_ASSERT(m_entityToIndex.find(entity) == m_entityToIndex.end());
 
-			size_t tmp = m_validSize;
-			m_entityToIndex[entity] = tmp;
-			m_indexToEntity[tmp] = entity;
-			m_components[tmp] = component;
+			m_entityToIndex[entity] = m_validSize;
+			m_indexToEntity[m_validSize] = entity;
+			m_components[m_validSize] = component;
 			m_validSize++;
 		}
 
@@ -183,7 +178,7 @@ namespace NtshEngn {
 		template <typename T>
 		void registerComponent() {
 			std::string typeName = std::string(typeid(T).name());
-			
+
 			NTSHENGN_ASSERT(m_componentTypes.find(typeName) == m_componentTypes.end());
 
 			m_componentTypes.insert({ typeName, m_nextComponent });

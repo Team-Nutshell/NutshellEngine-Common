@@ -3,6 +3,7 @@
 #include "../resources/ntshengn_resources_audio.h"
 #include "../resources/ntshengn_resources_graphics.h"
 #include "../utils/ntshengn_defines.h"
+#include "../utils/ntshengn_utils_bimap.h"
 #include <string>
 #include <forward_list>
 #include <iterator>
@@ -63,6 +64,10 @@ namespace NtshEngn {
 
 				return nullptr;
 			}
+
+			if (m_soundPaths.exist(filePath)) {
+				return m_soundPaths[filePath];
+			}
 			
 			Sound newSound;
 			if (m_assetLoaderModule) {
@@ -71,6 +76,8 @@ namespace NtshEngn {
 
 			if (newSound.size != 0) {
 				m_soundResources.push_front(newSound);
+
+				m_soundPaths.insert_or_assign(filePath, &m_soundResources.front());
 
 				return &m_soundResources.front();
 			}
@@ -96,6 +103,10 @@ namespace NtshEngn {
 				return nullptr;
 			}
 
+			if (m_modelPaths.exist(filePath)) {
+				return m_modelPaths[filePath];
+			}
+
 			Model newModel;
 			if (m_assetLoaderModule) {
 				newModel = m_assetLoaderModule->loadModel(filePath);
@@ -103,6 +114,8 @@ namespace NtshEngn {
 
 			if (newModel.primitives.size() != 0) {
 				m_modelResources.push_front(newModel);
+
+				m_modelPaths.insert_or_assign(filePath, &m_modelResources.front());
 
 				return &m_modelResources.front();
 			}
@@ -128,6 +141,10 @@ namespace NtshEngn {
 				return nullptr;
 			}
 
+			if (m_imagePaths.exist(filePath)) {
+				return m_imagePaths[filePath];
+			}
+
 			Image newImage;
 			if (m_assetLoaderModule) {
 				newImage = m_assetLoaderModule->loadImage(filePath);
@@ -135,6 +152,8 @@ namespace NtshEngn {
 
 			if (newImage.width != 0) {
 				m_imageResources.push_front(newImage);
+
+				m_imagePaths[filePath] = &m_imageResources.front();
 
 				return &m_imageResources.front();
 			}
@@ -156,6 +175,10 @@ namespace NtshEngn {
 				prev = it;
 			}
 
+			if (m_soundPaths.exist(sound)) {
+				m_soundPaths.erase(sound);
+			}
+
 			NTSHENGN_ASSET_MANAGER_ERROR("Could not destroy sound resource.", Result::AssetManagerError);
 		}
 
@@ -170,6 +193,10 @@ namespace NtshEngn {
 				prev = it;
 			}
 
+			if (m_modelPaths.exist(model)) {
+				m_modelPaths.erase(model);
+			}
+
 			NTSHENGN_ASSET_MANAGER_ERROR("Could not destroy model resource.", Result::AssetManagerError);
 		}
 
@@ -182,6 +209,10 @@ namespace NtshEngn {
 				}
 
 				prev = it;
+			}
+
+			if (m_imagePaths.exist(image)) {
+				m_imagePaths.erase(image);
 			}
 
 			NTSHENGN_ASSET_MANAGER_ERROR("Could not destroy image resource.", Result::AssetManagerError);
@@ -218,6 +249,10 @@ namespace NtshEngn {
 		std::forward_list<Sound> m_soundResources;
 		std::forward_list<Model> m_modelResources;
 		std::forward_list<Image> m_imageResources;
+
+		Bimap<std::string, Sound*> m_soundPaths;
+		Bimap<std::string, Model*> m_modelPaths;
+		Bimap<std::string, Image*> m_imagePaths;
 	};
 
 }
