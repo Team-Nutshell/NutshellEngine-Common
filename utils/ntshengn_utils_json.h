@@ -79,7 +79,7 @@ namespace NtshEngn {
 				return m_type;
 			}
 
-			bool hasObject(const std::string& childName) const {
+			bool contains(const std::string& childName) const {
 				NTSHENGN_ASSERT(m_type == Type::Object);
 
 				const std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
