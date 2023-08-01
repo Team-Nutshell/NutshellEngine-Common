@@ -314,7 +314,7 @@ namespace NtshEngn {
 			}
 
 			void open(const std::string& filePath) {
-				m_file.open(filePath, std::fstream::in);
+				m_file.open(filePath, std::fstream::in | std::fstream::binary);
 				if (!m_file.is_open()) {
 					NTSHENGN_JSON_ERROR("Cannot open JSON file \"" + filePath + "\".", Result::JSONError);
 				}
