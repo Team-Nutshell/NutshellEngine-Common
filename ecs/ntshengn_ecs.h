@@ -14,7 +14,7 @@
 #include "components/ntshengn_ecs_scriptable.h"
 #include <stdexcept>
 #include <bitset>
-#include <queue>
+#include <deque>
 #include <array>
 #include <unordered_map>
 #include <memory>
@@ -34,7 +34,7 @@ namespace NtshEngn {
 	public:
 		EntityManager() {
 			for (Entity entity = 0; entity < MAX_ENTITIES; entity++) {
-				m_availableEntities.push(entity);
+				m_availableEntities.push_back(entity);
 			}
 		}
 
@@ -42,7 +42,7 @@ namespace NtshEngn {
 			NTSHENGN_ASSERT(m_numberOfEntities < MAX_ENTITIES);
 
 			Entity id = m_availableEntities.front();
-			m_availableEntities.pop();
+			m_availableEntities.pop_front();
 			m_numberOfEntities++;
 
 			m_existingEntities.insert(id);
@@ -63,7 +63,7 @@ namespace NtshEngn {
 			NTSHENGN_ASSERT(entity < MAX_ENTITIES);
 
 			m_componentMasks[entity].reset();
-			m_availableEntities.push(entity);
+			m_availableEntities.push_front(entity);
 			m_numberOfEntities--;
 
 			m_existingEntities.erase(entity);
@@ -112,7 +112,7 @@ namespace NtshEngn {
 		}
 
 	private:
-		std::queue<Entity> m_availableEntities;
+		std::deque<Entity> m_availableEntities;
 		std::set<Entity> m_existingEntities;
 		std::array<ComponentMask, MAX_ENTITIES> m_componentMasks;
 		Bimap<Entity, std::string> m_entityNames;
