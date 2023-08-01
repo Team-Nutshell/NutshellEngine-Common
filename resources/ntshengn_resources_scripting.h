@@ -16,6 +16,7 @@ namespace NtshEngn {
 	class FrameLimiter;
 	class JobSystem;
 	class Networking;
+	class SceneManager;
 	using Entity = uint32_t;
 
 	// Script
@@ -39,6 +40,7 @@ namespace NtshEngn {
 		void setFrameLimiter(FrameLimiter* passFrameLimiter) { frameLimiter = passFrameLimiter; }
 		void setJobSystem(JobSystem* passJobSystem) { jobSystem = passJobSystem; }
 		void setNetworking(Networking* passNetworking) { networking = passNetworking; }
+		void setSceneManager(SceneManager* passSceneManager) { sceneManager = passSceneManager; }
 
 	protected:
 		virtual Script* cloneImpl() = 0;
@@ -59,6 +61,8 @@ namespace NtshEngn {
 		JobSystem* jobSystem = nullptr;
 
 		Networking* networking = nullptr;
+
+		SceneManager* sceneManager = nullptr;
 	};
 
 }
