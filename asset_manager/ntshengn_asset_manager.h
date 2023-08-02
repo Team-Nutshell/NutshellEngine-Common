@@ -4,6 +4,8 @@
 #include "../resources/ntshengn_resources_graphics.h"
 #include "../utils/ntshengn_defines.h"
 #include "../utils/ntshengn_utils_bimap.h"
+#include "../utils/ntshengn_utils_file.h"
+#include "../utils/ntshengn_utils_json.h"
 #include <string>
 #include <forward_list>
 #include <iterator>
@@ -108,8 +110,13 @@ namespace NtshEngn {
 			}
 
 			Model newModel;
-			if (m_assetLoaderModule) {
-				newModel = m_assetLoaderModule->loadModel(filePath);
+			if (File::extension(filePath) == "ntmd") {
+				loadModelNtmd(filePath, newModel);
+			}
+			else {
+				if (m_assetLoaderModule) {
+					newModel = m_assetLoaderModule->loadModel(filePath);
+				}
 			}
 
 			if (newModel.primitives.size() != 0) {
@@ -146,8 +153,13 @@ namespace NtshEngn {
 			}
 
 			Image newImage;
-			if (m_assetLoaderModule) {
-				newImage = m_assetLoaderModule->loadImage(filePath);
+			if (File::extension(filePath) == "ntim") {
+				loadImageNtim(filePath, newImage);
+			}
+			else {
+				if (m_assetLoaderModule) {
+					newImage = m_assetLoaderModule->loadImage(filePath);
+				}
 			}
 
 			if (newImage.width != 0) {
@@ -241,6 +253,282 @@ namespace NtshEngn {
 	public:
 		void setAssetLoaderModule(AssetLoaderModuleInterface* assetLoaderModule) {
 			m_assetLoaderModule = assetLoaderModule;
+		}
+
+	private:
+		void loadMeshNtmh(const std::string& filePath, Mesh& mesh) {
+			const std::unordered_map<std::string, MeshTopology> stringToMeshTopology {
+				{ "TriangleList", MeshTopology::TriangleList },
+				{ "TriangleStrip", MeshTopology::TriangleStrip },
+				{ "LineList", MeshTopology::LineList },
+				{ "LineStrip", MeshTopology::LineStrip },
+				{ "PointList", MeshTopology::PointList },
+				{ "Unknown", MeshTopology::Unknown }
+			};
+
+			JSON json;
+			JSON::Node meshRoot = json.read(filePath);
+
+			if (meshRoot.contains("vertices")) {
+				for (size_t i = 0; i < meshRoot["vertices"].size(); i++) {
+					const JSON::Node& vertexNode = meshRoot["vertices"][i];
+
+					Vertex vertex;
+					if (vertexNode.contains("position")) {
+						vertex.position = { vertexNode["position"][0].getNumber(), vertexNode["position"][1].getNumber(), vertexNode["position"][2].getNumber() };
+					}
+
+					if (vertexNode.contains("normal")) {
+						vertex.normal = { vertexNode["normal"][0].getNumber(), vertexNode["normal"][1].getNumber(), vertexNode["normal"][2].getNumber() };
+					}
+
+					if (vertexNode.contains("uv")) {
+						vertex.uv = { vertexNode["uv"][0].getNumber(), vertexNode["uv"][1].getNumber() };
+					}
+
+					if (vertexNode.contains("color")) {
+						vertex.color = { vertexNode["color"][0].getNumber(), vertexNode["color"][1].getNumber(), vertexNode["color"][2].getNumber() };
+					}
+
+					if (vertexNode.contains("tangent")) {
+						vertex.tangent = { vertexNode["tangent"][0].getNumber(), vertexNode["tangent"][1].getNumber(), vertexNode["tangent"][2].getNumber(), vertexNode["tangent"][3].getNumber() };
+					}
+
+					if (vertexNode.contains("joints")) {
+						vertex.joints = { vertexNode["joints"][0].getNumber(), vertexNode["joints"][1].getNumber(), vertexNode["joints"][2].getNumber(), vertexNode["joints"][3].getNumber() };
+					}
+
+					if (vertexNode.contains("weights")) {
+						vertex.weights = { vertexNode["weights"][0].getNumber(), vertexNode["weights"][1].getNumber(), vertexNode["weights"][2].getNumber(), vertexNode["weights"][3].getNumber() };
+					}
+
+					mesh.vertices.push_back(vertex);
+				}
+			}
+
+			if (meshRoot.contains("indices")) {
+				for (size_t i = 0; i < meshRoot["indices"].size(); i++) {
+					mesh.indices.push_back(static_cast<uint32_t>(meshRoot["indices"][i].getNumber()));
+				}
+			}
+
+			if (meshRoot.contains("topology")) {
+				mesh.topology = stringToMeshTopology.at(meshRoot["topology"].getString());
+			}
+		}
+
+		void loadImageSamplerNtsp(const std::string& filePath, ImageSampler& imageSampler) {
+			const std::unordered_map<std::string, ImageSamplerFilter> stringToImageSamplerFilter{
+				{ "Linear", ImageSamplerFilter::Linear },
+				{ "Nearest", ImageSamplerFilter::Nearest },
+				{ "Unknown", ImageSamplerFilter::Unknown }
+			};
+			const std::unordered_map<std::string, ImageSamplerAddressMode> stringToImageSamplerAddressMode{
+				{ "Repeat", ImageSamplerAddressMode::Repeat },
+				{ "MirroredRepeat", ImageSamplerAddressMode::MirroredRepeat },
+				{ "ClampToEdge", ImageSamplerAddressMode::ClampToEdge },
+				{ "ClampToBorder", ImageSamplerAddressMode::ClampToBorder },
+				{ "Unknown", ImageSamplerAddressMode::Unknown }
+			};
+			const std::unordered_map<std::string, ImageSamplerBorderColor> stringToImageSamplerBorderColor{
+				{ "FloatTransparentBlack", ImageSamplerBorderColor::FloatTransparentBlack },
+				{ "IntTransparentBlack", ImageSamplerBorderColor::IntTransparentBlack },
+				{ "FloatOpaqueBlack", ImageSamplerBorderColor::FloatOpaqueBlack },
+				{ "IntOpaqueBlack", ImageSamplerBorderColor::IntOpaqueBlack },
+				{ "FloatOpaqueWhite", ImageSamplerBorderColor::FloatOpaqueWhite },
+				{ "IntOpaqueWhite", ImageSamplerBorderColor::IntOpaqueWhite },
+				{ "Unknown", ImageSamplerBorderColor::Unknown }
+			};
+
+			JSON json;
+			JSON::Node imageSamplerRoot = json.read(filePath);
+
+			if (imageSamplerRoot.contains("magFilter")) {
+				imageSampler.magFilter = stringToImageSamplerFilter.at(imageSamplerRoot["magFilter"].getString());
+			}
+
+			if (imageSamplerRoot.contains("minFilter")) {
+				imageSampler.minFilter = stringToImageSamplerFilter.at(imageSamplerRoot["minFilter"].getString());
+			}
+
+			if (imageSamplerRoot.contains("mipmapFilter")) {
+				imageSampler.mipmapFilter = stringToImageSamplerFilter.at(imageSamplerRoot["mipmapFilter"].getString());
+			}
+
+			if (imageSamplerRoot.contains("addressModeU")) {
+				imageSampler.addressModeU = stringToImageSamplerAddressMode.at(imageSamplerRoot["addressModeU"].getString());
+			}
+
+			if (imageSamplerRoot.contains("addressModeV")) {
+				imageSampler.addressModeV = stringToImageSamplerAddressMode.at(imageSamplerRoot["addressModeV"].getString());
+			}
+
+			if (imageSamplerRoot.contains("addressModeW")) {
+				imageSampler.addressModeW = stringToImageSamplerAddressMode.at(imageSamplerRoot["addressModeW"].getString());
+			}
+
+			if (imageSamplerRoot.contains("borderColor")) {
+				imageSampler.borderColor = stringToImageSamplerBorderColor.at(imageSamplerRoot["borderColor"].getString());
+			}
+
+			if (imageSamplerRoot.contains("anisotropyLevel")) {
+				imageSampler.anisotropyLevel = imageSamplerRoot["anisotropyLevel"].getNumber();
+			}
+		}
+
+		void loadMaterialNtml(const std::string& filePath, Material& material) {
+			JSON json;
+			JSON::Node materialRoot = json.read(filePath);
+
+			if (materialRoot.contains("diffuseTexture")) {
+				const JSON::Node& diffuseTextureNode = materialRoot["diffuseTexture"];
+
+				if (diffuseTextureNode.contains("imagePath")) {
+					material.diffuseTexture.image = loadImage(diffuseTextureNode["imagePath"].getString());
+				}
+
+				if (diffuseTextureNode.contains("samplerPath")) {
+					loadImageSamplerNtsp(diffuseTextureNode["samplerPath"].getString(), material.diffuseTexture.imageSampler);
+				}
+			}
+
+			if (materialRoot.contains("normalTexture")) {
+				const JSON::Node& normalTextureNode = materialRoot["normalTexture"];
+
+				if (normalTextureNode.contains("imagePath")) {
+					material.normalTexture.image = loadImage(normalTextureNode["imagePath"].getString());
+				}
+
+				if (normalTextureNode.contains("samplerPath")) {
+					loadImageSamplerNtsp(normalTextureNode["samplerPath"].getString(), material.normalTexture.imageSampler);
+				}
+			}
+
+			if (materialRoot.contains("metalnessTexture")) {
+				const JSON::Node& metalnessTextureNode = materialRoot["metalnessTexture"];
+
+				if (metalnessTextureNode.contains("imagePath")) {
+					material.metalnessTexture.image = loadImage(metalnessTextureNode["imagePath"].getString());
+				}
+
+				if (metalnessTextureNode.contains("samplerPath")) {
+					loadImageSamplerNtsp(metalnessTextureNode["samplerPath"].getString(), material.metalnessTexture.imageSampler);
+				}
+			}
+
+			if (materialRoot.contains("roughnessTexture")) {
+				const JSON::Node& roughnessTextureNode = materialRoot["roughnessTexture"];
+
+				if (roughnessTextureNode.contains("imagePath")) {
+					material.roughnessTexture.image = loadImage(roughnessTextureNode["imagePath"].getString());
+				}
+
+				if (roughnessTextureNode.contains("samplerPath")) {
+					loadImageSamplerNtsp(roughnessTextureNode["samplerPath"].getString(), material.roughnessTexture.imageSampler);
+				}
+			}
+
+			if (materialRoot.contains("occlusionTexture")) {
+				const JSON::Node& occlusionTextureNode = materialRoot["occlusionTexture"];
+
+				if (occlusionTextureNode.contains("imagePath")) {
+					material.occlusionTexture.image = loadImage(occlusionTextureNode["imagePath"].getString());
+				}
+
+				if (occlusionTextureNode.contains("samplerPath")) {
+					loadImageSamplerNtsp(occlusionTextureNode["samplerPath"].getString(), material.occlusionTexture.imageSampler);
+				}
+			}
+
+			if (materialRoot.contains("emissiveTexture")) {
+				const JSON::Node& emissiveTextureNode = materialRoot["emissiveTexture"];
+
+				if (emissiveTextureNode.contains("imagePath")) {
+					material.emissiveTexture.image = loadImage(emissiveTextureNode["imagePath"].getString());
+				}
+
+				if (emissiveTextureNode.contains("samplerPath")) {
+					loadImageSamplerNtsp(emissiveTextureNode["samplerPath"].getString(), material.emissiveTexture.imageSampler);
+				}
+			}
+
+			if (materialRoot.contains("emissiveFactor")) {
+				material.emissiveFactor = materialRoot["emissiveFactor"].getNumber();
+			}
+
+			if (materialRoot.contains("alphaCutoff")) {
+				material.alphaCutoff = materialRoot["alphaCutoff"].getNumber();
+			}
+
+			if (materialRoot.contains("indexOfRefraction")) {
+				material.indexOfRefraction = materialRoot["indexOfRefraction"].getNumber();
+			}
+		}
+
+		void loadModelNtmd(const std::string& filePath, Model& model) {
+			JSON json;
+			JSON::Node modelRoot = json.read(filePath);
+
+			if (modelRoot.contains("primitives")) {
+				for (size_t i = 0; i < modelRoot["primitives"].size(); i++) {
+					const JSON::Node& primitiveNode = modelRoot["primitives"][i];
+
+					ModelPrimitive primitive;
+					if (primitiveNode.contains("meshPath")) {
+						loadMeshNtmh(primitiveNode["meshPath"].getString(), primitive.mesh);
+					}
+					
+					if (primitiveNode.contains("materialPath")) {
+						loadMaterialNtml(primitiveNode["materialPath"].getString(), primitive.material);
+					}
+
+					model.primitives.push_back(primitive);
+				}
+			}
+		}
+
+		void loadImageNtim(const std::string& filePath, Image& image) {
+			const std::unordered_map<std::string, ImageFormat> stringToImageFormat{
+				{ "R8", ImageFormat::R8 },
+				{ "R8G8", ImageFormat::R8G8 },
+				{ "R8G8B8", ImageFormat::R8G8B8 },
+				{ "R8G8B8A8", ImageFormat::R8G8B8A8 },
+				{ "R16", ImageFormat::R16 },
+				{ "R16G16", ImageFormat::R16G16 },
+				{ "R16G16B16", ImageFormat::R16G16B16 },
+				{ "R16G16B16A16", ImageFormat::R16G16B16A16 },
+				{ "R32", ImageFormat::R32 },
+				{ "R32G32", ImageFormat::R32G32 },
+				{ "R32G32B32", ImageFormat::R32G32B32 },
+				{ "R32G32B32A32", ImageFormat::R32G32B32A32 },
+				{ "Unknown", ImageFormat::Unknown }
+			};
+			const std::unordered_map<std::string, ImageColorSpace> stringToImageColorSpace{
+				{ "Linear", ImageColorSpace::Linear },
+				{ "SRGB", ImageColorSpace::SRGB },
+				{ "Unknown", ImageColorSpace::Unknown }
+			};
+
+			JSON json;
+			JSON::Node imageRoot = json.read(filePath);
+
+			if (imageRoot.contains("width")) {
+				image.width = static_cast<uint32_t>(imageRoot["width"].getNumber());
+			}
+			if (imageRoot.contains("height")) {
+				image.height = static_cast<uint32_t>(imageRoot["height"].getNumber());
+			}
+			if (imageRoot.contains("format")) {
+				image.format = stringToImageFormat.at(imageRoot["format"].getString());
+			}
+			if (imageRoot.contains("colorSpace")) {
+				image.colorSpace = stringToImageColorSpace.at(imageRoot["colorSpace"].getString());
+			}
+			if (imageRoot.contains("data")) {
+				for (size_t i = 0; i < imageRoot["data"].size(); i++) {
+					image.data.push_back(static_cast<uint8_t>(imageRoot["data"][i].getNumber()));
+				}
+			}
 		}
 
 	private:
