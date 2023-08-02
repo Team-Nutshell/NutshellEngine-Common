@@ -72,8 +72,13 @@ namespace NtshEngn {
 			}
 			
 			Sound newSound;
-			if (m_assetLoaderModule) {
-				newSound = m_assetLoaderModule->loadSound(filePath);
+			if (File::extension(filePath) == "ntsd") {
+				loadSoundNtsd(filePath, newSound);
+			}
+			else {
+				if (m_assetLoaderModule) {
+					newSound = m_assetLoaderModule->loadSound(filePath);
+				}
 			}
 
 			if (newSound.size != 0) {
@@ -256,6 +261,33 @@ namespace NtshEngn {
 		}
 
 	private:
+		void loadSoundNtsd(const std::string& filePath, Sound& sound) {
+			JSON json;
+			JSON::Node soundRoot = json.read(filePath);
+
+			if (soundRoot.contains("channels")) {
+				sound.channels = static_cast<uint8_t>(soundRoot["channels"].getNumber());
+			}
+
+			if (soundRoot.contains("sampleRate")) {
+				sound.sampleRate = static_cast<int32_t>(soundRoot["sampleRate"].getNumber());
+			}
+
+			if (soundRoot.contains("bitsPerSample")) {
+				sound.bitsPerSample = static_cast<uint8_t>(soundRoot["bitsPerSample"].getNumber());
+			}
+
+			if (soundRoot.contains("size")) {
+				sound.size = static_cast<size_t>(soundRoot["size"].getNumber());
+			}
+
+			if (soundRoot.contains("data")) {
+				for (size_t i = 0; i < soundRoot["data"].size(); i++) {
+					sound.data.push_back(static_cast<uint8_t>(soundRoot["data"][i].getNumber()));
+				}
+			}
+		}
+
 		void loadMeshNtmh(const std::string& filePath, Mesh& mesh) {
 			const std::unordered_map<std::string, MeshTopology> stringToMeshTopology {
 				{ "TriangleList", MeshTopology::TriangleList },
