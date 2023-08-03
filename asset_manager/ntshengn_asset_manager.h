@@ -419,8 +419,8 @@ namespace NtshEngn {
 					material.diffuseTexture.image = loadImage(diffuseTextureNode["imagePath"].getString());
 				}
 
-				if (diffuseTextureNode.contains("samplerPath")) {
-					loadImageSamplerNtsp(diffuseTextureNode["samplerPath"].getString(), material.diffuseTexture.imageSampler);
+				if (diffuseTextureNode.contains("imageSamplerPath")) {
+					loadImageSamplerNtsp(diffuseTextureNode["imageSamplerPath"].getString(), material.diffuseTexture.imageSampler);
 				}
 			}
 
@@ -431,8 +431,8 @@ namespace NtshEngn {
 					material.normalTexture.image = loadImage(normalTextureNode["imagePath"].getString());
 				}
 
-				if (normalTextureNode.contains("samplerPath")) {
-					loadImageSamplerNtsp(normalTextureNode["samplerPath"].getString(), material.normalTexture.imageSampler);
+				if (normalTextureNode.contains("imageSamplerPath")) {
+					loadImageSamplerNtsp(normalTextureNode["imageSamplerPath"].getString(), material.normalTexture.imageSampler);
 				}
 			}
 
@@ -443,8 +443,8 @@ namespace NtshEngn {
 					material.metalnessTexture.image = loadImage(metalnessTextureNode["imagePath"].getString());
 				}
 
-				if (metalnessTextureNode.contains("samplerPath")) {
-					loadImageSamplerNtsp(metalnessTextureNode["samplerPath"].getString(), material.metalnessTexture.imageSampler);
+				if (metalnessTextureNode.contains("imageSamplerPath")) {
+					loadImageSamplerNtsp(metalnessTextureNode["imageSamplerPath"].getString(), material.metalnessTexture.imageSampler);
 				}
 			}
 
@@ -455,8 +455,8 @@ namespace NtshEngn {
 					material.roughnessTexture.image = loadImage(roughnessTextureNode["imagePath"].getString());
 				}
 
-				if (roughnessTextureNode.contains("samplerPath")) {
-					loadImageSamplerNtsp(roughnessTextureNode["samplerPath"].getString(), material.roughnessTexture.imageSampler);
+				if (roughnessTextureNode.contains("imageSamplerPath")) {
+					loadImageSamplerNtsp(roughnessTextureNode["imageSamplerPath"].getString(), material.roughnessTexture.imageSampler);
 				}
 			}
 
@@ -467,8 +467,8 @@ namespace NtshEngn {
 					material.occlusionTexture.image = loadImage(occlusionTextureNode["imagePath"].getString());
 				}
 
-				if (occlusionTextureNode.contains("samplerPath")) {
-					loadImageSamplerNtsp(occlusionTextureNode["samplerPath"].getString(), material.occlusionTexture.imageSampler);
+				if (occlusionTextureNode.contains("imageSamplerPath")) {
+					loadImageSamplerNtsp(occlusionTextureNode["imageSamplerPath"].getString(), material.occlusionTexture.imageSampler);
 				}
 			}
 
@@ -479,8 +479,8 @@ namespace NtshEngn {
 					material.emissiveTexture.image = loadImage(emissiveTextureNode["imagePath"].getString());
 				}
 
-				if (emissiveTextureNode.contains("samplerPath")) {
-					loadImageSamplerNtsp(emissiveTextureNode["samplerPath"].getString(), material.emissiveTexture.imageSampler);
+				if (emissiveTextureNode.contains("imageSamplerPath")) {
+					loadImageSamplerNtsp(emissiveTextureNode["imageSamplerPath"].getString(), material.emissiveTexture.imageSampler);
 				}
 			}
 
