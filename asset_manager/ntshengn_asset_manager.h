@@ -170,7 +170,7 @@ namespace NtshEngn {
 			if (newImage.width != 0) {
 				m_imageResources.push_front(newImage);
 
-				m_imagePaths[filePath] = &m_imageResources.front();
+				m_imagePaths.insert_or_assign(filePath, &m_imageResources.front());
 
 				return &m_imageResources.front();
 			}
@@ -182,24 +182,28 @@ namespace NtshEngn {
 		}
 
 		void destroySound(Sound* sound) {
-			std::forward_list<Sound>::iterator prev = m_soundResources.before_begin();
-			for (std::forward_list<Sound>::iterator it = m_soundResources.begin(); it != m_soundResources.end(); it++) {
-				if (sound == &(*it)) {
-					m_soundResources.erase_after(prev);
-					break;
-				}
-
-				prev = it;
-			}
-
 			if (m_soundPaths.exist(sound)) {
 				m_soundPaths.erase(sound);
 			}
 
+			std::forward_list<Sound>::iterator prev = m_soundResources.before_begin();
+			for (std::forward_list<Sound>::iterator it = m_soundResources.begin(); it != m_soundResources.end(); it++) {
+				if (sound == &(*it)) {
+					m_soundResources.erase_after(prev);
+					return;
+				}
+
+				prev = it;
+			}
+			
 			NTSHENGN_ASSET_MANAGER_ERROR("Could not destroy sound resource.", Result::AssetManagerError);
 		}
 
 		void destroyModel(Model* model) {
+			if (m_modelPaths.exist(model)) {
+				m_modelPaths.erase(model);
+			}
+
 			std::forward_list<Model>::iterator prev = m_modelResources.before_begin();
 			for (std::forward_list<Model>::iterator it = m_modelResources.begin(); it != m_modelResources.end(); it++) {
 				if (model == &(*it)) {
@@ -210,14 +214,14 @@ namespace NtshEngn {
 				prev = it;
 			}
 
-			if (m_modelPaths.exist(model)) {
-				m_modelPaths.erase(model);
-			}
-
 			NTSHENGN_ASSET_MANAGER_ERROR("Could not destroy model resource.", Result::AssetManagerError);
 		}
 
 		void destroyImage(Image* image) {
+			if (m_imagePaths.exist(image)) {
+				m_imagePaths.erase(image);
+			}
+
 			std::forward_list<Image>::iterator prev = m_imageResources.before_begin();
 			for (std::forward_list<Image>::iterator it = m_imageResources.begin(); it != m_imageResources.end(); it++) {
 				if (image == &(*it)) {
@@ -226,10 +230,6 @@ namespace NtshEngn {
 				}
 
 				prev = it;
-			}
-
-			if (m_imagePaths.exist(image)) {
-				m_imagePaths.erase(image);
 			}
 
 			NTSHENGN_ASSET_MANAGER_ERROR("Could not destroy image resource.", Result::AssetManagerError);
