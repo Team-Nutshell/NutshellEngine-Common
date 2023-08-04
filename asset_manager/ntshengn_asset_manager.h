@@ -301,6 +301,11 @@ namespace NtshEngn {
 			JSON json;
 			JSON::Node meshRoot = json.read(filePath);
 
+			bool hasNormals = false;
+			bool hasUvs = false;
+			bool hasIndices = false;
+			bool hasTangents = false;
+
 			if (meshRoot.contains("vertices")) {
 				for (size_t i = 0; i < meshRoot["vertices"].size(); i++) {
 					const JSON::Node& vertexNode = meshRoot["vertices"][i];
@@ -312,10 +317,12 @@ namespace NtshEngn {
 
 					if (vertexNode.contains("normal")) {
 						vertex.normal = { vertexNode["normal"][0].getNumber(), vertexNode["normal"][1].getNumber(), vertexNode["normal"][2].getNumber() };
+						hasNormals = true;
 					}
 
 					if (vertexNode.contains("uv")) {
 						vertex.uv = { vertexNode["uv"][0].getNumber(), vertexNode["uv"][1].getNumber() };
+						hasUvs = true;
 					}
 
 					if (vertexNode.contains("color")) {
@@ -324,6 +331,7 @@ namespace NtshEngn {
 
 					if (vertexNode.contains("tangent")) {
 						vertex.tangent = { vertexNode["tangent"][0].getNumber(), vertexNode["tangent"][1].getNumber(), vertexNode["tangent"][2].getNumber(), vertexNode["tangent"][3].getNumber() };
+						hasTangents = true;
 					}
 
 					if (vertexNode.contains("joints")) {
@@ -342,6 +350,12 @@ namespace NtshEngn {
 				for (size_t i = 0; i < meshRoot["indices"].size(); i++) {
 					mesh.indices.push_back(static_cast<uint32_t>(meshRoot["indices"][i].getNumber()));
 				}
+				hasIndices = true;
+			}
+
+			// Calculate tangents
+			if ((!hasTangents) && (hasNormals && hasUvs && hasIndices)) {
+				calculateTangents(mesh);
 			}
 
 			if (meshRoot.contains("topology")) {
