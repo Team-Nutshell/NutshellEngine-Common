@@ -263,7 +263,7 @@ namespace NtshEngn {
 	private:
 		void loadSoundNtsd(const std::string& filePath, Sound& sound) {
 			JSON json;
-			JSON::Node soundRoot = json.read(filePath);
+			const JSON::Node& soundRoot = json.read(filePath);
 
 			if (soundRoot.contains("channels")) {
 				sound.channels = static_cast<uint8_t>(soundRoot["channels"].getNumber());
@@ -299,7 +299,7 @@ namespace NtshEngn {
 			};
 
 			JSON json;
-			JSON::Node meshRoot = json.read(filePath);
+			const JSON::Node& meshRoot = json.read(filePath);
 
 			bool hasNormals = false;
 			bool hasUvs = false;
@@ -387,7 +387,7 @@ namespace NtshEngn {
 			};
 
 			JSON json;
-			JSON::Node imageSamplerRoot = json.read(filePath);
+			const JSON::Node& imageSamplerRoot = json.read(filePath);
 
 			if (imageSamplerRoot.contains("magFilter")) {
 				imageSampler.magFilter = stringToImageSamplerFilter.at(imageSamplerRoot["magFilter"].getString());
@@ -424,7 +424,7 @@ namespace NtshEngn {
 
 		void loadMaterialNtml(const std::string& filePath, Material& material) {
 			JSON json;
-			JSON::Node materialRoot = json.read(filePath);
+			const JSON::Node& materialRoot = json.read(filePath);
 
 			if (materialRoot.contains("diffuseTexture")) {
 				const JSON::Node& diffuseTextureNode = materialRoot["diffuseTexture"];
@@ -513,7 +513,7 @@ namespace NtshEngn {
 
 		void loadModelNtmd(const std::string& filePath, Model& model) {
 			JSON json;
-			JSON::Node modelRoot = json.read(filePath);
+			const JSON::Node& modelRoot = json.read(filePath);
 
 			if (modelRoot.contains("primitives")) {
 				for (size_t i = 0; i < modelRoot["primitives"].size(); i++) {
@@ -556,7 +556,7 @@ namespace NtshEngn {
 			};
 
 			JSON json;
-			JSON::Node imageRoot = json.read(filePath);
+			const JSON::Node& imageRoot = json.read(filePath);
 
 			if (imageRoot.contains("width")) {
 				image.width = static_cast<uint32_t>(imageRoot["width"].getNumber());
