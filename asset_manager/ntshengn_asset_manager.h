@@ -6,6 +6,7 @@
 #include "../utils/ntshengn_utils_bimap.h"
 #include "../utils/ntshengn_utils_file.h"
 #include "../utils/ntshengn_utils_json.h"
+#include "../utils/ntshengn_utils_math.h"
 #include <string>
 #include <forward_list>
 #include <iterator>
@@ -244,14 +245,14 @@ namespace NtshEngn {
 			}
 		}
 
-		std::array<std::array<float, 3>, 2> calculateAABB(const Mesh& mesh) {
+		std::array<Math::vec3, 2> calculateAABB(const Mesh& mesh) {
 			if (m_assetLoaderModule) {
 				return m_assetLoaderModule->calculateAABB(mesh);
 			}
 			else {
 				NTSHENGN_ASSET_MANAGER_WARNING("Could not calculate AABB for mesh.");
 
-				return { std::array<float, 3>{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } };
+				return { Math::vec3(0.0f, 0.0f, 0.0f), Math::vec3(0.0f, 0.0f, 0.0f) };
 			}
 		}
 

@@ -18,10 +18,10 @@ namespace NtshEngn {
 
 		const float PI = 3.1415926535897932384626433832795f;
 
-		float toRad(const float degrees) {
+		inline float toRad(const float degrees) {
 			return degrees * (PI / 180.0f);
 		}
-		float toDeg(const float radians) {
+		inline float toDeg(const float radians) {
 			return radians * (180.0f / PI);
 		}
 
@@ -272,158 +272,158 @@ namespace NtshEngn {
 		// Implementation
 		// Constructors
 		// vec2
-		vec2::vec2(): x(0.0f), y(0.0f) {}
-		vec2::vec2(float _value): x(_value), y(_value) {}
-		vec2::vec2(float _x, float _y): x(_x), y(_y) {}
-		vec2::vec2(const float* _ptr): x(*_ptr), y(*(_ptr + 1)) {}
-		vec2::vec2(vec3 _xyz): x(_xyz.x), y(_xyz.y) {}
-		vec2::vec2(vec4 _xyzw): x(_xyzw.x), y(_xyzw.y) {}
+		inline vec2::vec2(): x(0.0f), y(0.0f) {}
+		inline vec2::vec2(float _value): x(_value), y(_value) {}
+		inline vec2::vec2(float _x, float _y): x(_x), y(_y) {}
+		inline vec2::vec2(const float* _ptr): x(*_ptr), y(*(_ptr + 1)) {}
+		inline vec2::vec2(vec3 _xyz): x(_xyz.x), y(_xyz.y) {}
+		inline vec2::vec2(vec4 _xyzw): x(_xyzw.x), y(_xyzw.y) {}
 
 		// vec3
-		vec3::vec3(): x(0.0f), y(0.0f), z(0.0f) {}
-		vec3::vec3(float _value): x(_value), y(_value), z(_value) {}
-		vec3::vec3(float _x, float _y, float _z): x(_x), y(_y), z(_z) {}
-		vec3::vec3(float _x, vec2 _yz): x(_x), y(_yz.x), z(_yz.y) {}
-		vec3::vec3(vec2 _xy, float _z): x(_xy.x), y(_xy.y), z(_z) {}
-		vec3::vec3(const float* _ptr): x(*_ptr), y(*(_ptr + 1)), z(*(_ptr + 2)) {}
-		vec3::vec3(vec4 _xyzw): x(_xyzw.x), y(_xyzw.y), z(_xyzw.z) {}
+		inline vec3::vec3(): x(0.0f), y(0.0f), z(0.0f) {}
+		inline vec3::vec3(float _value): x(_value), y(_value), z(_value) {}
+		inline vec3::vec3(float _x, float _y, float _z): x(_x), y(_y), z(_z) {}
+		inline vec3::vec3(float _x, vec2 _yz): x(_x), y(_yz.x), z(_yz.y) {}
+		inline vec3::vec3(vec2 _xy, float _z): x(_xy.x), y(_xy.y), z(_z) {}
+		inline vec3::vec3(const float* _ptr): x(*_ptr), y(*(_ptr + 1)), z(*(_ptr + 2)) {}
+		inline vec3::vec3(vec4 _xyzw): x(_xyzw.x), y(_xyzw.y), z(_xyzw.z) {}
 
 		// vec4
-		vec4::vec4(): x(0.0f), y(0.0f), z(0.0f), w(0.0f) {}
-		vec4::vec4(float _value): x(_value), y(_value), z(_value), w(_value) {}
-		vec4::vec4(float _x, float _y, float _z, float _w): x(_x), y(_y), z(_z), w(_w) {}
-		vec4::vec4(float _x, vec3 _yzw): x(_x), y(_yzw.x), z(_yzw.y), w(_yzw.z) {}
-		vec4::vec4(vec3 _xyz, float _w): x(_xyz.x), y(_xyz.y), z(_xyz.z), w(_w) {}
-		vec4::vec4(float _x, float _y, vec2 _zw): x(_x), y(_y), z(_zw.x), w(_zw.y) {}
-		vec4::vec4(float _x, vec2 _yz, float _w): x(_x), y(_yz.x), z(_yz.y), w(_w) {}
-		vec4::vec4(vec2 _xy, float _z, float _w): x(_xy.x), y(_xy.y), z(_z), w(_w) {}
-		vec4::vec4(vec2 _xy, vec2 _zw): x(_xy.x), y(_xy.y), z(_zw.x), w(_zw.y) {}
-		vec4::vec4(const float* _ptr): x(*_ptr), y(*(_ptr + 1)), z(*(_ptr + 2)), w(*(_ptr + 3)) {}
+		inline vec4::vec4(): x(0.0f), y(0.0f), z(0.0f), w(0.0f) {}
+		inline vec4::vec4(float _value): x(_value), y(_value), z(_value), w(_value) {}
+		inline vec4::vec4(float _x, float _y, float _z, float _w): x(_x), y(_y), z(_z), w(_w) {}
+		inline vec4::vec4(float _x, vec3 _yzw): x(_x), y(_yzw.x), z(_yzw.y), w(_yzw.z) {}
+		inline vec4::vec4(vec3 _xyz, float _w): x(_xyz.x), y(_xyz.y), z(_xyz.z), w(_w) {}
+		inline vec4::vec4(float _x, float _y, vec2 _zw): x(_x), y(_y), z(_zw.x), w(_zw.y) {}
+		inline vec4::vec4(float _x, vec2 _yz, float _w): x(_x), y(_yz.x), z(_yz.y), w(_w) {}
+		inline vec4::vec4(vec2 _xy, float _z, float _w): x(_xy.x), y(_xy.y), z(_z), w(_w) {}
+		inline vec4::vec4(vec2 _xy, vec2 _zw): x(_xy.x), y(_xy.y), z(_zw.x), w(_zw.y) {}
+		inline vec4::vec4(const float* _ptr): x(*_ptr), y(*(_ptr + 1)), z(*(_ptr + 2)), w(*(_ptr + 3)) {}
 
 		// mat2
-		mat2::mat2(): x(1.0f, 0.0f), y(0.0f, 1.0f) {}
-		mat2::mat2(float _value): x(_value), y(_value) {}
-		mat2::mat2(float _xx, float _xy, float _yx, float _yy): x(_xx, _xy), y(_yx, _yy) {}
-		mat2::mat2(float _xx, float _xy, vec2 _y): x(_xx, _xy), y(_y) {}
-		mat2::mat2(vec2 _x, float _yx, float _yy): x(_x), y(_yx, _yy) {}
-		mat2::mat2(vec2 _x, vec2 _y): x(_x), y(_y) {}
-		mat2::mat2(const float* _ptr): x(_ptr), y(_ptr + 2) {}
-		mat2::mat2(mat3 _mat): x(_mat.x), y(_mat.y) {}
-		mat2::mat2(mat4 _mat): x(_mat.x), y(_mat.y) {}
+		inline mat2::mat2(): x(1.0f, 0.0f), y(0.0f, 1.0f) {}
+		inline mat2::mat2(float _value): x(_value), y(_value) {}
+		inline mat2::mat2(float _xx, float _xy, float _yx, float _yy): x(_xx, _xy), y(_yx, _yy) {}
+		inline mat2::mat2(float _xx, float _xy, vec2 _y): x(_xx, _xy), y(_y) {}
+		inline mat2::mat2(vec2 _x, float _yx, float _yy): x(_x), y(_yx, _yy) {}
+		inline mat2::mat2(vec2 _x, vec2 _y): x(_x), y(_y) {}
+		inline mat2::mat2(const float* _ptr): x(_ptr), y(_ptr + 2) {}
+		inline mat2::mat2(mat3 _mat): x(_mat.x), y(_mat.y) {}
+		inline mat2::mat2(mat4 _mat): x(_mat.x), y(_mat.y) {}
 
 		// mat3
-		mat3::mat3(): x(1.0f, 0.0f, 0.0f), y(0.0f, 1.0f, 0.0f), z(0.0f, 0.0f, 1.0f) {}
-		mat3::mat3(float _value): x(_value), y(_value), z(_value) {}
-		mat3::mat3(float _xx, float _xy, float _xz, float _yx, float _yy, float _yz, float _zx, float _zy, float _zz): x(_xx, _xy, _xz), y(_yx, _yy, _yz), z(_zx, _zy, _zz) {}
-		mat3::mat3(float _xx, float _xy, float _xz, float _yx, float _yy, float _yz, vec3 _z): x(_xx, _xy, _xz), y(_yx, _yy, _yz), z(_z) {}
-		mat3::mat3(float _xx, float _xy, float _xz, vec3 _y, float _zx, float _zy, float _zz): x(_xx, _xy, _xz), y(_y), z(_zx, _zy, _zz) {}
-		mat3::mat3(vec3 _x, float _yx, float _yy, float _yz, float _zx, float _zy, float _zz): x(_x), y(_yx, _yy, _yz), z(_zx, _zy, _zz) {}
-		mat3::mat3(float _xx, float _xy, float _xz, vec3 _y, vec3 _z): x(_xx, _xy, _xz), y(_y), z(_z) {}
-		mat3::mat3(vec3 _x, vec3 _y, float _zx, float _zy, float _zz): x(_x), y(_y), z(_zx, _zy, _zz) {}
-		mat3::mat3(vec3 _x, float _yx, float _yy, float _yz, vec3 _z): x(_x), y(_yx, _yy, _yz), z(_z) {}
-		mat3::mat3(vec3 _x, vec3 _y, vec3 _z): x(_x), y(_y), z(_z) {}
-		mat3::mat3(const float* _ptr): x(_ptr), y(_ptr + 3), z(_ptr + 6) {}
-		mat3::mat3(mat4 _mat): x(_mat.x), y(_mat.y), z(_mat.z) {}
+		inline mat3::mat3(): x(1.0f, 0.0f, 0.0f), y(0.0f, 1.0f, 0.0f), z(0.0f, 0.0f, 1.0f) {}
+		inline mat3::mat3(float _value): x(_value), y(_value), z(_value) {}
+		inline mat3::mat3(float _xx, float _xy, float _xz, float _yx, float _yy, float _yz, float _zx, float _zy, float _zz): x(_xx, _xy, _xz), y(_yx, _yy, _yz), z(_zx, _zy, _zz) {}
+		inline mat3::mat3(float _xx, float _xy, float _xz, float _yx, float _yy, float _yz, vec3 _z): x(_xx, _xy, _xz), y(_yx, _yy, _yz), z(_z) {}
+		inline mat3::mat3(float _xx, float _xy, float _xz, vec3 _y, float _zx, float _zy, float _zz): x(_xx, _xy, _xz), y(_y), z(_zx, _zy, _zz) {}
+		inline mat3::mat3(vec3 _x, float _yx, float _yy, float _yz, float _zx, float _zy, float _zz): x(_x), y(_yx, _yy, _yz), z(_zx, _zy, _zz) {}
+		inline mat3::mat3(float _xx, float _xy, float _xz, vec3 _y, vec3 _z): x(_xx, _xy, _xz), y(_y), z(_z) {}
+		inline mat3::mat3(vec3 _x, vec3 _y, float _zx, float _zy, float _zz): x(_x), y(_y), z(_zx, _zy, _zz) {}
+		inline mat3::mat3(vec3 _x, float _yx, float _yy, float _yz, vec3 _z): x(_x), y(_yx, _yy, _yz), z(_z) {}
+		inline mat3::mat3(vec3 _x, vec3 _y, vec3 _z): x(_x), y(_y), z(_z) {}
+		inline mat3::mat3(const float* _ptr): x(_ptr), y(_ptr + 3), z(_ptr + 6) {}
+		inline mat3::mat3(mat4 _mat): x(_mat.x), y(_mat.y), z(_mat.z) {}
 
 		// mat4
-		mat4::mat4(): x(1.0f, 0.0f, 0.0f, 0.0f), y(0.0f, 1.0f, 0.0f, 0.0f), z(0.0f, 0.0f, 1.0f, 0.0f), w(0.0f, 0.0f, 0.0f, 1.0f) {}
-		mat4::mat4(float _value): x(_value), y(_value), z(_value), w(_value) {}
-		mat4::mat4(float _xx, float _xy, float _xz, float _xw, float _yx, float _yy, float _yz, float _yw, float _zx, float _zy, float _zz, float _zw, float _wx, float _wy, float _wz, float _ww): x(_xx, _xy, _xz, _xw), y(_yx, _yy, _yz, _yw), z(_zx, _zy, _zz, _zw), w(_wx, _wy, _wz, _ww) {}
-		mat4::mat4(float _xx, float _xy, float _xz, float _xw, float _yx, float _yy, float _yz, float _yw, float _zx, float _zy, float _zz, float _zw, vec4 _w): x(_xx, _xy, _xz, _xw), y(_yx, _yy, _yz, _yw), z(_zx, _zy, _zz, _zw), w(_w) {}
-		mat4::mat4(float _xx, float _xy, float _xz, float _xw, float _yx, float _yy, float _yz, float _yw, vec4 _z, float _wx, float _wy, float _wz, float _ww): x(_xx, _xy, _xz, _xw), y(_yx, _yy, _yz, _yw), z(_z), w(_wx, _wy, _wz, _ww) {}
-		mat4::mat4(float _xx, float _xy, float _xz, float _xw, vec4 _y, float _zx, float _zy, float _zz, float _zw, float _wx, float _wy, float _wz, float _ww): x(_xx, _xy, _xz, _xw), y(_y), z(_zx, _zy, _zz, _zw), w(_wx, _wy, _wz, _ww) {}
-		mat4::mat4(vec4 _x, float _yx, float _yy, float _yz, float _yw, float _zx, float _zy, float _zz, float _zw, float _wx, float _wy, float _wz, float _ww): x(_x), y(_yx, _yy, _yz, _yw), z(_zx, _zy, _zz, _zw), w(_wx, _wy, _wz, _ww) {}
-		mat4::mat4(float _xx, float _xy, float _xz, float _xw, float _yx, float _yy, float _yz, float _yw, vec4 _z, vec4 _w): x(_xx, _xy, _xz, _xw), y(_yx, _yy, _yz, _yw), z(_z), w(_w) {}
-		mat4::mat4(float _xx, float _xy, float _xz, float _xw, vec4 _y, float _zx, float _zy, float _zz, float _zw, vec4 _w): x(_xx, _xy, _xz, _xw), y(_y), z(_zx, _zy, _zz, _zw), w(_w) {}
-		mat4::mat4(vec4 _x, float _yx, float _yy, float _yz, float _yw, float _zx, float _zy, float _zz, float _zw, vec4 _w): x(_x), y(_yx, _yy, _yz, _yw), z(_zx, _zy, _zz, _zw), w(_w) {}
-		mat4::mat4(float _xx, float _xy, float _xz, float _xw, vec4 _y, vec4 _z, float _wx, float _wy, float _wz, float _ww): x(_xx, _xy, _xz, _xw), y(_y), z(_z), w(_wx, _wy, _wz, _ww) {}
-		mat4::mat4(vec4 _x, float _yx, float _yy, float _yz, float _yw, vec4 _z, float _wx, float _wy, float _wz, float _ww): x(_x), y(_yx, _yy, _yz, _yw), z(_z), w(_wx, _wy, _wz, _ww) {}
-		mat4::mat4(vec4 _x, vec4 _y, float _zx, float _zy, float _zz, float _zw, float _wx, float _wy, float _wz, float _ww): x(_x), y(_y), z(_zx, _zy, _zz, _zw), w(_wx, _wy, _wz, _ww) {}
-		mat4::mat4(float _xx, float _xy, float _xz, float _xw, vec4 _y, vec4 _z, vec4 _w): x(_xx, _xy, _xz, _xw), y(_y), z(_z), w(_w) {}
-		mat4::mat4(vec4 _x, float _yx, float _yy, float _yz, float _yw, vec4 _z, vec4 _w): x(_x), y(_yx, _yy, _yz, _yw), z(_z), w(_w) {}
-		mat4::mat4(vec4 _x, vec4 _y, float _zx, float _zy, float _zz, float _zw, vec4 _w): x(_x), y(_y), z(_zx, _zy, _zz, _zw), w(_w) {}
-		mat4::mat4(vec4 _x, vec4 _y, vec4 _z, float _wx, float _wy, float _wz, float _ww): x(_x), y(_y), z(_z), w(_wx, _wy, _wz, _ww) {}
-		mat4::mat4(vec4 _x, vec4 _y, vec4 _z, vec4 _w): x(_x), y(_y), z(_z), w(_w) {}
-		mat4::mat4(const float* _ptr): x(_ptr), y(_ptr + 4), z(_ptr + 8), w(_ptr + 12) {}
+		inline mat4::mat4(): x(1.0f, 0.0f, 0.0f, 0.0f), y(0.0f, 1.0f, 0.0f, 0.0f), z(0.0f, 0.0f, 1.0f, 0.0f), w(0.0f, 0.0f, 0.0f, 1.0f) {}
+		inline mat4::mat4(float _value): x(_value), y(_value), z(_value), w(_value) {}
+		inline mat4::mat4(float _xx, float _xy, float _xz, float _xw, float _yx, float _yy, float _yz, float _yw, float _zx, float _zy, float _zz, float _zw, float _wx, float _wy, float _wz, float _ww): x(_xx, _xy, _xz, _xw), y(_yx, _yy, _yz, _yw), z(_zx, _zy, _zz, _zw), w(_wx, _wy, _wz, _ww) {}
+		inline mat4::mat4(float _xx, float _xy, float _xz, float _xw, float _yx, float _yy, float _yz, float _yw, float _zx, float _zy, float _zz, float _zw, vec4 _w): x(_xx, _xy, _xz, _xw), y(_yx, _yy, _yz, _yw), z(_zx, _zy, _zz, _zw), w(_w) {}
+		inline mat4::mat4(float _xx, float _xy, float _xz, float _xw, float _yx, float _yy, float _yz, float _yw, vec4 _z, float _wx, float _wy, float _wz, float _ww): x(_xx, _xy, _xz, _xw), y(_yx, _yy, _yz, _yw), z(_z), w(_wx, _wy, _wz, _ww) {}
+		inline mat4::mat4(float _xx, float _xy, float _xz, float _xw, vec4 _y, float _zx, float _zy, float _zz, float _zw, float _wx, float _wy, float _wz, float _ww): x(_xx, _xy, _xz, _xw), y(_y), z(_zx, _zy, _zz, _zw), w(_wx, _wy, _wz, _ww) {}
+		inline mat4::mat4(vec4 _x, float _yx, float _yy, float _yz, float _yw, float _zx, float _zy, float _zz, float _zw, float _wx, float _wy, float _wz, float _ww): x(_x), y(_yx, _yy, _yz, _yw), z(_zx, _zy, _zz, _zw), w(_wx, _wy, _wz, _ww) {}
+		inline mat4::mat4(float _xx, float _xy, float _xz, float _xw, float _yx, float _yy, float _yz, float _yw, vec4 _z, vec4 _w): x(_xx, _xy, _xz, _xw), y(_yx, _yy, _yz, _yw), z(_z), w(_w) {}
+		inline mat4::mat4(float _xx, float _xy, float _xz, float _xw, vec4 _y, float _zx, float _zy, float _zz, float _zw, vec4 _w): x(_xx, _xy, _xz, _xw), y(_y), z(_zx, _zy, _zz, _zw), w(_w) {}
+		inline mat4::mat4(vec4 _x, float _yx, float _yy, float _yz, float _yw, float _zx, float _zy, float _zz, float _zw, vec4 _w): x(_x), y(_yx, _yy, _yz, _yw), z(_zx, _zy, _zz, _zw), w(_w) {}
+		inline mat4::mat4(float _xx, float _xy, float _xz, float _xw, vec4 _y, vec4 _z, float _wx, float _wy, float _wz, float _ww): x(_xx, _xy, _xz, _xw), y(_y), z(_z), w(_wx, _wy, _wz, _ww) {}
+		inline mat4::mat4(vec4 _x, float _yx, float _yy, float _yz, float _yw, vec4 _z, float _wx, float _wy, float _wz, float _ww): x(_x), y(_yx, _yy, _yz, _yw), z(_z), w(_wx, _wy, _wz, _ww) {}
+		inline mat4::mat4(vec4 _x, vec4 _y, float _zx, float _zy, float _zz, float _zw, float _wx, float _wy, float _wz, float _ww): x(_x), y(_y), z(_zx, _zy, _zz, _zw), w(_wx, _wy, _wz, _ww) {}
+		inline mat4::mat4(float _xx, float _xy, float _xz, float _xw, vec4 _y, vec4 _z, vec4 _w): x(_xx, _xy, _xz, _xw), y(_y), z(_z), w(_w) {}
+		inline mat4::mat4(vec4 _x, float _yx, float _yy, float _yz, float _yw, vec4 _z, vec4 _w): x(_x), y(_yx, _yy, _yz, _yw), z(_z), w(_w) {}
+		inline mat4::mat4(vec4 _x, vec4 _y, float _zx, float _zy, float _zz, float _zw, vec4 _w): x(_x), y(_y), z(_zx, _zy, _zz, _zw), w(_w) {}
+		inline mat4::mat4(vec4 _x, vec4 _y, vec4 _z, float _wx, float _wy, float _wz, float _ww): x(_x), y(_y), z(_z), w(_wx, _wy, _wz, _ww) {}
+		inline mat4::mat4(vec4 _x, vec4 _y, vec4 _z, vec4 _w): x(_x), y(_y), z(_z), w(_w) {}
+		inline mat4::mat4(const float* _ptr): x(_ptr), y(_ptr + 4), z(_ptr + 8), w(_ptr + 12) {}
 
 		// quat
-		quat::quat(): a(1.0f), b(0.0f), c(0.0f), d(0.0f) {}
-		quat::quat(float _a, float _b, float _c, float _d): a(_a), b(_b), c(_c), d(_d) {}
-		quat::quat(const float* _ptr): a(*_ptr), b(*(_ptr + 1)), c(*(_ptr + 2)), d(*(_ptr + 3)) {}
+		inline quat::quat(): a(1.0f), b(0.0f), c(0.0f), d(0.0f) {}
+		inline quat::quat(float _a, float _b, float _c, float _d): a(_a), b(_b), c(_c), d(_d) {}
+		inline quat::quat(const float* _ptr): a(*_ptr), b(*(_ptr + 1)), c(*(_ptr + 2)), d(*(_ptr + 3)) {}
 
 		// Operators
 		// vec2
-		vec2& vec2::operator+=(const vec2& other) { 
+		inline vec2& vec2::operator+=(const vec2& other) { 
 			x += other.x;
 			y += other.y;
 
 			return *this;
 		}
-		vec2& vec2::operator-=(const vec2& other) { 
+		inline vec2& vec2::operator-=(const vec2& other) { 
 			x -= other.x;
 			y -= other.y;
 
 			return *this;
 		}
-		vec2& vec2::operator*=(const float other) {
+		inline vec2& vec2::operator*=(const float other) {
 			x *= other;
 			y *= other;
 
 			return *this;
 		}
-		vec2& vec2::operator/=(const float other) {
+		inline vec2& vec2::operator/=(const float other) {
 			x /= other;
 			y /= other;
 
 			return *this;
 		}
-		float& vec2::operator[](size_t index) {
+		inline float& vec2::operator[](size_t index) {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
 			else { throw std::out_of_range("vec2::operator[]: index is out of range."); }
 		}
-		const float vec2::operator[](size_t index) const {
+		inline const float vec2::operator[](size_t index) const {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
 			else { throw std::out_of_range("vec2::operator[]: index is out of range."); }
 		}
 
 		// vec3
-		vec3& vec3::operator+=(const vec3& other) { 
+		inline vec3& vec3::operator+=(const vec3& other) { 
 			x += other.x;
 			y += other.y;
 			z += other.z;
 
 			return *this;
 		}
-		vec3& vec3::operator-=(const vec3& other) { 
+		inline vec3& vec3::operator-=(const vec3& other) { 
 			x -= other.x;
 			y -= other.y;
 			z -= other.z;
 
 			return *this;
 		}
-		vec3& vec3::operator*=(const float other) {
+		inline vec3& vec3::operator*=(const float other) {
 			x *= other;
 			y *= other;
 			z *= other;
 
 			return *this;
 		}
-		vec3& vec3::operator/=(const float other) {
+		inline vec3& vec3::operator/=(const float other) {
 			x /= other;
 			y /= other;
 			z /= other;
 
 			return *this;
 		}
-		float& vec3::operator[](size_t index) {
+		inline float& vec3::operator[](size_t index) {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
 			else if (index == 2) { return z; }
 			else { throw std::out_of_range("vec3::operator[]: index is out of range."); }
 		}
-		const float vec3::operator[](size_t index) const {
+		inline const float vec3::operator[](size_t index) const {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
 			else if (index == 2) { return z; }
@@ -431,7 +431,7 @@ namespace NtshEngn {
 		}
 
 		// vec4
-		vec4& vec4::operator+=(const vec4& other) { 
+		inline vec4& vec4::operator+=(const vec4& other) { 
 			x += other.x;
 			y += other.y;
 			z += other.z;
@@ -439,7 +439,7 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		vec4& vec4::operator-=(const vec4& other) { 
+		inline vec4& vec4::operator-=(const vec4& other) { 
 			x -= other.x;
 			y -= other.y;
 			z -= other.z;
@@ -447,7 +447,7 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		vec4& vec4::operator*=(const float other) {
+		inline vec4& vec4::operator*=(const float other) {
 			x *= other;
 			y *= other;
 			z *= other;
@@ -455,7 +455,7 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		vec4& vec4::operator/=(const float other) {
+		inline vec4& vec4::operator/=(const float other) {
 			x /= other;
 			y /= other;
 			z /= other;
@@ -463,14 +463,14 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		float& vec4::operator[](size_t index) {
+		inline float& vec4::operator[](size_t index) {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
 			else if (index == 2) { return z; }
 			else if (index == 3) { return w; }
 			else { throw std::out_of_range("vec4::operator[]: index is out of range."); }
 		}
-		const float vec4::operator[](size_t index) const {
+		inline const float vec4::operator[](size_t index) const {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
 			else if (index == 2) { return z; }
@@ -479,19 +479,19 @@ namespace NtshEngn {
 		}
 
 		// mat2
-		mat2& mat2::operator+=(const mat2& other) {
+		inline mat2& mat2::operator+=(const mat2& other) {
 			x += other.x;
 			y += other.y;
 
 			return *this;
 		}
-		mat2& mat2::operator-=(const mat2& other) {
+		inline mat2& mat2::operator-=(const mat2& other) {
 			x -= other.x;
 			y -= other.y;
 
 			return *this;
 		}
-		mat2& mat2::operator*=(const mat2& other) {
+		inline mat2& mat2::operator*=(const mat2& other) {
 			const mat2 tmp(vec2(x.x * other.x.x + y.x * other.x.y,
 					x.y * other.x.x + y.y * other.x.y),
 				vec2(x.x * other.y.x + y.x * other.y.y,
@@ -502,45 +502,45 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		mat2& mat2::operator*=(const float other) {
+		inline mat2& mat2::operator*=(const float other) {
 			x *= other;
 			y *= other;
 
 			return *this;
 		}
-		mat2& mat2::operator/=(const float other) {
+		inline mat2& mat2::operator/=(const float other) {
 			x /= other;
 			y /= other;
 
 			return *this;
 		}
-		vec2& mat2::operator[](size_t index) {
+		inline vec2& mat2::operator[](size_t index) {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
 			else { throw std::out_of_range("mat2::operator[]: index is out of range."); }
 		}
-		const vec2& mat2::operator[](size_t index) const {
+		inline const vec2& mat2::operator[](size_t index) const {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
 			else { throw std::out_of_range("mat2::operator[]: index is out of range."); }
 		}
 
 		// mat3
-		mat3& mat3::operator+=(const mat3& other) {
+		inline mat3& mat3::operator+=(const mat3& other) {
 			x += other.x;
 			y += other.y;
 			z += other.z;
 
 			return *this;
 		}
-		mat3& mat3::operator-=(const mat3& other) {
+		inline mat3& mat3::operator-=(const mat3& other) {
 			x -= other.x;
 			y -= other.y;
 			z -= other.z;
 
 			return *this;
 		}
-		mat3& mat3::operator*=(const mat3& other) {
+		inline mat3& mat3::operator*=(const mat3& other) {
 			mat3 tmp(vec3(x.x * other.x.x + y.x * other.x.y + z.x * other.x.z,
 					x.y * other.x.x + y.y * other.x.y + z.y * other.x.z,
 					x.z * other.x.x + y.z * other.x.y + z.z * other.x.z),
@@ -557,27 +557,27 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		mat3& mat3::operator*=(const float other) {
+		inline mat3& mat3::operator*=(const float other) {
 			x *= other;
 			y *= other;
 			z *= other;
 
 			return *this;
 		}
-		mat3& mat3::operator/=(const float other) {
+		inline mat3& mat3::operator/=(const float other) {
 			x /= other;
 			y /= other;
 			z /= other;
 
 			return *this;
 		}
-		vec3& mat3::operator[](size_t index) {
+		inline vec3& mat3::operator[](size_t index) {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
 			else if (index == 2) { return z; }
 			else { throw std::out_of_range("mat3::operator[]: index is out of range."); }
 		}
-		const vec3& mat3::operator[](size_t index) const {
+		inline const vec3& mat3::operator[](size_t index) const {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
 			else if (index == 2) { return z; }
@@ -585,7 +585,7 @@ namespace NtshEngn {
 		}
 
 		// mat4
-		mat4& mat4::operator+=(const mat4& other) {
+		inline mat4& mat4::operator+=(const mat4& other) {
 			x += other.x;
 			y += other.y;
 			z += other.z;
@@ -593,7 +593,7 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		mat4& mat4::operator-=(const mat4& other) {
+		inline mat4& mat4::operator-=(const mat4& other) {
 			x -= other.x;
 			y -= other.y;
 			z -= other.z;
@@ -601,7 +601,7 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		mat4& mat4::operator*=(const mat4& other) {
+		inline mat4& mat4::operator*=(const mat4& other) {
 			const mat4 tmp(vec4(x.x * other.x.x + y.x * other.x.y + z.x * other.x.z + w.x * other.x.w,
 					x.y * other.x.x + y.y * other.x.y + z.y * other.x.z + w.y * other.x.w,
 					x.z * other.x.x + y.z * other.x.y + z.z * other.x.z + w.z * other.x.w,
@@ -626,7 +626,7 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		mat4& mat4::operator*=(const float other) {
+		inline mat4& mat4::operator*=(const float other) {
 			x *= other;
 			y *= other;
 			z *= other;
@@ -634,7 +634,7 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		mat4& mat4::operator/=(const float other) {
+		inline mat4& mat4::operator/=(const float other) {
 			x /= other;
 			y /= other;
 			z /= other;
@@ -642,14 +642,14 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		vec4& mat4::operator[](size_t index) {
+		inline vec4& mat4::operator[](size_t index) {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
 			else if (index == 2) { return z; }
 			else if (index == 3) { return w; }
 			else { throw std::out_of_range("mat4::operator[]: index is out of range."); }
 		}
-		const vec4& mat4::operator[](size_t index) const {
+		inline const vec4& mat4::operator[](size_t index) const {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
 			else if (index == 2) { return z; }
@@ -658,7 +658,7 @@ namespace NtshEngn {
 		}
 
 		// quat
-		quat& quat::operator+=(const quat& other) {
+		inline quat& quat::operator+=(const quat& other) {
 			a += other.a;
 			b += other.b;
 			c += other.c;
@@ -666,7 +666,7 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		quat& quat::operator-=(const quat& other) {
+		inline quat& quat::operator-=(const quat& other) {
 			a -= other.a;
 			b -= other.b;
 			c -= other.c;
@@ -674,7 +674,7 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		quat& quat::operator*=(const quat& other) {
+		inline quat& quat::operator*=(const quat& other) {
 			const quat tmp((a * other.a) - (b * other.b) - (c * other.c) - (d * other.d),
 			(a * other.b) + (b * other.a) + (c * other.d) - (d * other.c),
 			(a * other.c) - (b * other.d) + (c * other.a) + (d * other.b),
@@ -687,7 +687,7 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		quat& quat::operator*=(const float other) {
+		inline quat& quat::operator*=(const float other) {
 			a *= other;
 			b *= other;
 			c *= other;
@@ -695,7 +695,7 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		quat& quat::operator/=(const float other) {
+		inline quat& quat::operator/=(const float other) {
 			a /= other;
 			b /= other;
 			c /= other;
@@ -703,14 +703,14 @@ namespace NtshEngn {
 
 			return *this;
 		}
-		float& quat::operator[](size_t index) {
+		inline float& quat::operator[](size_t index) {
 			if (index == 0) { return a; }
 			else if (index == 1) { return b; }
 			else if (index == 2) { return c; }
 			else if (index == 3) { return d; }
 			else { throw std::out_of_range("quat::operator[]: index is out of range."); }
 		}
-		const float quat::operator[](size_t index) const {
+		inline const float quat::operator[](size_t index) const {
 			if (index == 0) { return a; }
 			else if (index == 1) { return b; }
 			else if (index == 2) { return c; }
@@ -720,342 +720,342 @@ namespace NtshEngn {
 
 		// Functions
 		// vec2
-		float vec2::length() const {
+		inline float vec2::length() const {
 			return std::sqrt((x * x) + (y * y));
 		}
 
-		float* vec2::data() {
+		inline float* vec2::data() {
 			return &x;
 		}
 
 		// vec3
-		float vec3::length() const {
+		inline float vec3::length() const {
 			return std::sqrt((x * x) + (y * y) + (z * z));
 		}
 		
-		float* vec3::data() {
+		inline float* vec3::data() {
 			return &x;
 		}
 
 		// vec4
-		float vec4::length() const {
+		inline float vec4::length() const {
 				return std::sqrt((x * x) + (y * y) + (z * z) + (w * w));
 			}
 
-		float* vec4::data() {
+		inline float* vec4::data() {
 			return &x;
 		}
 
 		// mat2
-		float mat2::det() const {
+		inline float mat2::det() const {
 			return (x.x * y.y -
 				y.x * x.y);
 		}
 
-		float* mat2::data() {
+		inline float* mat2::data() {
 			return x.data();
 		}
 
 		// mat3
-		float mat3::det() const {
+		inline float mat3::det() const {
 			return ((x.x * ((y.y * z.z) - (z.y * y.z))) -
 				(y.x * ((x.y * z.z) - (z.y * x.z))) +
 				(z.x *((x.y * y.z) - (y.y * x.z))));
 		}
 
-		float* mat3::data() {
+		inline float* mat3::data() {
 			return x.data();
 		}
 
 		// mat4
-		float mat4::det() const {
+		inline float mat4::det() const {
 			return (x.x * ((y.y * z.z * w.w) - (y.y * w.z * z.w) - (z.y * y.z * w.w) + (z.y * w.z * y.w) + (w.y * y.z * z.w) - (w.y * z.z * y.w)) -
 				y.x * ((x.y * z.z * w.w) - (x.y * w.z * z.w) - (z.y * x.z * w.w) + (z.y * w.z * x.w) + (w.y * x.z * z.w) - (w.y * z.z * x.w)) +
 				z.x * ((x.y * y.z * w.w) - (x.y * w.z * y.w) - (y.y * x.z * w.w) + (y.y * w.z * x.w) + (w.y * x.z * y.w) - (w.y * y.z * x.w)) -
 				w.x * ((x.y * y.z * z.w) - (x.y * z.z * y.w) - (y.y * x.z * z.w) + (y.y * z.z * x.w) + (z.y * x.z * y.w) - (z.y * y.z * x.w)));
 		}
 
-		float* mat4::data() {
+		inline float* mat4::data() {
 			return x.data();
 		}
 
 		// quat
-		float quat::length() const {
+		inline float quat::length() const {
 			return std::sqrt((a * a) + (b * b) + (c * c) + (d * d));
 		}
 
-		float* quat::data() {
+		inline float* quat::data() {
 			return &a;
 		}
 
 		// Namespace
 		// Operators
 		// vec2
-		vec2 operator+(vec2 lhs, const vec2& rhs) { 
+		inline vec2 operator+(vec2 lhs, const vec2& rhs) { 
 			lhs += rhs;
 
 			return lhs;
 		}
-		vec2 operator-(vec2 lhs, const vec2& rhs) {
+		inline vec2 operator-(vec2 lhs, const vec2& rhs) {
 			lhs -= rhs;
 
 			return lhs;
 		}
-		vec2 operator*(vec2 lhs, const float rhs) {
+		inline vec2 operator*(vec2 lhs, const float rhs) {
 			lhs *= rhs;
 
 			return lhs;
 		}
-		vec2 operator*(float lhs, const vec2& rhs) {
+		inline vec2 operator*(float lhs, const vec2& rhs) {
 			return (rhs * lhs);
 		}
-		vec2 operator/(vec2 lhs, const float rhs) { 
+		inline vec2 operator/(vec2 lhs, const float rhs) { 
 			lhs /= rhs;
 
 			return lhs;
 		}
-		bool operator==(const vec2& lhs, const vec2& rhs) {
+		inline bool operator==(const vec2& lhs, const vec2& rhs) {
 			return ((lhs.x == rhs.x) && (lhs.y == rhs.y));
 		}
-		bool operator!=(const vec2& lhs, const vec2& rhs) {
+		inline bool operator!=(const vec2& lhs, const vec2& rhs) {
 			return !(lhs == rhs);
 		}
 
 		// vec3
-		vec3 operator+(vec3 lhs, const vec3& rhs) { 
+		inline vec3 operator+(vec3 lhs, const vec3& rhs) { 
 			lhs += rhs;
 
 			return lhs;
 		}
-		vec3 operator-(vec3 lhs, const vec3& rhs) {
+		inline vec3 operator-(vec3 lhs, const vec3& rhs) {
 			lhs -= rhs;
 
 			return lhs;
 		}
-		vec3 operator*(vec3 lhs, const float rhs) {
+		inline vec3 operator*(vec3 lhs, const float rhs) {
 			lhs *= rhs;
 
 			return lhs;
 		}
-		vec3 operator*(float lhs, const vec3& rhs) {
+		inline vec3 operator*(float lhs, const vec3& rhs) {
 			return (rhs * lhs);
 		}
-		vec3 operator/(vec3 lhs, const float rhs) { 
+		inline vec3 operator/(vec3 lhs, const float rhs) { 
 			lhs /= rhs;
 
 			return lhs;
 		}
-		bool operator==(const vec3& lhs, const vec3& rhs) {
+		inline bool operator==(const vec3& lhs, const vec3& rhs) {
 			return ((lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z));
 		}
-		bool operator!=(const vec3& lhs, const vec3& rhs) {
+		inline bool operator!=(const vec3& lhs, const vec3& rhs) {
 			return !(lhs == rhs);
 		}
 
 		// vec4
-		vec4 operator+(vec4 lhs, const vec4& rhs) { 
+		inline vec4 operator+(vec4 lhs, const vec4& rhs) { 
 			lhs += rhs;
 
 			return lhs;
 		}
-		vec4 operator-(vec4 lhs, const vec4& rhs) {
+		inline vec4 operator-(vec4 lhs, const vec4& rhs) {
 			lhs -= rhs;
 
 			return lhs;
 		}
-		vec4 operator*(vec4 lhs, const float rhs) {
+		inline vec4 operator*(vec4 lhs, const float rhs) {
 			lhs *= rhs;
 
 			return lhs;
 		}
-		vec4 operator*(float lhs, const vec4& rhs) {
+		inline vec4 operator*(float lhs, const vec4& rhs) {
 			return (rhs * lhs);
 		}
-		vec4 operator/(vec4 lhs, const float rhs) { 
+		inline vec4 operator/(vec4 lhs, const float rhs) { 
 			lhs /= rhs;
 
 			return lhs;
 		}
-		bool operator==(const vec4& lhs, const vec4& rhs) {
+		inline bool operator==(const vec4& lhs, const vec4& rhs) {
 			return ((lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z) && (lhs.w == rhs.w));
 		}
-		bool operator!=(const vec4& lhs, const vec4& rhs) {
+		inline bool operator!=(const vec4& lhs, const vec4& rhs) {
 			return !(lhs == rhs);
 		}
 
 		// mat2
-		mat2 operator+(mat2 lhs, const mat2& rhs) {
+		inline mat2 operator+(mat2 lhs, const mat2& rhs) {
 			lhs += rhs;
 
 			return lhs;
 		}
-		mat2 operator-(mat2 lhs, const mat2& rhs) {
+		inline mat2 operator-(mat2 lhs, const mat2& rhs) {
 			lhs -= rhs;
 
 			return lhs;
 		}
-		mat2 operator*(mat2 lhs, const mat2& rhs) { 
+		inline mat2 operator*(mat2 lhs, const mat2& rhs) { 
 			lhs *= rhs;
 
 			return lhs;
 		}
-		vec2 operator*(mat2 lhs, const vec2& rhs) {
+		inline vec2 operator*(mat2 lhs, const vec2& rhs) {
 			return vec2(lhs.x.x * rhs.x + lhs.y.x * rhs.y,
 				lhs.x.y * rhs.x + lhs.y.y * rhs.y);
 		}
-		mat2 operator*(mat2 lhs, const float rhs) {
+		inline mat2 operator*(mat2 lhs, const float rhs) {
 			lhs *= rhs;
 
 			return lhs;
 		}
-		mat2 operator*(float lhs, const mat2& rhs) {
+		inline mat2 operator*(float lhs, const mat2& rhs) {
 			return (rhs * lhs);
 		}
-		mat2 operator/(mat2 lhs, const float rhs) {
+		inline mat2 operator/(mat2 lhs, const float rhs) {
 			lhs /= rhs;
 
 			return lhs;
 		}
-		bool operator==(const mat2& lhs, const mat2& rhs) {
+		inline bool operator==(const mat2& lhs, const mat2& rhs) {
 			return ((lhs.x == rhs.x) && (lhs.y == rhs.y));
 		}
-		bool operator!=(const mat2& lhs, const mat2& rhs) {
+		inline bool operator!=(const mat2& lhs, const mat2& rhs) {
 			return !(lhs == rhs);
 		}
 
 		// mat3
-		mat3 operator+(mat3 lhs, const mat3& rhs) {
+		inline mat3 operator+(mat3 lhs, const mat3& rhs) {
 			lhs += rhs;
 
 			return lhs;
 		}
-		mat3 operator-(mat3 lhs, const mat3& rhs) {
+		inline mat3 operator-(mat3 lhs, const mat3& rhs) {
 			lhs -= rhs;
 
 			return lhs;
 		}
-		mat3 operator*(mat3 lhs, const mat3& rhs) { 
+		inline mat3 operator*(mat3 lhs, const mat3& rhs) { 
 			lhs *= rhs;
 
 			return lhs;
 		}
-		vec3 operator*(mat3 lhs, const vec3& rhs) {
+		inline vec3 operator*(mat3 lhs, const vec3& rhs) {
 			return vec3(lhs.x.x * rhs.x + lhs.y.x * rhs.y + lhs.z.x * rhs.z,
 				lhs.x.y * rhs.x + lhs.y.y * rhs.y + lhs.z.y * rhs.z,
 				lhs.x.z * rhs.x + lhs.y.z * rhs.y + lhs.z.z * rhs.z);
 		}
-		mat3 operator*(mat3 lhs, const float rhs) {
+		inline mat3 operator*(mat3 lhs, const float rhs) {
 			lhs *= rhs;
 
 			return lhs;
 		}
-		mat3 operator*(float lhs, const mat3& rhs) {
+		inline mat3 operator*(float lhs, const mat3& rhs) {
 			return (rhs * lhs);
 		}
-		mat3 operator/(mat3 lhs, const float rhs) {
+		inline mat3 operator/(mat3 lhs, const float rhs) {
 			lhs /= rhs;
 
 			return lhs;
 		}
-		bool operator==(const mat3& lhs, const mat3& rhs) {
+		inline bool operator==(const mat3& lhs, const mat3& rhs) {
 			return ((lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z));
 		}
-		bool operator!=(const mat3& lhs, const mat3& rhs) {
+		inline bool operator!=(const mat3& lhs, const mat3& rhs) {
 			return !(lhs == rhs);
 		}
 
 		// mat4
-		mat4 operator+(mat4 lhs, const mat4& rhs) {
+		inline mat4 operator+(mat4 lhs, const mat4& rhs) {
 			lhs += rhs;
 
 			return lhs;
 		}
-		mat4 operator-(mat4 lhs, const mat4& rhs) {
+		inline mat4 operator-(mat4 lhs, const mat4& rhs) {
 			lhs -= rhs;
 
 			return lhs;
 		}
-		mat4 operator*(mat4 lhs, const mat4& rhs) { 
+		inline mat4 operator*(mat4 lhs, const mat4& rhs) { 
 			lhs *= rhs;
 
 			return lhs;
 		}
-		vec4 operator*(mat4 lhs, const vec4& rhs) {
+		inline vec4 operator*(mat4 lhs, const vec4& rhs) {
 			return vec4(lhs.x.x * rhs.x + lhs.y.x * rhs.y + lhs.z.x * rhs.z + lhs.w.x * rhs.w,
 				lhs.x.y * rhs.x + lhs.y.y * rhs.y + lhs.z.y * rhs.z + lhs.w.y * rhs.w,
 				lhs.x.z * rhs.x + lhs.y.z * rhs.y + lhs.z.z * rhs.z + lhs.w.z * rhs.w,
 				lhs.x.w * rhs.x + lhs.y.w * rhs.y + lhs.z.w * rhs.z + lhs.w.w * rhs.w);
 		}
-		mat4 operator*(mat4 lhs, const float rhs) {
+		inline mat4 operator*(mat4 lhs, const float rhs) {
 			lhs *= rhs;
 
 			return lhs;
 		}
-		mat4 operator*(float lhs, const mat4& rhs) {
+		inline mat4 operator*(float lhs, const mat4& rhs) {
 			return (rhs * lhs);
 		}
-		mat4 operator/(mat4 lhs, const float rhs) {
+		inline mat4 operator/(mat4 lhs, const float rhs) {
 			lhs /= rhs;
 
 			return lhs;
 		}
-		bool operator==(const mat4& lhs, const mat4& rhs) {
+		inline bool operator==(const mat4& lhs, const mat4& rhs) {
 			return ((lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z));
 		}
-		bool operator!=(const mat4& lhs, const mat4& rhs) {
+		inline bool operator!=(const mat4& lhs, const mat4& rhs) {
 			return !(lhs == rhs);
 		}
 
 		// quat
-		quat operator+(quat lhs, const quat& rhs) {
+		inline quat operator+(quat lhs, const quat& rhs) {
 			lhs += rhs;
 
 			return lhs;
 		}
-		quat operator-(quat lhs, const quat& rhs) {
+		inline quat operator-(quat lhs, const quat& rhs) {
 			lhs -= rhs;
 
 			return lhs;
 		}
-		quat operator*(quat lhs, const quat& rhs) {
+		inline quat operator*(quat lhs, const quat& rhs) {
 			lhs *= rhs;
 
 			return lhs;
 		}
-		quat operator*(quat lhs, const float rhs) {
+		inline quat operator*(quat lhs, const float rhs) {
 			lhs *= rhs;
 
 			return lhs;
 		}
-		quat operator*(float lhs, const quat& rhs) {
+		inline quat operator*(float lhs, const quat& rhs) {
 			return (rhs * lhs);
 		}
-		quat operator/(quat lhs, const float rhs) {
+		inline quat operator/(quat lhs, const float rhs) {
 			lhs /= rhs;
 
 			return lhs;
 		}
-		bool operator==(const quat& lhs, const quat& rhs) {
+		inline bool operator==(const quat& lhs, const quat& rhs) {
 			return ((lhs.a == rhs.a) && (lhs.b == rhs.b) && (lhs.c == rhs.c) && (lhs.d == rhs.d));
 		}
-		bool operator!=(const quat& lhs, const quat& rhs) {
+		inline bool operator!=(const quat& lhs, const quat& rhs) {
 			return !(lhs == rhs);
 		}
 
 		// Functions
 		// vec2
-		vec2 normalize(const vec2& vec) {
+		inline vec2 normalize(const vec2& vec) {
 			const float l = vec.length();
 
 			return (vec / l);
 		}
-		float dot(const vec2& a, const vec2& b) {
+		inline float dot(const vec2& a, const vec2& b) {
 			return ((a.x * b.x) + (a.y * b.y));
 		}
-		vec2 reflect(const vec2& i, const vec2& n) {
+		inline vec2 reflect(const vec2& i, const vec2& n) {
 			return (i - 2.0f * dot(n, i) * n);
 		}
-		vec2 refract(const vec2& i, const vec2& n, float ior) {
+		inline vec2 refract(const vec2& i, const vec2& n, float ior) {
 			const float ndoti = dot(n, i);
 			const float k = 1.0f - ior * ior * (1.0f - ndoti * ndoti);
 			if (k < 0.0f) {
@@ -1066,28 +1066,28 @@ namespace NtshEngn {
 			}
 		}
 
-		std::string to_string(const vec2& vec) {
+		inline std::string to_string(const vec2& vec) {
 			return ("[" + std::to_string(vec.x) + ", " + std::to_string(vec.y) + "]");
 		}
 
 		// vec3
-		vec3 normalize(const vec3& vec) {
+		inline vec3 normalize(const vec3& vec) {
 			const float l = vec.length();
 
 			return (vec / l);
 		}
-		float dot(const vec3& a, const vec3& b) {
+		inline float dot(const vec3& a, const vec3& b) {
 			return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
 		}
-		vec3 cross(const vec3& a, const vec3& b) {
+		inline vec3 cross(const vec3& a, const vec3& b) {
 			return vec3(a.y * b.z - a.z * b.y,
 				a.z * b.x - a.x * b.z,
 				a.x * b.y - a.y * b.x);
 		}
-		vec3 reflect(const vec3& i, const vec3& n) {
+		inline vec3 reflect(const vec3& i, const vec3& n) {
 			return (i - 2.0f * dot(n, i) * n);
 		}
-		vec3 refract(const vec3& i, const vec3& n, float ior) {
+		inline vec3 refract(const vec3& i, const vec3& n, float ior) {
 			const float ndoti = dot(n, i);
 			const float k = 1.0f - ior * ior * (1.0f - ndoti * ndoti);
 			if (k < 0.0f) {
@@ -1098,28 +1098,28 @@ namespace NtshEngn {
 			}
 		}
 
-		vec3 to_vec3(const quat& qua) {
+		inline vec3 to_vec3(const quat& qua) {
 			return vec3(std::atan2(2.0f * ((qua.a * qua.b) + (qua.c * qua.d)), 1.0f - (2.0f * ((qua.b * qua.b) + (qua.c * qua.c)))),
 				std::asin(2.0f * ((qua.a * qua.c) - (qua.d * qua.b))),
 				std::atan2(2.0f * ((qua.a * qua.d) + (qua.b * qua.c)), 1.0f - (2.0f * ((qua.c * qua.c) + (qua.d * qua.d)))));
 		}
-		std::string to_string(const vec3& vec) {
+		inline std::string to_string(const vec3& vec) {
 			return ("[" + std::to_string(vec.x) + ", " + std::to_string(vec.y) + ", " + std::to_string(vec.z) + "]");
 		}
 
 		// vec4
-		vec4 normalize(const vec4& vec) {
+		inline vec4 normalize(const vec4& vec) {
 			const float l = vec.length();
 
 			return (vec / l);
 		}
-		float dot(const vec4& a, const vec4& b) {
+		inline float dot(const vec4& a, const vec4& b) {
 			return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w));
 		}
-		vec4 reflect(const vec4& i, const vec4& n) {
+		inline vec4 reflect(const vec4& i, const vec4& n) {
 			return (i - 2.0f * dot(n, i) * n);
 		}
-		vec4 refract(const vec4& i, const vec4& n, float ior) {
+		inline vec4 refract(const vec4& i, const vec4& n, float ior) {
 			const float ndoti = dot(n, i);
 			const float k = 1.0f - ior * ior * (1.0f - ndoti * ndoti);
 			if (k < 0.0f) {
@@ -1130,29 +1130,29 @@ namespace NtshEngn {
 			}
 		}
 
-		std::string to_string(const vec4& vec) {
+		inline std::string to_string(const vec4& vec) {
 			return ("[" + std::to_string(vec.x) + ", " + std::to_string(vec.y) + ", " + std::to_string(vec.z) + ", " + std::to_string(vec.w) + "]");
 		}
 
 		// mat2
-		mat2 transpose(const mat2& mat) {
+		inline mat2 transpose(const mat2& mat) {
 			return mat2(mat.x.x, mat.y.x, mat.x.y, mat.y.y);
 		}
-		mat2 inverse(const mat2& mat) {
+		inline mat2 inverse(const mat2& mat) {
 			const float determinant = mat.det();
 
 			return ((1.0f / determinant) * mat2(mat.y.y, -mat.x.y, -mat.y.x, mat.x.x));
 		}
 
-		std::string to_string(const mat2& mat) {
+		inline std::string to_string(const mat2& mat) {
 			return ("[" + to_string(mat.x) + ", " + to_string(mat.y) + "]");
 		}
 
 		// mat3
-		mat3 transpose(const mat3& mat) {
+		inline mat3 transpose(const mat3& mat) {
 			return mat3(mat.x.x, mat.y.x, mat.z.x, mat.x.y, mat.y.y, mat.z.y, mat.x.z, mat.y.z, mat.z.z);
 		}
-		mat3 inverse(const mat3& mat) {
+		inline mat3 inverse(const mat3& mat) {
 			const float determinant = mat.det();
 
 			const mat3 t = transpose(mat);
@@ -1170,28 +1170,28 @@ namespace NtshEngn {
 
 			return ((1.0f / determinant) * adj);
 		}
-		mat3 translate(const vec2& translation) {
+		inline mat3 translate(const vec2& translation) {
 			return mat3(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, translation.x, translation.y, 1.0f);
 		}
-		mat3 rotate(const float angle) {
+		inline mat3 rotate(const float angle) {
 			const float cosTheta = std::cos(angle);
 			const float sinTheta = std::sin(angle);
 			
 			return mat3(cosTheta, sinTheta, 0.0f, -sinTheta, cosTheta, 0.0f, 0.0f, 0.0f, 1.0f);
 		}
-		mat3 scale(const vec2& scaling) {
+		inline mat3 scale(const vec2& scaling) {
 			return mat3(scaling.x, 0.0f, 0.0f, 0.0f, scaling.y, 0.0f, 0.0f, 0.0f, 1.0f);
 		}
 
-		std::string to_string(const mat3& mat) {
+		inline std::string to_string(const mat3& mat) {
 			return ("[" + to_string(mat.x) + ", " + to_string(mat.y) + ", " + to_string(mat.z) + "]");
 		}
 
 		// mat4
-		mat4 transpose(const mat4& mat) {
+		inline mat4 transpose(const mat4& mat) {
 			return mat4(mat.x.x, mat.y.x, mat.z.x, mat.w.x, mat.x.y, mat.y.y, mat.z.y, mat.w.y, mat.x.z, mat.y.z, mat.z.z, mat.w.z, mat.x.w, mat.y.w, mat.z.w, mat.w.w);
 		}
-		mat4 inverse(const mat4& mat) {
+		inline mat4 inverse(const mat4& mat) {
 			const float determinant = mat.det();
 
 			const mat4 t = transpose(mat);
@@ -1216,10 +1216,10 @@ namespace NtshEngn {
 
 			return ((1.0f / determinant) * adj);
 		}
-		mat4 translate(const vec3& translation) {
+		inline mat4 translate(const vec3& translation) {
 			return mat4(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, translation.x, translation.y, translation.z, 1.0f);
 		}
-		mat4 rotate(const float angle, const vec3& axis) {
+		inline mat4 rotate(const float angle, const vec3& axis) {
 			const float cosTheta = std::cos(angle);
 			const float oMCT = 1.0f - cosTheta;
 			const float sinTheta = std::sin(angle);
@@ -1238,10 +1238,10 @@ namespace NtshEngn {
 				0.0f,
 				0.0f, 0.0f, 0.0f, 1.0f);
 		}
-		mat4 scale(const vec3& scaling) {
+		inline mat4 scale(const vec3& scaling) {
 			return mat4(scaling.x, 0.0f, 0.0f, 0.0f, 0.0f, scaling.y, 0.0f, 0.0f, 0.0f, 0.0f, scaling.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 		}
-		mat4 lookAtLH(const vec3& from, const vec3& to, const vec3& up) {
+		inline mat4 lookAtLH(const vec3& from, const vec3& to, const vec3& up) {
 			const vec3 forward = normalize(to - from);
 			const vec3 right = normalize(cross(up, forward));
 			const vec3 realUp = cross(forward, right);
@@ -1251,7 +1251,7 @@ namespace NtshEngn {
 				right.z, realUp.z, forward.z, 0.0,
 				-dot(right, from), -dot(realUp, from), -dot(forward, from), 1.0);
 		}
-		mat4 lookAtRH(const vec3& from, const vec3& to, const vec3& up) {
+		inline mat4 lookAtRH(const vec3& from, const vec3& to, const vec3& up) {
 			const vec3 forward = normalize(to - from);
 			const vec3 right = normalize(cross(forward, up));
 			const vec3 realUp = cross(right, forward);
@@ -1261,7 +1261,7 @@ namespace NtshEngn {
 				right.z, realUp.z, -forward.z, 0.0f,
 				-dot(right, from), -dot(realUp, from), dot(forward, from), 1.0f);
 		}
-		mat4 orthoLH(const float left, const float right, const float bottom, const float top, const float near, const float far) {
+		inline mat4 orthoLH(const float left, const float right, const float bottom, const float top, const float near, const float far) {
 			const float rightPlusLeft = right + left;
 			const float rightMinusLeft = right - left;
 			const float topPlusBottom = top + bottom;
@@ -1273,7 +1273,7 @@ namespace NtshEngn {
 				0.0f, 0.0f, 1.0f / farMinusNear, 0.0f,
 				-(rightPlusLeft / rightMinusLeft), -(topPlusBottom / topMinusBottom), -near / farMinusNear, 1.0f);
 		}
-		mat4 orthoRH(const float left, const float right, const float bottom, const float top, const float near, const float far) {
+		inline mat4 orthoRH(const float left, const float right, const float bottom, const float top, const float near, const float far) {
 			const float rightPlusLeft = right + left;
 			const float rightMinusLeft = right - left;
 			const float topPlusBottom = top + bottom;
@@ -1285,7 +1285,7 @@ namespace NtshEngn {
 				0.0f, 0.0f, -1.0f / farMinusNear, 0.0f,
 				-(rightPlusLeft / rightMinusLeft), -(topPlusBottom / topMinusBottom), -near / farMinusNear, 1.0f);
 		}
-		mat4 perspectiveLH(const float fovY, const float aspectRatio, const float near, const float far) {
+		inline mat4 perspectiveLH(const float fovY, const float aspectRatio, const float near, const float far) {
 			const float tanHalfFovY = std::tan(fovY / 2.0f);
 			const float farMinusNear = far - near;
 
@@ -1294,7 +1294,7 @@ namespace NtshEngn {
 				0.0f, 0.0f, far / farMinusNear, 1.0f,
 				0.0f, 0.0f, -(far * near) / farMinusNear, 0.0f);
 		}
-		mat4 perspectiveRH(const float fovY, const float aspectRatio, const float near, const float far) {
+		inline mat4 perspectiveRH(const float fovY, const float aspectRatio, const float near, const float far) {
 			const float tanHalfFovY = std::tan(fovY / 2.0f);
 			const float farMinusNear = far - near;
 			const float nearMinusFar = near - far;
@@ -1305,7 +1305,7 @@ namespace NtshEngn {
 				0.0f, 0.0f, -(far * near) / farMinusNear, 0.0f);
 		}
 
-		mat4 to_mat4(const quat& qua) {
+		inline mat4 to_mat4(const quat& qua) {
 			const float ab = qua.a * qua.b;
 			const float ac = qua.a * qua.c;
 			const float ad = qua.a * qua.d;
@@ -1330,21 +1330,21 @@ namespace NtshEngn {
 				0.0f,
 				0.0f, 0.0f, 0.0f, 1.0f);
 		}
-		std::string to_string(const mat4& mat) {
+		inline std::string to_string(const mat4& mat) {
 			return ("[" + to_string(mat.x) + ", " + to_string(mat.y) + ", " + to_string(mat.z) + ", " + to_string(mat.w) + "]");
 		}
 
 		// quat
-		quat conjugate(const quat& qua) {
+		inline quat conjugate(const quat& qua) {
 			return quat(qua.a, -qua.b, -qua.c, -qua.d);
 		}
-		quat normalize(const quat& qua) {
+		inline quat normalize(const quat& qua) {
 			const float l = qua.length();
 
 			return (qua / l);
 		}
 
-		quat to_quat(const vec3& vec) {
+		inline quat to_quat(const vec3& vec) {
 			const float cosHalfPhi = std::cos(vec.x / 2.0f);
 			const float sinHalfPhi = std::sin(vec.x / 2.0f);
 			const float cosHalfTheta = std::cos(vec.y / 2.0f);
@@ -1357,7 +1357,7 @@ namespace NtshEngn {
 				cosHalfPhi * sinHalfTheta * cosHalfPsi + sinHalfPhi * cosHalfTheta * sinHalfPsi,
 				cosHalfPhi * cosHalfTheta * sinHalfPsi - sinHalfPhi * sinHalfTheta * cosHalfPsi);
 		}
-		std::string to_string(const quat& qua) {
+		inline std::string to_string(const quat& qua) {
 			return std::to_string(qua.a) + " + " + std::to_string(qua.b) + "i + " + std::to_string(qua.c) + "j + " + std::to_string(qua.d) + "k";
 		}
 

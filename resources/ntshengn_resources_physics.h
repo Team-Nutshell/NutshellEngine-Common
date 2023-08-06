@@ -1,4 +1,5 @@
 #pragma once
+#include "../utils/ntshengn_utils_math.h"
 #include <array>
 
 namespace NtshEngn {
@@ -12,7 +13,7 @@ namespace NtshEngn {
 	};
 
 	struct ColliderShape {
-		ColliderShape(const ColliderShapeType shapeType): type(shapeType) {}
+		ColliderShape(const ColliderShapeType shapeType) : type(shapeType) {}
 
 		ColliderShapeType getType() const { return type; }
 
@@ -21,30 +22,30 @@ namespace NtshEngn {
 	};
 
 	struct ColliderSphere: public ColliderShape {
-		ColliderSphere(): ColliderShape(ColliderShapeType::Sphere) {}
+		ColliderSphere() : ColliderShape(ColliderShapeType::Sphere) {}
 
-		std::array<float, 3> center = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 center = { 0.0f, 0.0f, 0.0f };
 		float radius = 0.0f;
 	};
 
 	struct ColliderAABB: public ColliderShape {
-		ColliderAABB(): ColliderShape(ColliderShapeType::AABB) {}
+		ColliderAABB() : ColliderShape(ColliderShapeType::AABB) {}
 
-		std::array<float, 3> min = { 0.0f, 0.0f, 0.0f };
-		std::array<float, 3> max = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 min = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 max = { 0.0f, 0.0f, 0.0f };
 	};
 
 	struct ColliderCapsule: public ColliderShape {
-		ColliderCapsule(): ColliderShape(ColliderShapeType::Capsule) {}
+		ColliderCapsule() : ColliderShape(ColliderShapeType::Capsule) {}
 
-		std::array<float, 3> base = { 0.0f, 0.0f, 0.0f };
-		std::array<float, 3> tip = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 base = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 tip = { 0.0f, 0.0f, 0.0f };
 		float radius = 0.0f;
 	};
 
 	struct IntersectionInformation {
 		bool hasIntersected = false;
-		std::array<float, 3> intersectionNormal = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 intersectionNormal = { 0.0f, 0.0f, 0.0f };
 		float intersectionDepth = 0.0f;
 	};
 

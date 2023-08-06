@@ -1,4 +1,5 @@
 #pragma once
+#include "../utils/ntshengn_utils_math.h"
 #include <cstdint>
 #include <array>
 #include <vector>
@@ -148,13 +149,13 @@ namespace NtshEngn {
 
 	// Vertex
 	struct Vertex {
-		std::array<float, 3> position = { 0.0f, 0.0f, 0.0f };
-		std::array<float, 3> normal = { 0.0f, 0.0f, 0.0f };
-		std::array<float, 2> uv = { 0.0f, 0.0f };
-		std::array<float, 3> color = { 0.0f, 0.0f, 0.0f };
-		std::array<float, 4> tangent = { 0.0f, 0.0f, 0.0f, 0.0f };
-		std::array<float, 4> joints = { 0.0f, 0.0f, 0.0f, 0.0f };
-		std::array<float, 4> weights = { 0.0f, 0.0f, 0.0f, 0.0f };
+		Math::vec3 position = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 normal = { 0.0f, 0.0f, 0.0f };
+		Math::vec2 uv = { 0.0f, 0.0f };
+		Math::vec3 color = { 0.0f, 0.0f, 0.0f };
+		Math::vec4 tangent = { 0.0f, 0.0f, 0.0f, 0.0f };
+		Math::vec4 joints = { 0.0f, 0.0f, 0.0f, 0.0f };
+		Math::vec4 weights = { 0.0f, 0.0f, 0.0f, 0.0f };
 	};
 
 	struct Mesh {

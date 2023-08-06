@@ -1,4 +1,5 @@
 #pragma once
+#include "../../utils/ntshengn_utils_math.h"
 #include <array>
 
 namespace NtshEngn {
@@ -6,7 +7,7 @@ namespace NtshEngn {
 	struct Rigidbody {
 		bool isStatic = false;
 		bool isAffectedByConstants = true;
-		std::array<float, 3> force = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 force = { 0.0f, 0.0f, 0.0f };
 		float mass = 1.0f;
 		float restitution = 0.0f;
 		float staticFriction = 0.0f;
