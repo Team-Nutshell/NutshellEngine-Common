@@ -49,4 +49,12 @@ namespace NtshEngn {
 		float intersectionDepth = 0.0f;
 	};
 
+	// Raycast
+	struct RaycastInformation {
+		using Entity = uint32_t;
+
+		Entity entity;
+		float distance = 0.0f;
+	};
+
 }
