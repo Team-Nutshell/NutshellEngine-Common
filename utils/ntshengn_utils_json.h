@@ -339,7 +339,7 @@ namespace NtshEngn {
 				char c;
 
 				if (m_file.eof()) {
-					NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): reached end-of-file early.", Result::JSONError);
+					NTSHENGN_JSON_ERROR("Reached end-of-file early.", Result::JSONError);
 				}
 
 				m_previousPosition = m_file.tellg();
@@ -411,15 +411,15 @@ namespace NtshEngn {
 							token.value += c;
 
 							if (c != 'e') {
-								NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): \"" + token.value + "\" token is invalid.", Result::JSONError);
+								NTSHENGN_JSON_ERROR("\"" + token.value + "\" token is invalid.", Result::JSONError);
 							}
 						}
 						else {
-							NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): \"" + token.value + "\" token is invalid.", Result::JSONError);
+							NTSHENGN_JSON_ERROR("\"" + token.value + "\" token is invalid.", Result::JSONError);
 						}
 					}
 					else {
-						NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): \"" + token.value + "\" token is invalid.", Result::JSONError);
+						NTSHENGN_JSON_ERROR("\"" + token.value + "\" token is invalid.", Result::JSONError);
 					}
 				}
 				else if (c == 'f') {
@@ -442,19 +442,19 @@ namespace NtshEngn {
 								token.value += c;
 
 								if (c != 'e') {
-									NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): \"" + token.value + "\" token is invalid.", Result::JSONError);
+									NTSHENGN_JSON_ERROR("\"" + token.value + "\" token is invalid.", Result::JSONError);
 								}
 							}
 							else {
-								NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): \"" + token.value + "\" token is invalid.", Result::JSONError);
+								NTSHENGN_JSON_ERROR("\"" + token.value + "\" token is invalid.", Result::JSONError);
 							}
 						}
 						else {
-							NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): \"" + token.value + "\" token is invalid.", Result::JSONError);
+							NTSHENGN_JSON_ERROR("\"" + token.value + "\" token is invalid.", Result::JSONError);
 						}
 					}
 					else {
-						NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): \"" + token.value + "\" token is invalid.", Result::JSONError);
+						NTSHENGN_JSON_ERROR("\"" + token.value + "\" token is invalid.", Result::JSONError);
 					}
 				}
 				else if (c == 'n') {
@@ -472,22 +472,22 @@ namespace NtshEngn {
 							nullValue += c;
 
 							if (c != 'l') {
-								NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): \"" + nullValue + "\" token is invalid.", Result::JSONError);
+								NTSHENGN_JSON_ERROR("\"" + nullValue + "\" token is invalid.", Result::JSONError);
 							}
 						}
 						else {
-							NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): \"" + nullValue + "\" token is invalid.", Result::JSONError);
+							NTSHENGN_JSON_ERROR("\"" + nullValue + "\" token is invalid.", Result::JSONError);
 						}
 					}
 					else {
-						NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): \"" + nullValue + "\" token is invalid.", Result::JSONError);
+						NTSHENGN_JSON_ERROR("\"" + nullValue + "\" token is invalid.", Result::JSONError);
 					}
 				}
 				else if (c == '\0') {
 					token.type = TokenType::EndOfFile;
 				}
 				else {
-					NTSHENGN_JSON_ERROR("JSON::Lexer::getNextToken(): reached an unknown token (\"" + std::string() + c + "\").", Result::JSONError);
+					NTSHENGN_JSON_ERROR("Reached an unknown token (\"" + std::string() + c + "\").", Result::JSONError);
 				}
 
 				return token;
