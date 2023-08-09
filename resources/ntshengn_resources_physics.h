@@ -55,6 +55,7 @@ namespace NtshEngn {
 
 		Entity entity;
 		float distance = 0.0f;
+		Math::vec3 normal = { 0.0f, 0.0f, 0.0f };
 	};
 
 }
