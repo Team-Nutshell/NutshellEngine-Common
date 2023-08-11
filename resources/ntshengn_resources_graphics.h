@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <array>
 #include <vector>
+#include <unordered_map>
 
 namespace NtshEngn {
 
@@ -172,6 +173,23 @@ namespace NtshEngn {
 
 	struct Model {
 		std::vector<ModelPrimitive> primitives;
+	};
+
+	// Font
+	typedef uint64_t FontID;
+
+	struct FontGlyph {
+		Math::vec2 positionTopLeft = { 0.0f, 0.0f };
+		Math::vec2 positionBottomRight = { 0.0f, 0.0f };
+		float positionAdvance = 0.0f;
+		Math::vec2 uvTopLeft = { 0.0f, 0.0f };
+		Math::vec2 uvBottomRight = { 0.0f, 0.0f };
+	};
+
+	struct Font {
+		Image* image = nullptr;
+		ImageSamplerFilter imageSamplerFilter = ImageSamplerFilter::Unknown;
+		std::unordered_map<char, FontGlyph> glyphs;
 	};
 
 }

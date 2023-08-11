@@ -182,6 +182,50 @@ namespace NtshEngn {
 			}
 		}
 
+		Font* createFont() {
+			Font newFont;
+
+			m_fontResources.push_front(newFont);
+
+			return &m_fontResources.front();
+		}
+
+		Font* loadFont(const std::string& filePath, float fontHeight) {
+			if (!std::filesystem::exists(filePath)) {
+				NTSHENGN_ASSET_MANAGER_WARNING("Could not load font file \"" + filePath + "\" (file does not exist).");
+
+				return nullptr;
+			}
+
+			if (fontHeight <= 0.0f) {
+				NTSHENGN_ASSET_MANAGER_WARNING("Font height for font file \"" + filePath + "\" should be greater than 0.");
+
+				return nullptr;
+			}
+
+			if (m_fontPaths.exist(filePath + "/" + std::to_string(fontHeight))) {
+				return m_fontPaths[filePath + "/" + std::to_string(fontHeight)];
+			}
+
+			Font newFont;
+			if (m_assetLoaderModule) {
+				newFont = m_assetLoaderModule->loadFont(filePath, fontHeight);
+			}
+
+			if (newFont.image) {
+				m_fontResources.push_front(newFont);
+
+				m_fontPaths.insert_or_assign(filePath + "/" + std::to_string(fontHeight), &m_fontResources.front());
+
+				return &m_fontResources.front();
+			}
+			else {
+				NTSHENGN_ASSET_MANAGER_WARNING("Could not load font file \"" + filePath + "\".");
+
+				return nullptr;
+			}
+		}
+
 		void destroySound(Sound* sound) {
 			if (m_soundPaths.exist(sound)) {
 				m_soundPaths.erase(sound);
@@ -234,6 +278,24 @@ namespace NtshEngn {
 			}
 
 			NTSHENGN_ASSET_MANAGER_ERROR("Could not destroy image resource.", Result::AssetManagerError);
+		}
+
+		void destroyFont(Font* font) {
+			if (m_fontPaths.exist(font)) {
+				m_fontPaths.erase(font);
+			}
+
+			std::forward_list<Font>::iterator prev = m_fontResources.before_begin();
+			for (std::forward_list<Font>::iterator it = m_fontResources.begin(); it != m_fontResources.end(); it++) {
+				if (font == &(*it)) {
+					m_fontResources.erase_after(prev);
+					return;
+				}
+
+				prev = it;
+			}
+
+			NTSHENGN_ASSET_MANAGER_ERROR("Could not destroy font resource.", Result::AssetManagerError);
 		}
 
 		void calculateTangents(Mesh& mesh) {
@@ -584,10 +646,12 @@ namespace NtshEngn {
 		std::forward_list<Sound> m_soundResources;
 		std::forward_list<Model> m_modelResources;
 		std::forward_list<Image> m_imageResources;
+		std::forward_list<Font> m_fontResources;
 
 		Bimap<std::string, Sound*> m_soundPaths;
 		Bimap<std::string, Model*> m_modelPaths;
 		Bimap<std::string, Image*> m_imagePaths;
+		Bimap<std::string, Font*> m_fontPaths;
 	};
 
 }

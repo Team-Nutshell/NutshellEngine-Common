@@ -20,6 +20,8 @@ namespace NtshEngn {
 		virtual Image loadImage(const std::string& filePath) = 0;
 		// Loads the model in file at path filePath
 		virtual Model loadModel(const std::string& filePath) = 0;
+		// Loads the font in file at path filePath
+		virtual Font loadFont(const std::string& filePath, float fontHeight) = 0;
 
 		// Calculate tangents for mesh
 		virtual void calculateTangents(Mesh& mesh) = 0;

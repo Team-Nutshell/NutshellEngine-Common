@@ -18,6 +18,11 @@ namespace NtshEngn {
 		virtual MeshID load(const Mesh& mesh) = 0;
 		// Loads the image described in the image parameter in the internal format and returns a unique identifier
 		virtual ImageID load(const Image& image) = 0;
+		// Loads the font described in the font parameter in the internal format and returns a unique identifier
+		virtual FontID load(const Font& font) = 0;
+
+		// Draws a text on the UI with the font in the fontID parameter using the position on screen and color
+		virtual void drawUIText(FontID fontID, const std::string& text, const Math::vec2& position, const Math::vec4& color) = 0;
 	};
 
 }
