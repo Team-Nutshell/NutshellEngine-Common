@@ -8,7 +8,7 @@
 namespace NtshEngn {
 
 	// Image
-	typedef uint64_t ImageID;
+	typedef uint32_t ImageID;
 
 	enum class ImageFormat {
 		R8,
@@ -137,7 +137,7 @@ namespace NtshEngn {
 	};
 
 	// Mesh
-	typedef uint64_t MeshID;
+	typedef uint32_t MeshID;
 
 	enum class MeshTopology {
 		TriangleList,
@@ -176,7 +176,7 @@ namespace NtshEngn {
 	};
 
 	// Font
-	typedef uint64_t FontID;
+	typedef uint32_t FontID;
 
 	struct FontGlyph {
 		Math::vec2 positionTopLeft = { 0.0f, 0.0f };
