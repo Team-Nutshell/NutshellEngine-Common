@@ -24,7 +24,7 @@ namespace NtshEngn {
 			Node(const Math::vec3& position, const Math::vec3& size) : m_position(position), m_size(size) {}
 			
 			void execute(const std::function<void(std::vector<Entry>&)>& operation) {
-				if (m_hasChildren) {
+				if (!m_children.empty()) {
 					for (uint8_t i = 0; i < 8; i++) {
 						m_children[i].execute(operation);
 					}
@@ -47,8 +47,6 @@ namespace NtshEngn {
 				m_children.emplace_back(m_position + Math::vec3(halfSize.x, -halfSize.y, halfSize.z), halfSize);
 				m_children.emplace_back(m_position + Math::vec3(-halfSize.x, -halfSize.y, -halfSize.z), halfSize);
 				m_children.emplace_back(m_position + Math::vec3(halfSize.x, -halfSize.y, -halfSize.z), halfSize);
-
-				m_hasChildren = true;
 			}
 
 			void insert(const T& object, const Math::vec3& objectPosition, const Math::vec3& objectSize, uint32_t depthLeft) {
@@ -56,7 +54,7 @@ namespace NtshEngn {
 					return;
 				}
 
-				if (m_hasChildren) {
+				if (!m_children.empty()) {
 					for (uint8_t i = 0; i < 8; i++) {
 						m_children[i].insert(object, objectPosition, objectSize, depthLeft - 1);
 					}
@@ -64,15 +62,13 @@ namespace NtshEngn {
 				else {
 					m_entries.emplace_back(object, objectPosition, objectSize);
 					if (depthLeft > 0) {
-						if (!m_hasChildren) {
-							split();
-							for (const Entry& entry : m_entries) {
-								for (uint8_t i = 0; i < 8; i++) {
-									m_children[i].insert(entry.object, entry.position, entry.size, depthLeft - 1);
-								}
+						split();
+						for (const Entry& entry : m_entries) {
+							for (uint8_t i = 0; i < 8; i++) {
+								m_children[i].insert(entry.object, entry.position, entry.size, depthLeft - 1);
 							}
-							m_entries.clear();
 						}
+						m_entries.clear();
 					}
 				}
 			}
@@ -84,7 +80,6 @@ namespace NtshEngn {
 
 		private:
 			std::vector<Entry> m_entries;
-			bool m_hasChildren = false;
 			std::vector<Node> m_children;
 			Math::vec3 m_position;
 			Math::vec3 m_size;
