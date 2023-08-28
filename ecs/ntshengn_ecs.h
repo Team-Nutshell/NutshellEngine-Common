@@ -20,6 +20,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <algorithm>
 
 #define MAX_ENTITIES 4096
 #define MAX_COMPONENTS 32
@@ -71,6 +72,10 @@ namespace NtshEngn {
 			if (m_entityNames.exist(entity)) {
 				m_entityNames.erase(entity);
 			}
+
+			if (m_persistentEntities.find(entity) != m_persistentEntities.end()) {
+				m_persistentEntities.erase(entity);
+			}
 		}
 
 		void setComponents(Entity entity, ComponentMask componentMask) {
@@ -83,6 +88,10 @@ namespace NtshEngn {
 			NTSHENGN_ASSERT(entity < MAX_ENTITIES);
 
 			return m_componentMasks[entity];
+		}
+
+		const std::set<Entity>& getExistingEntities() {
+			return m_existingEntities;
 		}
 
 		bool entityHasName(Entity entity) {
@@ -107,8 +116,23 @@ namespace NtshEngn {
 			return m_entityNames[name];
 		}
 
-		const std::set<Entity>& getExistingEntities() {
-			return m_existingEntities;
+		void setEntityPersistent(Entity entity, bool persistent) {
+			if (persistent) {
+				m_persistentEntities.insert(entity);
+			}
+			else {
+				if (m_persistentEntities.find(entity) != m_persistentEntities.end()) {
+					m_persistentEntities.erase(entity);
+				}
+			}
+		}
+
+		bool isEntityPersistent(Entity entity) {
+			return m_persistentEntities.find(entity) != m_persistentEntities.end();
+		}
+
+		const std::set<Entity>& getPersistentEntities() {
+			return m_persistentEntities;
 		}
 
 	private:
@@ -116,6 +140,7 @@ namespace NtshEngn {
 		std::set<Entity> m_existingEntities;
 		std::array<ComponentMask, MAX_ENTITIES> m_componentMasks;
 		Bimap<Entity, std::string> m_entityNames;
+		std::set<Entity> m_persistentEntities;
 		uint32_t m_numberOfEntities = 0;
 	};
 
@@ -352,6 +377,18 @@ namespace NtshEngn {
 			}
 		}
 
+		void destroyNonPersistentEntities() {
+			const std::set<Entity>& existingEntities = m_entityManager->getExistingEntities();
+			const std::set<Entity>& persistentEntities = m_entityManager->getPersistentEntities();
+			std::set<Entity> nonPersistentEntities;
+			std::set_difference(existingEntities.begin(), existingEntities.end(), persistentEntities.begin(), persistentEntities.end(), std::inserter(nonPersistentEntities, nonPersistentEntities.begin()));
+			while (!nonPersistentEntities.empty()) {
+				Entity entityToDestroy = *nonPersistentEntities.rbegin();
+				nonPersistentEntities.erase(entityToDestroy);
+				destroyEntity(entityToDestroy);
+			}
+		}
+
 		void setEntityName(Entity entity, const std::string& name) {
 			m_entityManager->setEntityName(entity, name);
 		}
@@ -366,6 +403,14 @@ namespace NtshEngn {
 
 		Entity findEntityByName(const std::string& name) {
 			return m_entityManager->findEntityByName(name);
+		}
+
+		void setEntityPersistent(Entity entity, bool persistent) {
+			m_entityManager->setEntityPersistent(entity, persistent);
+		}
+
+		bool isEntityPersistent(Entity entity) {
+			return m_entityManager->isEntityPersistent(entity);
 		}
 
 		// Component
