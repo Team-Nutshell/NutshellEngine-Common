@@ -116,7 +116,7 @@ namespace NtshEngn {
 			return m_entityNames[name];
 		}
 
-		void setEntityPersistent(Entity entity, bool persistent) {
+		void setEntityPersistence(Entity entity, bool persistent) {
 			if (persistent) {
 				m_persistentEntities.insert(entity);
 			}
@@ -405,8 +405,8 @@ namespace NtshEngn {
 			return m_entityManager->findEntityByName(name);
 		}
 
-		void setEntityPersistent(Entity entity, bool persistent) {
-			m_entityManager->setEntityPersistent(entity, persistent);
+		void setEntityPersistence(Entity entity, bool persistent) {
+			m_entityManager->setEntityPersistence(entity, persistent);
 		}
 
 		bool isEntityPersistent(Entity entity) {
