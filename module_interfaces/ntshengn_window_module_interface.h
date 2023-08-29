@@ -77,7 +77,7 @@ namespace NtshEngn {
 		// Returns the mouse cursor vertical position
 		virtual int getCursorPositionY(WindowID windowID) = 0;
 
-		// If the mouse cursor is visible in the window with identifier windowID, hides it, else, shows it
+		// Sets the mouse cursor's visibility in the window with identifier windowID
 		virtual void setCursorVisibility(WindowID windowID, bool visible) = 0;
 		// Returns true if the mouse cursor is visible in the window with identifier windowID, else, returns false
 		virtual bool isCursorVisible(WindowID windowID) = 0;
