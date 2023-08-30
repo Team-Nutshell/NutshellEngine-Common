@@ -112,9 +112,9 @@ namespace NtshEngn {
 		virtual float getMonitorDisplayScaling() = 0;
 
 		// Returns the native window handle of the window with identifier windowID
-		virtual NativeWindowHandle getNativeHandle(WindowID windowID) = 0;
+		virtual NativeWindowHandle getWindowNativeHandle(WindowID windowID) = 0;
 		// Returns the native window additional information of the window with identifier windowID
-		virtual NativeWindowAdditionalInformation getNativeAdditionalInformation(WindowID windowID) = 0;
+		virtual NativeWindowAdditionalInformation getWindowNativeAdditionalInformation(WindowID windowID) = 0;
 	};
 
 }
