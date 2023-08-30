@@ -1,6 +1,7 @@
 #pragma once
 #include "ntshengn_system_module_interface.h"
 #include "../resources/ntshengn_resources_window.h"
+#include <vector>
 
 namespace NtshEngn {
 
@@ -77,15 +78,29 @@ namespace NtshEngn {
 		// Returns the mouse cursor vertical position
 		virtual int getCursorPositionY(WindowID windowID) = 0;
 
+		// Returns the horizontal mouse scroll offset between the last and current frame
+		virtual float getMouseScrollOffsetX(WindowID windowID) = 0;
+		// Returns the vertical mouse scroll offset between the last and current frame
+		virtual float getMouseScrollOffsetY(WindowID windowID) = 0;
+
 		// Sets the mouse cursor's visibility in the window with identifier windowID
 		virtual void setCursorVisibility(WindowID windowID, bool visible) = 0;
 		// Returns true if the mouse cursor is visible in the window with identifier windowID, else, returns false
 		virtual bool isCursorVisible(WindowID windowID) = 0;
 
-		// Returns the horizontal mouse scroll offset between the last and current frame
-		virtual float getMouseScrollOffsetX(WindowID windowID) = 0;
-		// Returns the vertical mouse scroll offset between the last and current frame
-		virtual float getMouseScrollOffsetY(WindowID windowID) = 0;
+		// Returns the list of connected gamepads
+		virtual std::vector<GamepadID> getConnectedGamepads() = 0;
+
+		// Returns the state of the gamepad with identifier gamepadID
+		virtual InputState getGamepadButtonState(GamepadID gamepadID, InputGamepadButton button) = 0;
+		// Returns the value of the stick's horizontal axis, with -1.0 being left, 0.0 neutral and 1.0 right
+		virtual float getGamepadStickAxisX(GamepadID gamepadID, InputGamepadStick stick) = 0;
+		// Returns the value of the stick's vertical axis, with -1.0 being up, 0.0 neutral and 1.0 down
+		virtual float getGamepadStickAxisY(GamepadID gamepadID, InputGamepadStick stick) = 0;
+		// Returns the value of the stick's left trigger, with 0.0 being neutral and 1.0 being fully pressed
+		virtual float getGamepadLeftTrigger(GamepadID gamepadID) = 0;
+		// Returns the value of the stick's right trigger, with 0.0 being neutral and 1.0 being fully pressed
+		virtual float getGamepadRightTrigger(GamepadID gamepadID) = 0;
 
 		// Returns the width of the main monitor
 		virtual int getMonitorWidth() = 0;

@@ -100,4 +100,30 @@ namespace NtshEngn {
 		Eight // Additional mouse button 8
 	};
 
+	typedef uint32_t GamepadID;
+
+	enum class InputGamepadButton {
+		Any, // Any gamepad button
+		Face1, // First face button
+		Face2, // Second face button
+		Face3, // Third face button
+		Face4, // Fourth face button
+		Start, // Start face button
+		Select, // Select face button
+		Guide, // Guide face button
+		LeftStick, // Left stick button
+		RightStick, // Right stick button
+		LeftBumper, // Left shoulder button
+		RightBumper, // Right shoulder button
+		DPadLeft, // Directional pad left button
+		DPadRight, // Directional pad right button
+		DPadUp, // Directional pad up button
+		DPadDown // Directional pad down button
+	};
+
+	enum class InputGamepadStick {
+		Left, // Left stick
+		Right // Right stick
+	};
+
 }
