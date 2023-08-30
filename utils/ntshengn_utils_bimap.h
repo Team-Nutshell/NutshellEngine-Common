@@ -11,7 +11,7 @@ namespace NtshEngn {
 			m_ut[elem] = key;
 		}
 
-		void insert_or_assign(const U& key, const T& elem) {;
+		void insert_or_assign(const U& key, const T& elem) {
 			m_ut[key] = elem;
 			m_tu[elem] = key;
 		}
