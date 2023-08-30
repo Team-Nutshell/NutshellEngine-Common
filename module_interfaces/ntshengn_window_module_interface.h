@@ -2,6 +2,7 @@
 #include "ntshengn_system_module_interface.h"
 #include "../resources/ntshengn_resources_window.h"
 #include <vector>
+#include <string>
 
 namespace NtshEngn {
 
@@ -101,6 +102,9 @@ namespace NtshEngn {
 		virtual float getGamepadLeftTrigger(GamepadID gamepadID) = 0;
 		// Returns the value of the stick's right trigger, with 0.0 being neutral and 1.0 being fully pressed
 		virtual float getGamepadRightTrigger(GamepadID gamepadID) = 0;
+
+		// Returns the name of the gamepad with identifier gamepadID
+		virtual std::string getGamepadName(GamepadID gamepadID) = 0;
 
 		// Returns the width of the main monitor
 		virtual int getMonitorWidth() = 0;
