@@ -7,6 +7,7 @@ namespace NtshEngn {
 
 	// Sound
 	typedef uint32_t SoundID;
+	#define NTSHENGN_SOUND_UNKNOWN 0xFFFFFFFF
 
 	struct Sound {
 		// Number of channels (1 = Mono, 2 = Stereo, ...)

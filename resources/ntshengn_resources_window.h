@@ -5,6 +5,7 @@ namespace NtshEngn {
 
 	// Window
 	typedef uint32_t WindowID;
+	#define NTSHENGN_WINDOW_UNKNOWN 0xFFFFFFFF
 
 	// Native window handle
 	typedef void* NativeWindowHandle;
@@ -101,6 +102,7 @@ namespace NtshEngn {
 	};
 
 	typedef uint32_t GamepadID;
+	#define NTSHENGN_GAMEPAD_UNKNOWN 0xFFFFFFFF
 
 	enum class InputGamepadButton {
 		Any, // Any gamepad button

@@ -28,6 +28,8 @@
 namespace NtshEngn {
 
 	using Entity = uint32_t;
+	#define NTSHENGN_ENTITY_UNKNOWN 0xFFFFFFFF
+
 	using Component = uint8_t;
 	using ComponentMask = std::bitset<MAX_COMPONENTS>;
 
@@ -105,15 +107,21 @@ namespace NtshEngn {
 		}
 
 		std::string getEntityName(Entity entity) {
-			NTSHENGN_ASSERT(m_entityNames.exist(entity));
-
-			return m_entityNames[entity];
+			if (m_entityNames.exist(entity)) {
+				return m_entityNames[entity];
+			}
+			else {
+				return "";
+			}
 		}
 
 		Entity findEntityByName(const std::string& name) {
-			NTSHENGN_ASSERT(m_entityNames.exist(name));
-
-			return m_entityNames[name];
+			if (m_entityNames.exist(name)) {
+				return m_entityNames[name];
+			}
+			else {
+				return NTSHENGN_ENTITY_UNKNOWN;
+			}
 		}
 
 		void setEntityPersistence(Entity entity, bool persistent) {
