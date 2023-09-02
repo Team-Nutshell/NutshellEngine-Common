@@ -92,18 +92,22 @@ namespace NtshEngn {
 			return m_componentMasks[entity];
 		}
 
-		const std::set<Entity>& getExistingEntities() {
-			return m_existingEntities;
+		bool entityExists(Entity entity) {
+			return m_existingEntities.find(entity) != m_existingEntities.end();
 		}
 
-		bool entityHasName(Entity entity) {
-			return m_entityNames.exist(entity);
+		const std::set<Entity>& getExistingEntities() {
+			return m_existingEntities;
 		}
 
 		void setEntityName(Entity entity, const std::string& name) {
 			NTSHENGN_ASSERT(!m_entityNames.exist(name));
 
 			m_entityNames.insert_or_assign(entity, name);
+		}
+
+		bool entityHasName(Entity entity) {
+			return m_entityNames.exist(entity);
 		}
 
 		std::string getEntityName(Entity entity) {
@@ -395,6 +399,10 @@ namespace NtshEngn {
 				nonPersistentEntities.erase(entityToDestroy);
 				destroyEntity(entityToDestroy);
 			}
+		}
+
+		bool entityExists(Entity entity) {
+			return m_entityManager->entityExists(entity);
 		}
 
 		void setEntityName(Entity entity, const std::string& name) {
