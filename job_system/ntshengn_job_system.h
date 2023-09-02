@@ -1,5 +1,5 @@
 #pragma once
-#include "ntshengn_job_queue.h"
+#include "../utils/ntshengn_utils_thread_safe_queue.h"
 #include <thread>
 #include <mutex>
 #include <condition_variable>
@@ -11,7 +11,7 @@
 namespace NtshEngn {
 
 	struct JobSharedData {
-		JobQueue<std::function<void()>> jobQueue;
+		ThreadSafeQueue<std::function<void()>> jobQueue;
 		std::condition_variable wakeCondition;
 		std::mutex wakeMutex;
 		std::atomic<uint32_t> currentJobs;

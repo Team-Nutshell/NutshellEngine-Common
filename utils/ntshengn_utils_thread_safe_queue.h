@@ -6,7 +6,7 @@
 namespace NtshEngn {
 
 	template<typename T>
-	class JobQueue {
+	class ThreadSafeQueue {
 	public:
 		inline void push_back(const T& element) {
 			std::unique_lock<std::mutex> lock(m_mutex);
