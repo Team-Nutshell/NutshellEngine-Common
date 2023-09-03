@@ -12,7 +12,7 @@ namespace NtshEngn {
 		Scriptable& operator=(const Scriptable& other) { script = other.script->clone(); return *this; }
 		Scriptable& operator=(Scriptable&& other) = default;
 
-		std::unique_ptr<Script> script = nullptr;
+		std::unique_ptr<ScriptBase> script = nullptr;
 	};
 
 }
