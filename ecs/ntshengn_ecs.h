@@ -224,7 +224,7 @@ namespace NtshEngn {
 		}
 
 		template <typename T>
-		Component getComponentId() {
+		Component getComponentID() {
 			std::string typeName = std::string(typeid(T).name());
 
 			NTSHENGN_ASSERT(m_componentTypes.find(typeName) != m_componentTypes.end());
@@ -440,7 +440,7 @@ namespace NtshEngn {
 			m_componentManager->addComponent<T>(entity, component);
 			ComponentMask oldComponents = m_entityManager->getComponents(entity);
 			ComponentMask newComponents = oldComponents;
-			Component componentID = m_componentManager->getComponentId<T>();
+			Component componentID = m_componentManager->getComponentID<T>();
 			newComponents.set(componentID, true);
 			m_entityManager->setComponents(entity, newComponents);
 			m_systemManager->entityComponentMaskChanged(entity, oldComponents, newComponents, componentID);
@@ -450,7 +450,7 @@ namespace NtshEngn {
 		void removeComponent(Entity entity) {
 			ComponentMask oldComponents = m_entityManager->getComponents(entity);
 			ComponentMask newComponents = oldComponents;
-			Component componentID = m_componentManager->getComponentId<T>();
+			Component componentID = m_componentManager->getComponentID<T>();
 			newComponents.set(componentID, false);
 			m_entityManager->setComponents(entity, newComponents);
 			m_systemManager->entityComponentMaskChanged(entity, oldComponents, newComponents, componentID);
@@ -468,8 +468,8 @@ namespace NtshEngn {
 		}
 
 		template <typename T>
-		Component getComponentId() {
-			return m_componentManager->getComponentId<T>();
+		Component getComponentID() {
+			return m_componentManager->getComponentID<T>();
 		}
 
 		// System
