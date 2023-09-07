@@ -157,7 +157,7 @@ namespace NtshEngn {
 		Math::vec2 uv = { 0.0f, 0.0f };
 		Math::vec3 color = { 0.0f, 0.0f, 0.0f };
 		Math::vec4 tangent = { 0.0f, 0.0f, 0.0f, 0.0f };
-		Math::vec4 joints = { 0.0f, 0.0f, 0.0f, 0.0f };
+		std::array<uint32_t, 4> joints = { 0, 0, 0, 0 };
 		Math::vec4 weights = { 0.0f, 0.0f, 0.0f, 0.0f };
 	};
 

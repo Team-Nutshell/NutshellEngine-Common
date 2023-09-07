@@ -398,7 +398,7 @@ namespace NtshEngn {
 					}
 
 					if (vertexNode.contains("joints")) {
-						vertex.joints = { vertexNode["joints"][0].getNumber(), vertexNode["joints"][1].getNumber(), vertexNode["joints"][2].getNumber(), vertexNode["joints"][3].getNumber() };
+						vertex.joints = std::array<uint32_t, 4>({ static_cast<uint32_t>(vertexNode["joints"][0].getNumber()), static_cast<uint32_t>(vertexNode["joints"][1].getNumber()), static_cast<uint32_t>(vertexNode["joints"][2].getNumber()), static_cast<uint32_t>(vertexNode["joints"][3].getNumber()) });
 					}
 
 					if (vertexNode.contains("weights")) {
