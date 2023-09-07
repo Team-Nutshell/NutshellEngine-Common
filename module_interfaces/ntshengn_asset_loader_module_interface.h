@@ -25,8 +25,6 @@ namespace NtshEngn {
 
 		// Calculate tangents for mesh
 		virtual void calculateTangents(Mesh& mesh) = 0;
-		// Calculate and return the mesh's AABB
-		virtual std::array<Math::vec3, 2> calculateAABB(const Mesh& mesh) = 0;
 	};
 
 }

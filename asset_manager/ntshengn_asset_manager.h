@@ -308,14 +308,49 @@ namespace NtshEngn {
 		}
 
 		std::array<Math::vec3, 2> calculateAABB(const Mesh& mesh) {
-			if (m_assetLoaderModule) {
-				return m_assetLoaderModule->calculateAABB(mesh);
-			}
-			else {
-				NTSHENGN_ASSET_MANAGER_WARNING("Could not calculate AABB for mesh.");
+			Math::vec3 min = Math::vec3(std::numeric_limits<float>::max());
+			Math::vec3 max = Math::vec3(std::numeric_limits<float>::lowest());
+			for (const NtshEngn::Vertex& vertex : mesh.vertices) {
+				if (vertex.position[0] < min.x) {
+					min.x = vertex.position[0];
+				}
+				if (vertex.position[0] > max.x) {
+					max.x = vertex.position[0];
+				}
 
-				return { Math::vec3(0.0f, 0.0f, 0.0f), Math::vec3(0.0f, 0.0f, 0.0f) };
+				if (vertex.position[1] < min.y) {
+					min.y = vertex.position[1];
+				}
+				if (vertex.position[1] > max.y) {
+					max.y = vertex.position[1];
+				}
+
+				if (vertex.position[2] < min.z) {
+					min.z = vertex.position[2];
+				}
+				if (vertex.position[2] > max.z) {
+					max.z = vertex.position[2];
+				}
 			}
+
+			const float epsilon = 0.0001f;
+
+			if (min.x == max.x) {
+				min.x -= epsilon;
+				max.x += epsilon;
+			}
+
+			if (min.y == max.y) {
+				min.y -= epsilon;
+				max.y += epsilon;
+			}
+
+			if (min.z == max.z) {
+				min.z -= epsilon;
+				max.z += epsilon;
+			}
+
+			return { Math::vec3(min.x, min.y, min.z), Math::vec3(max.x, max.y, max.z) };
 		}
 
 	public:
