@@ -44,7 +44,7 @@ namespace NtshEngn {
 			while (it != m_blockQueue.end()) {
 				Block& currentBlock = *it;
 				if ((currentBlock.offset == offset) && (currentBlock.size == size)) {
-					if (((it - 1) != (m_blockQueue.begin() - 1)) &&
+					if ((it != m_blockQueue.begin()) &&
 						((it + 1) != m_blockQueue.end())) {
 						Block& previousBlock = *(it - 1);
 						Block& nextBlock = *(it + 1);
@@ -70,7 +70,7 @@ namespace NtshEngn {
 							m_blockQueue.erase(it);
 						}
 					}
-					else if ((it - 1) != (m_blockQueue.begin() - 1)) { // Next is end
+					else if (it != m_blockQueue.begin()) { // Next is end
 						Block& previousBlock = *(it - 1);
 						if (!previousBlock.inUse) { // Merge
 							previousBlock.size += size;
