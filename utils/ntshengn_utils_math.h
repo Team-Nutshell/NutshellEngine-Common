@@ -25,6 +25,10 @@ namespace NtshEngn {
 			return radians * (180.0f / PI);
 		}
 
+		inline float lerp(const float a, const float b, const float interpolationValue) {
+			return a + interpolationValue * (b - a);
+		}
+
 		// vec2
 		// x | y
 		struct vec2 {
@@ -1342,6 +1346,33 @@ namespace NtshEngn {
 			const float l = qua.length();
 
 			return (qua / l);
+		}
+		inline float dot(const quat& a, const quat& b) {
+			return ((a.a * b.a) + (a.b * b.b) + (a.c * b.c) + (a.d * b.d));
+		}
+		inline quat slerp(const quat& a, const quat& b, const float interpolationValue) {
+			quat tmpB = b;
+
+			float aDotb = dot(a, b);
+
+			if (aDotb < 0.0) {
+				tmpB = tmpB * -1.0f;
+				aDotb = -aDotb;
+			}
+
+			if (aDotb > 0.9995) {
+				return normalize(a + interpolationValue * (tmpB - a));
+			}
+
+			const float theta0 = std::acos(aDotb);
+			const float theta = interpolationValue * theta0;
+			const float sinTheta0 = std::sin(theta0);
+			const float sinTheta = std::sin(theta);
+
+			float scaleA = std::cos(theta) - aDotb * (sinTheta / sinTheta0);
+			float scaleB = sinTheta / sinTheta0;
+
+			return (scaleA * a + scaleB * tmpB);
 		}
 
 		inline quat to_quat(const vec3& vec) {
