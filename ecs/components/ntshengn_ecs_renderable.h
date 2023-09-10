@@ -4,8 +4,8 @@
 namespace NtshEngn {
 
 	struct Renderable {
-		Mesh* mesh = nullptr;
-		Material* material = nullptr;
+		Model* model = nullptr;
+		uint32_t modelPrimitiveIndex = 0;
 	};
 
 }
