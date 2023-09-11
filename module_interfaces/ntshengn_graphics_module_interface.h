@@ -21,6 +21,16 @@ namespace NtshEngn {
 		// Loads the font described in the font parameter in the internal format and returns a unique identifier
 		virtual FontID load(const Font& font) = 0;
 
+		// Plays an animation for an entity, indexed in the entity's model animation list
+		virtual void playAnimation(Entity entity, uint32_t animationIndex) = 0;
+		// Pauses an animation played by an entity
+		virtual void pauseAnimation(Entity entity) = 0;
+		// Stops an animation played by an entity
+		virtual void stopAnimation(Entity entity) = 0;
+
+		// Returns true if the entity is currently playing the animation with index animationIndex, else, returns false
+		virtual bool isAnimationPlaying(Entity entity, uint32_t animationIndex) = 0;
+
 		// Draws a text on the UI with the font in the fontID parameter using the position on screen and color
 		virtual void drawUIText(FontID fontID, const std::string& text, const Math::vec2& position, const Math::vec4& color) = 0;
 		// Draws a line on the UI according to its start and end points and its color
