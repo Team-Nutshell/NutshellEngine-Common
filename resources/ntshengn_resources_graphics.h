@@ -192,17 +192,24 @@ namespace NtshEngn {
 		Math::vec4 weights;
 	};
 
-	// Joint
+	// Skin
 	struct Joint {
 		Math::mat4 inverseBindMatrix;
-		Math::mat4 baseTransform;
+		Math::mat4 localTransform;
 		std::vector<uint32_t> children;
+	};
+
+	struct Skin {
+		std::vector<Joint> joints;
+		uint32_t rootJoint = 0;
+		Math::mat4 baseMatrix;
+		Math::mat4 inverseGlobalTransform;
 	};
 
 	struct Mesh {
 		std::vector<Vertex> vertices;
 		std::vector<uint32_t> indices;
-		std::vector<Joint> joints;
+		Skin skin;
 		MeshTopology topology = MeshTopology::Unknown;
 	};
 
