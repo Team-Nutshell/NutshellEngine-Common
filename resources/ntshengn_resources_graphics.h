@@ -152,7 +152,7 @@ namespace NtshEngn {
 		Unknown
 	};
 
-	struct AnimationKeyframe {
+	struct AnimationChannelKeyframe {
 		float timestamp = 0.0f;
 		Math::vec4 value;
 	};
@@ -160,7 +160,7 @@ namespace NtshEngn {
 	struct AnimationChannel {
 		AnimationChannelInterpolationType interpolationType = AnimationChannelInterpolationType::Unknown;
 		AnimationChannelTransformType transformType = AnimationChannelTransformType::Unknown;
-		std::vector<AnimationKeyframe> keyframes;
+		std::vector<AnimationChannelKeyframe> keyframes;
 	};
 
 	struct Animation {
