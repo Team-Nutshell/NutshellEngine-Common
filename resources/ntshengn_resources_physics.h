@@ -7,6 +7,7 @@ namespace NtshEngn {
 	enum class ColliderShapeType {
 		Sphere,
 		AABB,
+		OBB,
 		Capsule,
 		Unknown
 	};
@@ -42,6 +43,16 @@ namespace NtshEngn {
 
 		Math::vec3 min = { 0.0f, 0.0f, 0.0f };
 		Math::vec3 max = { 0.0f, 0.0f, 0.0f };
+	};
+
+	struct ColliderOBB : public ColliderShape {
+		ColliderOBB() : ColliderShape(ColliderShapeType::OBB) {}
+
+		ColliderOBB* cloneImpl() { return new ColliderOBB(*this); }
+
+		Math::vec3 center = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 halfExtent = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 rotation = { 0.0f, 0.0f, 0.0f }; 
 	};
 
 	struct ColliderCapsule : public ColliderShape {
