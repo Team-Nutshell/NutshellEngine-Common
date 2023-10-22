@@ -35,7 +35,7 @@ namespace NtshEngn {
 		virtual bool isSoundPlaying(SoundID soundID) = 0;
 
 		// Sets the position of the sound source with identifieer soundSourceID
-		virtual void setSoundSourcePosition(SoundSourceID soundSourceID, const Math::vec3& position) = 0;
+		virtual void setSoundSourcePosition(SoundSourceID soundSourceID, const Math::vec3& newPosition) = 0;
 		// Gets the position of the sound source with identifier soundSourceID
 		virtual Math::vec3 getSoundSourcePosition(SoundSourceID soundSourceID) = 0;
 
