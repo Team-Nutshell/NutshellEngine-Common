@@ -1,13 +1,13 @@
 #pragma once
 #include "../utils/ntshengn_utils_math.h"
+#include <vector>
 
 namespace NtshEngn {
 
 	// Collision
 	enum class ColliderShapeType {
+		Box,
 		Sphere,
-		AABB,
-		OBB,
 		Capsule,
 		Unknown
 	};
@@ -27,6 +27,16 @@ namespace NtshEngn {
 		ColliderShapeType type = ColliderShapeType::Unknown;
 	};
 
+	struct ColliderBox : public ColliderShape {
+		ColliderBox() : ColliderShape(ColliderShapeType::Box) {}
+
+		ColliderBox* cloneImpl() { return new ColliderBox(*this); }
+
+		Math::vec3 center = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 halfExtent = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 rotation = { 0.0f, 0.0f, 0.0f }; 
+	};
+
 	struct ColliderSphere : public ColliderShape {
 		ColliderSphere() : ColliderShape(ColliderShapeType::Sphere) {}
 
@@ -34,25 +44,6 @@ namespace NtshEngn {
 
 		Math::vec3 center = { 0.0f, 0.0f, 0.0f };
 		float radius = 0.0f;
-	};
-
-	struct ColliderAABB : public ColliderShape {
-		ColliderAABB() : ColliderShape(ColliderShapeType::AABB) {}
-
-		ColliderAABB* cloneImpl() { return new ColliderAABB(*this); }
-
-		Math::vec3 min = { 0.0f, 0.0f, 0.0f };
-		Math::vec3 max = { 0.0f, 0.0f, 0.0f };
-	};
-
-	struct ColliderOBB : public ColliderShape {
-		ColliderOBB() : ColliderShape(ColliderShapeType::OBB) {}
-
-		ColliderOBB* cloneImpl() { return new ColliderOBB(*this); }
-
-		Math::vec3 center = { 0.0f, 0.0f, 0.0f };
-		Math::vec3 halfExtent = { 0.0f, 0.0f, 0.0f };
-		Math::vec3 rotation = { 0.0f, 0.0f, 0.0f }; 
 	};
 
 	struct ColliderCapsule : public ColliderShape {
@@ -69,6 +60,7 @@ namespace NtshEngn {
 		bool hasIntersected = false;
 		Math::vec3 intersectionNormal = { 0.0f, 0.0f, 0.0f };
 		float intersectionDepth = 0.0f;
+		std::vector<Math::vec3> intersectionPoints;
 	};
 
 	// Raycast
