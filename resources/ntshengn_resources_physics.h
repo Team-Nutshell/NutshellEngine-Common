@@ -58,9 +58,9 @@ namespace NtshEngn {
 
 	struct IntersectionInformation {
 		bool hasIntersected = false;
-		Math::vec3 intersectionNormal = { 0.0f, 0.0f, 0.0f };
-		float intersectionDepth = 0.0f;
-		std::vector<Math::vec3> intersectionPoints;
+		Math::vec3 normal = { 0.0f, 0.0f, 0.0f };
+		float depth = 0.0f;
+		std::vector<Math::vec3> points;
 	};
 
 	// Raycast
