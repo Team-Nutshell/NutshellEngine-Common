@@ -1,5 +1,6 @@
 #pragma once
 #include "../utils/ntshengn_utils_math.h"
+#include <utility>
 #include <vector>
 
 namespace NtshEngn {
@@ -60,7 +61,7 @@ namespace NtshEngn {
 		bool hasIntersected = false;
 		Math::vec3 normal = { 0.0f, 0.0f, 0.0f };
 		float depth = 0.0f;
-		std::vector<Math::vec3> points;
+		std::vector<std::pair<Math::vec3, Math::vec3>> relativePoints;
 	};
 
 	// Raycast
