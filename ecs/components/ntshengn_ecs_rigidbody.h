@@ -7,6 +7,7 @@ namespace NtshEngn {
 	struct Rigidbody {
 		bool isStatic = false;
 		bool isAffectedByConstants = true;
+		bool lockRotation = false;
 		float mass = 1.0f;
 		float inertia = 1.0f;
 		float restitution = 0.0f;
