@@ -15,7 +15,12 @@ namespace NtshEngn {
 		float dynamicFriction = 0.0f;
 		
 		Math::vec3 force = Math::vec3(0.0f, 0.0f, 0.0f);
+		Math::vec3 linearAcceleration = Math::vec3(0.0f, 0.0f, 0.0f);
+		Math::vec3 linearVelocity = Math::vec3(0.0f, 0.0f, 0.0f);
+
 		Math::vec3 torque = Math::vec3(0.0f, 0.0f, 0.0f);
+		Math::vec3 angularAcceleration = Math::vec3(0.0f, 0.0f, 0.0f);
+		Math::vec3 angularVelocity = Math::vec3(0.0f, 0.0f, 0.0f);
 	};
 
 }
