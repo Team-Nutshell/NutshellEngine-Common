@@ -33,9 +33,9 @@ namespace NtshEngn {
 
 		ColliderBox* cloneImpl() { return new ColliderBox(*this); }
 
-		Math::vec3 center = { 0.0f, 0.0f, 0.0f };
-		Math::vec3 halfExtent = { 0.0f, 0.0f, 0.0f };
-		Math::vec3 rotation = { 0.0f, 0.0f, 0.0f }; 
+		Math::vec3 center;
+		Math::vec3 halfExtent;
+		Math::vec3 rotation; 
 	};
 
 	struct ColliderSphere : public ColliderShape {
@@ -43,7 +43,7 @@ namespace NtshEngn {
 
 		ColliderSphere* cloneImpl() { return new ColliderSphere(*this); }
 
-		Math::vec3 center = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 center;
 		float radius = 0.0f;
 	};
 
@@ -52,14 +52,14 @@ namespace NtshEngn {
 
 		ColliderCapsule* cloneImpl() { return new ColliderCapsule(*this); }
 
-		Math::vec3 base = { 0.0f, 0.0f, 0.0f };
-		Math::vec3 tip = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 base;
+		Math::vec3 tip;
 		float radius = 0.0f;
 	};
 
 	struct IntersectionInformation {
 		bool hasIntersected = false;
-		Math::vec3 normal = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 normal;
 		float depth = 0.0f;
 		std::vector<std::pair<Math::vec3, Math::vec3>> relativePoints;
 	};
@@ -70,7 +70,7 @@ namespace NtshEngn {
 
 		Entity entity;
 		float distance = 0.0f;
-		Math::vec3 normal = { 0.0f, 0.0f, 0.0f };
+		Math::vec3 normal;
 	};
 
 }
