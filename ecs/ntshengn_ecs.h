@@ -59,7 +59,7 @@ namespace NtshEngn {
 		}
 
 		void destroyEntity(Entity entity) {
-			NTSHENGN_ASSERT(entity < MAX_ENTITIES);
+			NTSHENGN_ASSERT(m_existingEntities.find(entity) != m_existingEntities.end());
 
 			m_componentMasks[entity].reset();
 			m_availableEntities.push_front(entity);
