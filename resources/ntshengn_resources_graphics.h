@@ -229,11 +229,11 @@ namespace NtshEngn {
 	#define NTSHENGN_FONT_UNKNOWN 0xFFFFFFFF
 
 	struct FontGlyph {
-		Math::vec2 positionTopLeft = { 0.0f, 0.0f };
-		Math::vec2 positionBottomRight = { 0.0f, 0.0f };
+		Math::vec2 positionTopLeft;
+		Math::vec2 positionBottomRight;
 		float positionAdvance = 0.0f;
-		Math::vec2 uvTopLeft = { 0.0f, 0.0f };
-		Math::vec2 uvBottomRight = { 0.0f, 0.0f };
+		Math::vec2 uvTopLeft;
+		Math::vec2 uvBottomRight;
 	};
 
 	struct Font {
