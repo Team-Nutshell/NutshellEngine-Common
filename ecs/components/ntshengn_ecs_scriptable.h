@@ -5,14 +5,7 @@
 namespace NtshEngn {
 
 	struct Scriptable {
-		Scriptable() = default;
-		~Scriptable() = default;
-		Scriptable(const Scriptable& other) : script(other.script->clone()) {}
-		Scriptable(Scriptable&& other) = default;
-		Scriptable& operator=(const Scriptable& other) { script = other.script->clone(); return *this; }
-		Scriptable& operator=(Scriptable&& other) = default;
-
-		std::unique_ptr<ScriptBase> script = nullptr;
+		ScriptBase* script = nullptr;
 	};
 
 }
