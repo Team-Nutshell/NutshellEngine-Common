@@ -68,7 +68,7 @@ namespace NtshEngn {
 	struct RaycastInformation {
 		using Entity = uint32_t;
 
-		Entity entity;
+		Entity entity = 0xFFFFFFFF;
 		float distance = 0.0f;
 		Math::vec3 normal;
 	};
