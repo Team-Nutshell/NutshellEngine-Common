@@ -22,14 +22,11 @@ namespace NtshEngn {
 				Block& currentBlock = *it;
 				if (!currentBlock.inUse) {
 					if (currentBlock.size >= size) {
-						size_t currentBlockOffset = currentBlock.offset;
+						m_blockQueue.insert(it + 1, { currentBlock.offset + size, currentBlock.size - size, false });
+						currentBlock.size = size;
+						currentBlock.inUse = true;
 
-						it = m_blockQueue.insert(it + 1, { currentBlockOffset, size, true });
-						it = m_blockQueue.insert(it + 1, { currentBlockOffset + size, currentBlock.size - size, false });
-
-						m_blockQueue.erase(it);
-
-						return currentBlockOffset;
+						return currentBlock.offset;
 					}
 				}
 
