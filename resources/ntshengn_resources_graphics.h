@@ -210,6 +210,7 @@ namespace NtshEngn {
 		std::vector<Vertex> vertices;
 		std::vector<uint32_t> indices;
 		Skin skin;
+		std::vector<Animation> animations;
 		MeshTopology topology = MeshTopology::Unknown;
 	};
 
@@ -221,7 +222,6 @@ namespace NtshEngn {
 
 	struct Model {
 		std::vector<ModelPrimitive> primitives;
-		std::vector<Animation> animations;
 	};
 
 	// Font
