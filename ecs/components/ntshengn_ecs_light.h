@@ -11,13 +11,11 @@ namespace NtshEngn {
 		Unknown
 	};
 
-	// Directional Light : direction = Transform.rotation
-	// Point Light : position = Transform.position
-	// Spot Light : position = Transform.position, direction = Transform.rotation
 	struct Light {
 		LightType type = LightType::Unknown;
-		Math::vec3 color = { 0.0f, 0.0f, 0.0f };
-		Math::vec2 cutoff = { 0.0f, 0.0f };
+		Math::vec3 color = Math::vec3(0.0f, 0.0f, 0.0f);
+		Math::vec3 direction = Math::vec3(0.0f, -1.0f, 0.0f);
+		Math::vec2 cutoff = Math::vec2(0.0f, 0.0f);
 	};
 
 }
