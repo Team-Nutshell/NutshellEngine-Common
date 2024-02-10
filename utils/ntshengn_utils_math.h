@@ -1308,6 +1308,16 @@ namespace NtshEngn {
 				0.0f, 0.0f, far / nearMinusFar, -1.0f,
 				0.0f, 0.0f, -(far * near) / farMinusNear, 0.0f);
 		}
+		inline void decomposeTransform(const mat4& transform, vec3& translation, quat& rotation, vec3& scale) {
+			translation = vec3(transform.w);
+			scale = vec3(transform.x.length(), transform.y.length(), transform.z.length());
+
+			mat3 baseRotationMat = mat3(vec3(transform.x) / scale.x, vec3(transform.y) / scale.y, vec3(transform.z) / scale.z);
+			rotation.a = std::sqrt(1.0f + baseRotationMat.x.x + baseRotationMat.y.y + baseRotationMat.z.z) / 2.0f;
+			rotation.b = (baseRotationMat.z.y - baseRotationMat.y.z) / (4.0f * rotation.a);
+			rotation.c = (baseRotationMat.x.z - baseRotationMat.z.x) / (4.0f * rotation.a);
+			rotation.d = (baseRotationMat.y.x - baseRotationMat.x.y) / (4.0f * rotation.a);
+		}
 
 		inline mat4 to_mat4(const quat& qua) {
 			const float ab = qua.a * qua.b;
