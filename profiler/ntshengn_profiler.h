@@ -73,7 +73,7 @@ namespace NtshEngn {
 			}
 		}
 
-		ResultNode end() {
+		ResultNode getResults() {
 			ResultNode resultNode;
 
 			if (m_isRunning) {
@@ -84,9 +84,15 @@ namespace NtshEngn {
 				for (const Node* child : m_rootNode.children) {
 					resultNode.children.push_back(child->getResults());
 				}
-
-				m_isRunning = false;
 			}
+
+			return resultNode;
+		}
+
+		ResultNode end() {
+			ResultNode resultNode = getResults();
+			m_profilerNodes.clear();
+			m_isRunning = false;
 
 			return resultNode;
 		}
