@@ -1,5 +1,6 @@
 #pragma once
 #include "../utils/ntshengn_enums.h"
+#include "../profiler/ntshengn_profiler.h"
 #include <string>
 
 namespace NtshEngn {
@@ -18,9 +19,15 @@ namespace NtshEngn {
 			return m_name;
 		}
 
+		void setProfiler(Profiler* passProfiler) {
+			profiler = passProfiler;
+		}
+
 	private:
 		ModuleType m_type = ModuleType::Unknown;
 		std::string m_name = "";
+
+		Profiler* profiler = nullptr;
 	};
 
 }
