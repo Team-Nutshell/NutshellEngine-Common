@@ -120,6 +120,19 @@ namespace NtshEngn {
 				return *val.at(childName);
 			}
 
+			const std::vector<std::string> getKeys() const {
+				NTSHENGN_ASSERT(m_type == Type::Object);
+
+				std::vector<std::string> keys;
+
+				const std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
+				for (const std::pair<std::string, Node*>& pair : val) {
+					keys.push_back(pair.first);
+				}
+
+				return keys;
+			}
+
 			// Access JSON::Type::Number
 			float getNumber() const {
 				NTSHENGN_ASSERT(m_type == Type::Number);
@@ -215,69 +228,6 @@ namespace NtshEngn {
 
 				m_type = Type::Boolean;
 				val = boolean;
-			}
-
-			std::string to_string() const {
-				return to_string(0);
-			}
-
-			std::string to_string(size_t indentationLevel, bool indentFirst = false) const {
-				std::string jsonString = "";
-				const std::string indentation = std::string(indentationLevel, '\t');
-
-				switch (m_type) {
-				case Type::Object: {
-					const std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
-					jsonString += (indentFirst ? indentation : "") + "{\n";
-					for (std::unordered_map<std::string, Node*>::const_iterator it = val.begin(); it != val.end(); it++) {
-						jsonString += indentation + "\t\"" + it->first + "\": " + it->second->to_string(indentationLevel + 1);
-						std::unordered_map<std::string, Node*>::const_iterator tmp = it;
-						tmp++;
-						jsonString += (tmp != val.end()) ? ",\n" : "\n";
-					}
-					jsonString += indentation + "}";
-					break;
-				}
-
-				case Type::Number: {
-					const float val = std::get<float>(m_value);
-					jsonString += (indentFirst ? indentation : "") + std::to_string(val);
-					break;
-				}
-
-				case Type::String: {
-					const std::string& val = std::get<std::string>(m_value);
-					jsonString += (indentFirst ? indentation : "") + "\"" + val + "\"";
-					break;
-				}
-
-				case Type::Array: {
-					const std::vector<Node*>& val = std::get<std::vector<Node*>>(m_value);
-					jsonString += (indentFirst ? indentation : "") + "[\n";
-					for (size_t i = 0; i < val.size(); i++) {
-						jsonString += val[i]->to_string(indentationLevel + 1, true);
-						jsonString += (i < (val.size() - 1)) ? ",\n" : "\n";
-					}
-					jsonString += indentation + "]";
-					break;
-				}
-
-				case Type::Boolean: {
-					const bool val = std::get<bool>(m_value);
-					jsonString += (indentFirst ? indentation : "") + (val ? "true" : "false");
-					break;
-				}
-
-				case Type::Null: {
-					jsonString += (indentFirst ? indentation : "") + "null";
-					break;
-				}
-
-				default:
-					break;
-				}
-
-				return jsonString;
 			}
 
 		private:
@@ -682,6 +632,65 @@ namespace NtshEngn {
 	public:
 		Node read(const std::string& filePath) {
 			return m_parser.parse(filePath);
+		}
+
+	public:
+		static std::string to_string(const Node& node) {
+			return to_string(node, 0, false);
+		}
+
+	private:
+		static std::string to_string(const Node& node, size_t indentationLevel, bool indentFirst) {
+			const std::string indentation = std::string(indentationLevel, '\t');
+			std::string jsonString = (indentFirst ? indentation : "");
+
+			switch (node.getType()) {
+			case Type::Object: {
+				jsonString += "{\n";
+				std::vector<std::string> keys = node.getKeys();
+				for (const std::string& key : keys) {
+					jsonString += indentation + "\t\"" + key + "\": " + to_string(node[key], indentationLevel + 1, false);
+					jsonString += (key != keys.back()) ? ",\n" : "\n";
+				}
+				jsonString += indentation + "}";
+				break;
+			}
+
+			case Type::Number: {
+				jsonString += std::to_string(node.getNumber());
+				break;
+			}
+
+			case Type::String: {
+				jsonString += "\"" + node.getString() + "\"";
+				break;
+			}
+
+			case Type::Array: {
+				jsonString += "[\n";
+				for (size_t i = 0; i < node.size(); i++) {
+					jsonString += to_string(node[i], indentationLevel + 1, true);
+					jsonString += (i < (node.size() - 1)) ? ",\n" : "\n";
+				}
+				jsonString += indentation + "]";
+				break;
+			}
+
+			case Type::Boolean: {
+				jsonString += node.getBoolean() ? "true" : "false";
+				break;
+			}
+
+			case Type::Null: {
+				jsonString += "null";
+				break;
+			}
+
+			default:
+				break;
+			}
+
+			return jsonString;
 		}
 
 	private:
