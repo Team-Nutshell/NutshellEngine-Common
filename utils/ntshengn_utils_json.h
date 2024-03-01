@@ -576,6 +576,12 @@ namespace NtshEngn {
 				bool endOfArray = false;
 				while (!endOfArray) {
 					Token token = m_lexer.getNextToken();
+
+					// Empty array
+					if (token.type == TokenType::ArrayBracketClose) {
+						return arrayNode;
+					}
+
 					Node node;
 					switch (token.type) {
 					case TokenType::CurlyBracketOpen: {
