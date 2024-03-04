@@ -401,7 +401,6 @@ namespace NtshEngn {
 
 			bool hasNormals = false;
 			bool hasUvs = false;
-			bool hasIndices = false;
 			bool hasTangents = false;
 
 			if (meshRoot.contains("vertices")) {
@@ -448,11 +447,15 @@ namespace NtshEngn {
 				for (size_t i = 0; i < meshRoot["indices"].size(); i++) {
 					mesh.indices.push_back(static_cast<uint32_t>(meshRoot["indices"][i].getNumber()));
 				}
-				hasIndices = true;
+			}
+			else {
+				// Calculate indices
+				mesh.indices.resize(mesh.vertices.size());
+				std::iota(mesh.indices.begin(), mesh.indices.end(), 0);
 			}
 
 			// Calculate tangents
-			if ((!hasTangents) && (hasNormals && hasUvs && hasIndices)) {
+			if ((!hasTangents) && (hasNormals && hasUvs)) {
 				calculateTangents(mesh);
 			}
 
