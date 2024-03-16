@@ -299,11 +299,41 @@ namespace NtshEngn {
 		}
 
 		void calculateTangents(Mesh& mesh) {
-			if (m_assetLoaderModule) {
-				m_assetLoaderModule->calculateTangents(mesh);
+			std::vector<Math::vec3> tan1(mesh.vertices.size());
+			std::vector<Math::vec3> tan2(mesh.vertices.size());
+			for (size_t i = 0; i < mesh.indices.size(); i += 3) {
+				const NtshEngn::Vertex& vertex0 = mesh.vertices[mesh.indices[i]];
+				const NtshEngn::Vertex& vertex1 = mesh.vertices[mesh.indices[i + 1]];
+				const NtshEngn::Vertex& vertex2 = mesh.vertices[mesh.indices[i + 2]];
+
+				const Math::vec3 dPos1 = vertex1.position - vertex0.position;
+				const Math::vec3 dPos2 = vertex2.position - vertex0.position;
+
+				const Math::vec2 dUV1 = vertex1.uv - vertex0.uv;
+				const Math::vec2 dUV2 = vertex2.uv - vertex0.uv;
+
+				const float r = 1.0f / (dUV1.x * dUV2.y - dUV1.y * dUV2.x);
+
+				const Math::vec3 uDir = (dPos1 * dUV2.y - dPos2 * dUV1.y) * r;
+				const Math::vec3 vDir = (dPos2 * dUV1.x - dPos1 * dUV2.x) * r;
+
+				tan1[mesh.indices[i]] += uDir;
+				tan1[mesh.indices[i + 1]] += uDir;
+				tan1[mesh.indices[i + 2]] += uDir;
+
+				tan2[mesh.indices[i]] += vDir;
+				tan2[mesh.indices[i + 1]] += vDir;
+				tan2[mesh.indices[i + 2]] += vDir;
 			}
-			else {
-				NTSHENGN_ASSET_MANAGER_WARNING("Could not calculate tangent for mesh.");
+
+			for (size_t i = 0; i < mesh.vertices.size(); i++) {
+				const Math::vec3 n = mesh.vertices[i].normal;
+				const Math::vec3 t = tan1[i];
+
+				const Math::vec3 tangent = Math::normalize(t - n * Math::dot(n, t));
+				const float tangentHandedness = (Math::dot(Math::cross(n, t), tan2[i]) < 0.0f) ? -1.0f : 1.0f;
+
+				mesh.vertices[i].tangent = { tangent.x, tangent.y, tangent.z, tangentHandedness };
 			}
 		}
 

@@ -8,6 +8,8 @@
 
 namespace NtshEngn {
 
+	class AssetManager;
+
 	class AssetLoaderModuleInterface : public ModuleInterface {
 	public:
 		AssetLoaderModuleInterface() {}
@@ -23,8 +25,13 @@ namespace NtshEngn {
 		// Loads the font in file at path filePath
 		virtual Font loadFont(const std::string& filePath, float fontHeight) = 0;
 
-		// Calculate tangents for mesh
-		virtual void calculateTangents(Mesh& mesh) = 0;
+	public:
+		void setAssetManager(AssetManager* passAssetManager) {
+			assetManager = passAssetManager;
+		}
+
+	protected:
+		AssetManager* assetManager = nullptr;
 	};
 
 }
