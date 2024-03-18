@@ -48,6 +48,7 @@ namespace NtshEngn {
 			vec2& operator-=(const vec2& other);
 			vec2& operator*=(const float other);
 			vec2& operator/=(const float other);
+			vec2 operator-() const;
 			float& operator[](size_t index);
 			const float operator[](size_t index) const;
 
@@ -78,6 +79,7 @@ namespace NtshEngn {
 			vec3& operator-=(const vec3& other);
 			vec3& operator*=(const float other);
 			vec3& operator/=(const float other);
+			vec3 operator-() const;
 			float& operator[](size_t index);
 			const float operator[](size_t index) const;
 
@@ -112,6 +114,7 @@ namespace NtshEngn {
 			vec4& operator-=(const vec4& other);
 			vec4& operator*=(const float other);
 			vec4& operator/=(const float other);
+			vec4 operator-() const;
 			float& operator[](size_t index);
 			const float operator[](size_t index) const;
 
@@ -264,6 +267,7 @@ namespace NtshEngn {
 			quat& operator*=(const quat& other);
 			quat& operator*=(const float other);
 			quat& operator/=(const float other);
+			quat operator-() const;
 			float& operator[](size_t index);
 			const float operator[](size_t index) const;
 
@@ -381,6 +385,9 @@ namespace NtshEngn {
 
 			return *this;
 		}
+		inline vec2 vec2::operator-() const {
+			return vec2(-x, -y);
+		}
 		inline float& vec2::operator[](size_t index) {
 			if (index == 0) { return x; }
 			else if (index == 1) { return y; }
@@ -420,6 +427,9 @@ namespace NtshEngn {
 			z /= other;
 
 			return *this;
+		}
+		inline vec3 vec3::operator-() const {
+			return vec3(-x, -y, -z);
 		}
 		inline float& vec3::operator[](size_t index) {
 			if (index == 0) { return x; }
@@ -466,6 +476,9 @@ namespace NtshEngn {
 			w /= other;
 
 			return *this;
+		}
+		inline vec4 vec4::operator-() const {
+			return vec4(-x, -y, -z, -w);
 		}
 		inline float& vec4::operator[](size_t index) {
 			if (index == 0) { return x; }
@@ -706,6 +719,9 @@ namespace NtshEngn {
 			d /= other;
 
 			return *this;
+		}
+		inline quat quat::operator-() const {
+			return quat(-a, -b, -c, -d);
 		}
 		inline float& quat::operator[](size_t index) {
 			if (index == 0) { return a; }
