@@ -66,11 +66,9 @@ namespace NtshEngn {
 
 	// Raycast
 	struct RaycastInformation {
-		using Entity = uint32_t;
-
-		Entity entity = 0xFFFFFFFF;
-		float distance = 0.0f;
+		bool hasIntersected = false;
 		Math::vec3 normal;
+		float distance = 0.0f;
 	};
 
 }
