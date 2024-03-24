@@ -1118,7 +1118,7 @@ namespace NtshEngn {
 			}
 		}
 
-		inline vec3 to_vec3(const quat& qua) {
+		inline vec3 quatToEulerAngles(const quat& qua) {
 			return vec3(std::atan2(2.0f * ((qua.a * qua.b) + (qua.c * qua.d)), 1.0f - (2.0f * ((qua.b * qua.b) + (qua.c * qua.c)))),
 				std::asin(2.0f * ((qua.a * qua.c) - (qua.d * qua.b))),
 				std::atan2(2.0f * ((qua.a * qua.d) + (qua.b * qua.c)), 1.0f - (2.0f * ((qua.c * qua.c) + (qua.d * qua.d)))));
@@ -1335,7 +1335,7 @@ namespace NtshEngn {
 			rotation.d = (baseRotationMat.y.x - baseRotationMat.x.y) / (4.0f * rotation.a);
 		}
 
-		inline mat4 to_mat4(const quat& qua) {
+		inline mat4 quatToRotationMatrix(const quat& qua) {
 			const float ab = qua.a * qua.b;
 			const float ac = qua.a * qua.c;
 			const float ad = qua.a * qua.d;
@@ -1401,7 +1401,7 @@ namespace NtshEngn {
 			return (scaleA * a + scaleB * tmpB);
 		}
 
-		inline quat to_quat(const vec3& vec) {
+		inline quat eulerAnglesToQuat(const vec3& vec) {
 			const float cosHalfPhi = std::cos(vec.x / 2.0f);
 			const float sinHalfPhi = std::sin(vec.x / 2.0f);
 			const float cosHalfTheta = std::cos(vec.y / 2.0f);
