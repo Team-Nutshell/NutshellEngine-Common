@@ -1122,6 +1122,11 @@ namespace NtshEngn {
 				std::asin(2.0f * ((qua.a * qua.c) - (qua.d * qua.b))),
 				std::atan2(2.0f * ((qua.a * qua.d) + (qua.b * qua.c)), 1.0f - (2.0f * ((qua.c * qua.c) + (qua.d * qua.d)))));
 		}
+		inline vec3 rotationMatrixToEulerAngles(const mat4& mat) {
+			return vec3(-std::atan2(mat.z.y, mat.z.z),
+				-std::atan2(-mat.z.x, std::sqrt((mat.z.y * mat.z.y) + (mat.z.z * mat.z.z))),
+				-std::atan2(mat.y.x, mat.x.x));
+		}
 		
 		inline std::string to_string(const vec3& vec) {
 			return ("[" + std::to_string(vec.x) + ", " + std::to_string(vec.y) + ", " + std::to_string(vec.z) + "]");
