@@ -1117,12 +1117,12 @@ namespace NtshEngn {
 				return ior * i - (ior * ndoti + std::sqrt(k)) * n;
 			}
 		}
-
 		inline vec3 quatToEulerAngles(const quat& qua) {
 			return vec3(std::atan2(2.0f * ((qua.a * qua.b) + (qua.c * qua.d)), 1.0f - (2.0f * ((qua.b * qua.b) + (qua.c * qua.c)))),
 				std::asin(2.0f * ((qua.a * qua.c) - (qua.d * qua.b))),
 				std::atan2(2.0f * ((qua.a * qua.d) + (qua.b * qua.c)), 1.0f - (2.0f * ((qua.c * qua.c) + (qua.d * qua.d)))));
 		}
+		
 		inline std::string to_string(const vec3& vec) {
 			return ("[" + std::to_string(vec.x) + ", " + std::to_string(vec.y) + ", " + std::to_string(vec.z) + "]");
 		}
@@ -1334,7 +1334,6 @@ namespace NtshEngn {
 			rotation.c = (baseRotationMat.x.z - baseRotationMat.z.x) / (4.0f * rotation.a);
 			rotation.d = (baseRotationMat.y.x - baseRotationMat.x.y) / (4.0f * rotation.a);
 		}
-
 		inline mat4 quatToRotationMatrix(const quat& qua) {
 			const float ab = qua.a * qua.b;
 			const float ac = qua.a * qua.c;
@@ -1360,6 +1359,7 @@ namespace NtshEngn {
 				0.0f,
 				0.0f, 0.0f, 0.0f, 1.0f);
 		}
+
 		inline std::string to_string(const mat4& mat) {
 			return ("[" + to_string(mat.x) + ", " + to_string(mat.y) + ", " + to_string(mat.z) + ", " + to_string(mat.w) + "]");
 		}
@@ -1400,7 +1400,6 @@ namespace NtshEngn {
 
 			return (scaleA * a + scaleB * tmpB);
 		}
-
 		inline quat eulerAnglesToQuat(const vec3& vec) {
 			const float cosHalfPhi = std::cos(vec.x / 2.0f);
 			const float sinHalfPhi = std::sin(vec.x / 2.0f);
@@ -1414,6 +1413,7 @@ namespace NtshEngn {
 				cosHalfPhi * sinHalfTheta * cosHalfPsi + sinHalfPhi * cosHalfTheta * sinHalfPsi,
 				cosHalfPhi * cosHalfTheta * sinHalfPsi - sinHalfPhi * sinHalfTheta * cosHalfPsi);
 		}
+
 		inline std::string to_string(const quat& qua) {
 			return std::to_string(qua.a) + " + " + std::to_string(qua.b) + "i + " + std::to_string(qua.c) + "j + " + std::to_string(qua.d) + "k";
 		}
