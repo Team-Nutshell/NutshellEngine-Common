@@ -21,6 +21,9 @@ namespace NtshEngn {
 		// Loads the font described in the font parameter in the internal format and returns a unique identifier
 		virtual FontID load(const Font& font) = 0;
 
+		// Sets the background color
+		virtual void setBackgroundColor(const Math::vec4& backgroundColor) = 0;
+
 		// Plays an animation for an entity, indexed in the entity's model animation list
 		virtual void playAnimation(Entity entity, uint32_t animationIndex) = 0;
 		// Pauses an animation played by an entity
