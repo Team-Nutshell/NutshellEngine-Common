@@ -126,8 +126,8 @@ namespace NtshEngn {
 				std::vector<std::string> keys;
 
 				const std::unordered_map<std::string, Node*>& val = std::get<std::unordered_map<std::string, Node*>>(m_value);
-				for (const std::pair<std::string, Node*>& pair : val) {
-					keys.push_back(pair.first);
+				for (const auto& keyNodePair : val) {
+					keys.push_back(keyNodePair.first);
 				}
 
 				return keys;
