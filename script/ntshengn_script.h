@@ -504,6 +504,30 @@ namespace NtshEngn {
 			return windowModule->isWindowResizable(windowID);
 		}
 
+		void setWindowOpacity(float opacity, WindowID windowID = NTSHENGN_WINDOW_UNKNOWN) {
+			if (!windowModule) {
+				return;
+			}
+
+			if (windowID == NTSHENGN_WINDOW_UNKNOWN) {
+				windowID = windowModule->getMainWindowID();
+			}
+
+			windowModule->setWindowOpacity(windowID, opacity);
+		}
+
+		float getWindowOpacity(WindowID windowID = NTSHENGN_WINDOW_UNKNOWN) {
+			if (!windowModule) {
+				return false;
+			}
+
+			if (windowID == NTSHENGN_WINDOW_UNKNOWN) {
+				windowID = windowModule->getMainWindowID();
+			}
+
+			return windowModule->getWindowOpacity(windowID);
+		}
+
 		std::vector<std::string> getWindowDroppedFiles(WindowID windowID = NTSHENGN_WINDOW_UNKNOWN) {
 			if (!windowModule) {
 				return std::vector<std::string>();
