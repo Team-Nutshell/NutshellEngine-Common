@@ -18,8 +18,8 @@
 #include <string>
 #include <algorithm>
 
-#define MAX_ENTITIES 4096
-#define MAX_COMPONENTS 32
+#define NTSHENGN_MAX_ENTITIES 4096
+#define NTSHENGN_MAX_COMPONENTS 32
 
 namespace NtshEngn {
 
@@ -27,18 +27,18 @@ namespace NtshEngn {
 	#define NTSHENGN_ENTITY_UNKNOWN 0xFFFFFFFF
 
 	using Component = uint8_t;
-	using ComponentMask = std::bitset<MAX_COMPONENTS>;
+	using ComponentMask = std::bitset<NTSHENGN_MAX_COMPONENTS>;
 
 	class EntityManager {
 	public:
 		EntityManager() {
-			for (Entity entity = 0; entity < MAX_ENTITIES; entity++) {
+			for (Entity entity = 0; entity < NTSHENGN_MAX_ENTITIES; entity++) {
 				m_availableEntities.push_back(entity);
 			}
 		}
 
 		Entity createEntity() {
-			NTSHENGN_ASSERT(m_numberOfEntities < MAX_ENTITIES);
+			NTSHENGN_ASSERT(m_numberOfEntities < NTSHENGN_MAX_ENTITIES);
 
 			Entity id = m_availableEntities.front();
 			m_availableEntities.pop_front();
@@ -77,13 +77,13 @@ namespace NtshEngn {
 		}
 
 		void setComponents(Entity entity, ComponentMask componentMask) {
-			NTSHENGN_ASSERT(entity < MAX_ENTITIES);
+			NTSHENGN_ASSERT(entity < NTSHENGN_MAX_ENTITIES);
 
 			m_componentMasks[entity] = componentMask;
 		}
 
 		ComponentMask getComponents(Entity entity) {
-			NTSHENGN_ASSERT(entity < MAX_ENTITIES);
+			NTSHENGN_ASSERT(entity < NTSHENGN_MAX_ENTITIES);
 
 			return m_componentMasks[entity];
 		}
@@ -146,7 +146,7 @@ namespace NtshEngn {
 	private:
 		std::deque<Entity> m_availableEntities;
 		std::set<Entity> m_existingEntities;
-		std::array<ComponentMask, MAX_ENTITIES> m_componentMasks;
+		std::array<ComponentMask, NTSHENGN_MAX_ENTITIES> m_componentMasks;
 		Bimap<Entity, std::string> m_entityNames;
 		std::set<Entity> m_persistentEntities;
 		uint32_t m_numberOfEntities = 0;
@@ -200,7 +200,7 @@ namespace NtshEngn {
 		}
 
 	private:
-		std::array<T, MAX_ENTITIES> m_components;
+		std::array<T, NTSHENGN_MAX_ENTITIES> m_components;
 		std::unordered_map<Entity, size_t> m_entityToIndex;
 		std::unordered_map<size_t, Entity> m_indexToEntity;
 		size_t m_validSize;
@@ -307,7 +307,7 @@ namespace NtshEngn {
 				const ComponentMask entityAndSystemComponentMask = entityComponents & systemComponentMask;
 
 				bool entityInSystem = false;
-				for (uint8_t i = 0; i < MAX_COMPONENTS; i++) {
+				for (uint8_t i = 0; i < NTSHENGN_MAX_COMPONENTS; i++) {
 					if (entityAndSystemComponentMask[i]) {
 						entityInSystem = true;
 						system->onEntityComponentRemoved(entity, i);
