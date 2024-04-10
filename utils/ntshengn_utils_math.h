@@ -156,6 +156,9 @@ namespace NtshEngn {
 			float det() const;
 
 			float* data();
+
+			// Static Functions
+			static mat2 identity();
 		};
 
 		// mat3
@@ -196,6 +199,9 @@ namespace NtshEngn {
 			float det() const;
 
 			float* data();
+
+			// Static Functions
+			static mat3 identity();
 		};
 
 		// mat4
@@ -246,6 +252,9 @@ namespace NtshEngn {
 			float det() const;
 
 			float* data();
+
+			// Static Functions
+			static mat4 identity();
 		};
 
 		// quat
@@ -275,6 +284,9 @@ namespace NtshEngn {
 			float length() const;
 
 			float* data();
+
+			// Static Functions
+			static quat identity();
 		};
 		
 		// Implementation
@@ -309,7 +321,7 @@ namespace NtshEngn {
 		inline vec4::vec4(const float* _ptr): x(*_ptr), y(*(_ptr + 1)), z(*(_ptr + 2)), w(*(_ptr + 3)) {}
 
 		// mat2
-		inline mat2::mat2(): x(1.0f, 0.0f), y(0.0f, 1.0f) {}
+		inline mat2::mat2(): x(0.0f, 0.0f), y(0.0f, 0.0f) {}
 		inline mat2::mat2(float _value): x(_value), y(_value) {}
 		inline mat2::mat2(float _xx, float _xy, float _yx, float _yy): x(_xx, _xy), y(_yx, _yy) {}
 		inline mat2::mat2(float _xx, float _xy, vec2 _y): x(_xx, _xy), y(_y) {}
@@ -320,7 +332,7 @@ namespace NtshEngn {
 		inline mat2::mat2(mat4 _mat): x(_mat.x), y(_mat.y) {}
 
 		// mat3
-		inline mat3::mat3(): x(1.0f, 0.0f, 0.0f), y(0.0f, 1.0f, 0.0f), z(0.0f, 0.0f, 1.0f) {}
+		inline mat3::mat3(): x(0.0f, 0.0f, 0.0f), y(0.0f, 0.0f, 0.0f), z(0.0f, 0.0f, 0.0f) {}
 		inline mat3::mat3(float _value): x(_value), y(_value), z(_value) {}
 		inline mat3::mat3(float _xx, float _xy, float _xz, float _yx, float _yy, float _yz, float _zx, float _zy, float _zz): x(_xx, _xy, _xz), y(_yx, _yy, _yz), z(_zx, _zy, _zz) {}
 		inline mat3::mat3(float _xx, float _xy, float _xz, float _yx, float _yy, float _yz, vec3 _z): x(_xx, _xy, _xz), y(_yx, _yy, _yz), z(_z) {}
@@ -334,7 +346,7 @@ namespace NtshEngn {
 		inline mat3::mat3(mat4 _mat): x(_mat.x), y(_mat.y), z(_mat.z) {}
 
 		// mat4
-		inline mat4::mat4(): x(1.0f, 0.0f, 0.0f, 0.0f), y(0.0f, 1.0f, 0.0f, 0.0f), z(0.0f, 0.0f, 1.0f, 0.0f), w(0.0f, 0.0f, 0.0f, 1.0f) {}
+		inline mat4::mat4(): x(0.0f, 0.0f, 0.0f, 0.0f), y(0.0f, 0.0f, 0.0f, 0.0f), z(0.0f, 0.0f, 0.0f, 0.0f), w(0.0f, 0.0f, 0.0f, 0.0f) {}
 		inline mat4::mat4(float _value): x(_value), y(_value), z(_value), w(_value) {}
 		inline mat4::mat4(float _xx, float _xy, float _xz, float _xw, float _yx, float _yy, float _yz, float _yw, float _zx, float _zy, float _zz, float _zw, float _wx, float _wy, float _wz, float _ww): x(_xx, _xy, _xz, _xw), y(_yx, _yy, _yz, _yw), z(_zx, _zy, _zz, _zw), w(_wx, _wy, _wz, _ww) {}
 		inline mat4::mat4(float _xx, float _xy, float _xz, float _xw, float _yx, float _yy, float _yz, float _yw, float _zx, float _zy, float _zz, float _zw, vec4 _w): x(_xx, _xy, _xz, _xw), y(_yx, _yy, _yz, _yw), z(_zx, _zy, _zz, _zw), w(_w) {}
@@ -355,7 +367,7 @@ namespace NtshEngn {
 		inline mat4::mat4(const float* _ptr): x(_ptr), y(_ptr + 4), z(_ptr + 8), w(_ptr + 12) {}
 
 		// quat
-		inline quat::quat(): a(1.0f), b(0.0f), c(0.0f), d(0.0f) {}
+		inline quat::quat(): a(0.0f), b(0.0f), c(0.0f), d(0.0f) {}
 		inline quat::quat(float _a, float _b, float _c, float _d): a(_a), b(_b), c(_c), d(_d) {}
 		inline quat::quat(const float* _ptr): a(*_ptr), b(*(_ptr + 1)), c(*(_ptr + 2)), d(*(_ptr + 3)) {}
 
@@ -806,6 +818,27 @@ namespace NtshEngn {
 
 		inline float* quat::data() {
 			return &a;
+		}
+
+		// Static Functions
+		// mat2
+		inline mat2 mat2::identity() {
+			return mat2(1.0f, 0.0f, 0.0f, 1.0f);
+		}
+
+		// mat3
+		inline mat3 mat3::identity() {
+			return mat3(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+		}
+
+		// mat4
+		inline mat4 mat4::identity() {
+			return mat4(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+		}
+
+		// quat
+		inline quat quat::identity() {
+			return quat(1.0f, 0.0f, 0.0f, 0.0f);
 		}
 
 		// Namespace
