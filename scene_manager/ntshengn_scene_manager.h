@@ -277,11 +277,70 @@ namespace NtshEngn {
 										if (m_ecs->hasComponent<Renderable>(entity)) {
 											// Calculate box from Renderable
 											const Renderable& renderable = m_ecs->getComponent<Renderable>(entity);
+
+											std::vector<float> verticesX(renderable.mesh->vertices.size());
+											std::vector<float> verticesY(renderable.mesh->vertices.size());
+											std::vector<float> verticesZ(renderable.mesh->vertices.size());
+											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
+												verticesX[j] = renderable.mesh->vertices[j].position.x;
+												verticesY[j] = renderable.mesh->vertices[j].position.y;
+												verticesZ[j] = renderable.mesh->vertices[j].position.z;
+											}
+
+											float size = static_cast<float>(renderable.mesh->vertices.size());
+
+											const float meanX = std::reduce(verticesX.begin(), verticesX.end()) / size;
+											const float meanY = std::reduce(verticesY.begin(), verticesY.end()) / size;
+											const float meanZ = std::reduce(verticesZ.begin(), verticesZ.end()) / size;
+
+											Math::mat3 covarianceMatrix;
+											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
+												covarianceMatrix.x.x += (meanX - verticesX[j]) * (meanX - verticesX[j]);
+												covarianceMatrix.y.y += (meanY - verticesY[j]) * (meanY - verticesY[j]);
+												covarianceMatrix.z.z += (meanZ - verticesZ[j]) * (meanZ - verticesZ[j]);
+												covarianceMatrix.x.y += (meanX - verticesX[j]) * (meanY - verticesY[j]);
+												covarianceMatrix.x.z += (meanX - verticesX[j]) * (meanZ - verticesZ[j]);
+												covarianceMatrix.y.z += (meanY - verticesY[j]) * (meanZ - verticesZ[j]);
+											}
+											covarianceMatrix.x.x /= size - 1.0f;
+											covarianceMatrix.y.y /= size - 1.0f;
+											covarianceMatrix.z.z /= size - 1.0f;
+											covarianceMatrix.x.y /= size - 1.0f;
+											covarianceMatrix.x.z /= size - 1.0f;
+											covarianceMatrix.y.z /= size - 1.0f;
+
+											covarianceMatrix.y.x = covarianceMatrix.x.y;
+											covarianceMatrix.z.x = covarianceMatrix.x.z;
+											covarianceMatrix.z.y = covarianceMatrix.y.z;
+
+											std::array<std::pair<float, Math::vec3>, 3> eigen = covarianceMatrix.eigen();
+
+											Math::mat4 rotationMatrix = Math::mat4(Math::vec4(eigen[0].second, 0.0f), Math::vec4(eigen[1].second, 0.0f), Math::vec4(eigen[2].second, 0.0f), Math::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+
 											const std::array<Math::vec3, 2> aabb = m_assetManager->calculateAABB(*renderable.mesh);
 
 											colliderBox->center = (aabb[0] + aabb[1]) / 2.0f;
-											colliderBox->halfExtent = (aabb[1] - aabb[0]) / 2.0f;
-											colliderBox->rotation = Math::vec3(0.0f, 0.0f, 0.0f);
+
+											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
+												const Math::vec3 positionMinusCenter = renderable.mesh->vertices[j].position - colliderBox->center;
+
+												const float extentX = std::abs(Math::dot(eigen[0].second, positionMinusCenter));
+												if (extentX > colliderBox->halfExtent.x) {
+													colliderBox->halfExtent.x = extentX;
+												}
+
+												const float extentY = std::abs(Math::dot(eigen[1].second, positionMinusCenter));
+												if (extentY > colliderBox->halfExtent.y) {
+													colliderBox->halfExtent.y = extentY;
+												}
+
+												const float extentZ = std::abs(Math::dot(eigen[2].second, positionMinusCenter));
+												if (extentZ > colliderBox->halfExtent.z) {
+													colliderBox->halfExtent.z = extentZ;
+												}
+											}
+
+											colliderBox->rotation = Math::rotationMatrixToEulerAngles(rotationMatrix);
 										}
 										else {
 											// Default box collider
