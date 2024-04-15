@@ -1486,14 +1486,14 @@ namespace NtshEngn {
 				eigenvector3 = vec3(0.0f, -(b.y.y / std::sqrt((b.y.y * b.y.y) + (b.y.z * b.y.z))), -(b.y.z / std::sqrt((b.y.y * b.y.y) + (b.y.z * b.y.z))));
 			}
 			else if (xyIsZero && yzIsZero) {
-				eigenvector1 = vec3(0.0f, 1.0f, 0.0f);
-				eigenvector2 = vec3(-(b.x.z / std::sqrt((b.x.x * b.x.x) + (b.x.z * b.x.z))), 0.0f, (b.x.x / std::sqrt((b.x.x * b.x.x) + (b.x.z * b.x.z))));
+				eigenvector1 = vec3(-(b.x.z / std::sqrt((b.x.x * b.x.x) + (b.x.z * b.x.z))), 0.0f, (b.x.x / std::sqrt((b.x.x * b.x.x) + (b.x.z * b.x.z))));
+				eigenvector2 = vec3(0.0f, 1.0f, 0.0f);
 				eigenvector3 = vec3((b.x.x / std::sqrt((b.x.x * b.x.x) + (b.x.z * b.x.z))), 0.0f, (b.x.z / std::sqrt((b.x.x * b.x.x) + (b.x.z * b.x.z))));
 			}
 			else if (yzIsZero && xzIsZero) {
-				eigenvector1 = vec3(0.0f, 0.0f, 1.0f);
-				eigenvector2 = vec3(-(b.x.y / std::sqrt((b.x.x * b.x.x) + (b.x.y * b.x.y))), (b.x.x / std::sqrt((b.x.x * b.x.x) + (b.x.y * b.x.y))), 0.0f);
-				eigenvector3 = vec3(-(b.x.x / std::sqrt((b.x.x * b.x.x) + (b.x.y * b.x.y))), -(b.x.y / std::sqrt((b.x.x * b.x.x) + (b.x.y * b.x.y))), 0.0f);
+				eigenvector1 = vec3(-(b.x.y / std::sqrt((b.x.x * b.x.x) + (b.x.y * b.x.y))), (b.x.x / std::sqrt((b.x.x * b.x.x) + (b.x.y * b.x.y))), 0.0f);
+				eigenvector2 = vec3(-(b.x.x / std::sqrt((b.x.x * b.x.x) + (b.x.y * b.x.y))), -(b.x.y / std::sqrt((b.x.x * b.x.x) + (b.x.y * b.x.y))), 0.0f);
+				eigenvector3 = vec3(0.0f, 0.0f, 1.0f);
 			}
 			else { // General case
 				if (((((b.x.x * b.y.z) - (b.x.z * b.x.y)) * b.x.z) != 0.0f) || ((((b.x.y * b.x.y) - (b.x.x * b.y.y)) * b.x.z) != 0.0f)) {
