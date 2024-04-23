@@ -7,6 +7,8 @@
 #include <string>
 #include <algorithm>
 #include <limits>
+#include <set>
+#include <vector>
 
 namespace NtshEngn {
 
@@ -278,13 +280,18 @@ namespace NtshEngn {
 											// Calculate box from Renderable
 											const Renderable& renderable = m_ecs->getComponent<Renderable>(entity);
 
+											std::set<std::string> uniqueVertices;
 											std::vector<float> verticesX(renderable.mesh->vertices.size());
 											std::vector<float> verticesY(renderable.mesh->vertices.size());
 											std::vector<float> verticesZ(renderable.mesh->vertices.size());
 											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
-												verticesX[j] = renderable.mesh->vertices[j].position.x;
-												verticesY[j] = renderable.mesh->vertices[j].position.y;
-												verticesZ[j] = renderable.mesh->vertices[j].position.z;
+												const std::string vertexAsString = Math::to_string(renderable.mesh->vertices[j].position);
+												if (uniqueVertices.find(vertexAsString) == uniqueVertices.end()) {
+													verticesX[j] = renderable.mesh->vertices[j].position.x;
+													verticesY[j] = renderable.mesh->vertices[j].position.y;
+													verticesZ[j] = renderable.mesh->vertices[j].position.z;
+													uniqueVertices.insert(vertexAsString);
+												}
 											}
 
 											float size = static_cast<float>(renderable.mesh->vertices.size());
@@ -315,11 +322,7 @@ namespace NtshEngn {
 
 											std::array<std::pair<float, Math::vec3>, 3> eigen = covarianceMatrix.eigen();
 
-											Math::mat4 rotationMatrix = Math::mat4(Math::vec4(eigen[0].second, 0.0f), Math::vec4(eigen[1].second, 0.0f), Math::vec4(eigen[2].second, 0.0f), Math::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-
-											const std::array<Math::vec3, 2> aabb = m_assetManager->calculateAABB(*renderable.mesh);
-
-											colliderBox->center = (aabb[0] + aabb[1]) / 2.0f;
+											colliderBox->center = Math::vec3(meanX, meanY, meanZ);
 
 											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
 												const Math::vec3 positionMinusCenter = renderable.mesh->vertices[j].position - colliderBox->center;
@@ -340,6 +343,7 @@ namespace NtshEngn {
 												}
 											}
 
+											Math::mat4 rotationMatrix = Math::mat4(Math::vec4(eigen[0].second, 0.0f), Math::vec4(eigen[1].second, 0.0f), Math::vec4(eigen[2].second, 0.0f), Math::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 											colliderBox->rotation = Math::rotationMatrixToEulerAngles(rotationMatrix);
 										}
 										else {
