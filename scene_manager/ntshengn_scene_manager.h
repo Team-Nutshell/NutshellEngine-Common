@@ -412,27 +412,71 @@ namespace NtshEngn {
 										if (m_ecs->hasComponent<Renderable>(entity)) {
 											// Calculate capsule from Renderable
 											const Renderable& renderable = m_ecs->getComponent<Renderable>(entity);
-											std::array<Math::vec3, 2> aabb = m_assetManager->calculateAABB(*renderable.mesh);
 
-											const Math::vec3 aabbCenter = (aabb[0] + aabb[1]) / 2.0f;
-											const Math::vec3 aabbExtent = aabb[1] - aabb[0];
-											std::vector<float> extentAsVector = { aabbExtent.x, aabbExtent.y, aabbExtent.z };
-											std::vector<float>::iterator extentMaxIt = std::max_element(extentAsVector.begin(), extentAsVector.end());
-											uint8_t extentMax = static_cast<uint8_t>(std::distance(extentAsVector.begin(), extentMaxIt));
-											extentAsVector[extentMax] = std::numeric_limits<float>::lowest();
-											extentMaxIt = std::max_element(extentAsVector.begin(), extentAsVector.end());
-											uint8_t extentSecondMax = static_cast<uint8_t>(std::distance(extentAsVector.begin(), extentMaxIt));
-
-											colliderCapsule->radius = std::abs(aabbExtent[extentSecondMax]) / 2.0f;
-											colliderCapsule->base = aabbCenter;
-											colliderCapsule->base[extentMax] = aabb[0][extentMax] + colliderCapsule->radius;
-											colliderCapsule->tip = aabbCenter;
-											colliderCapsule->tip[extentMax] -= aabb[1][extentMax] - colliderCapsule->radius;
-
-											if (colliderCapsule->base[extentMax] == colliderCapsule->tip[extentMax]) {
-												colliderCapsule->base[extentMax] -= 0.0001f;
-												colliderCapsule->tip[extentMax] += 0.0001f;
+											std::set<std::string> uniqueVertices;
+											std::vector<float> verticesX(renderable.mesh->vertices.size());
+											std::vector<float> verticesY(renderable.mesh->vertices.size());
+											std::vector<float> verticesZ(renderable.mesh->vertices.size());
+											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
+												const std::string vertexAsString = Math::to_string(renderable.mesh->vertices[j].position);
+												if (uniqueVertices.find(vertexAsString) == uniqueVertices.end()) {
+													verticesX[j] = renderable.mesh->vertices[j].position.x;
+													verticesY[j] = renderable.mesh->vertices[j].position.y;
+													verticesZ[j] = renderable.mesh->vertices[j].position.z;
+													uniqueVertices.insert(vertexAsString);
+												}
 											}
+
+											float size = static_cast<float>(renderable.mesh->vertices.size());
+
+											const float meanX = std::reduce(verticesX.begin(), verticesX.end()) / size;
+											const float meanY = std::reduce(verticesY.begin(), verticesY.end()) / size;
+											const float meanZ = std::reduce(verticesZ.begin(), verticesZ.end()) / size;
+
+											Math::mat3 covarianceMatrix;
+											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
+												covarianceMatrix.x.x += (meanX - verticesX[j]) * (meanX - verticesX[j]);
+												covarianceMatrix.y.y += (meanY - verticesY[j]) * (meanY - verticesY[j]);
+												covarianceMatrix.z.z += (meanZ - verticesZ[j]) * (meanZ - verticesZ[j]);
+												covarianceMatrix.x.y += (meanX - verticesX[j]) * (meanY - verticesY[j]);
+												covarianceMatrix.x.z += (meanX - verticesX[j]) * (meanZ - verticesZ[j]);
+												covarianceMatrix.y.z += (meanY - verticesY[j]) * (meanZ - verticesZ[j]);
+											}
+											covarianceMatrix.x.x /= size - 1.0f;
+											covarianceMatrix.y.y /= size - 1.0f;
+											covarianceMatrix.z.z /= size - 1.0f;
+											covarianceMatrix.x.y /= size - 1.0f;
+											covarianceMatrix.x.z /= size - 1.0f;
+											covarianceMatrix.y.z /= size - 1.0f;
+
+											covarianceMatrix.y.x = covarianceMatrix.x.y;
+											covarianceMatrix.z.x = covarianceMatrix.x.z;
+											covarianceMatrix.z.y = covarianceMatrix.y.z;
+
+											std::array<std::pair<float, Math::vec3>, 3> eigen = covarianceMatrix.eigen();
+											std::sort(eigen.begin(), eigen.end(), [](const std::pair<float, Math::vec3>& a, const std::pair<float, Math::vec3>& b) {
+												return a.first > b.first;
+												});
+
+											Math::vec3 capsuleCenter = Math::vec3(meanX, meanY, meanZ);
+
+											float segmentLengthMax = 0.0f;
+											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
+												const Math::vec3 positionMinusCenter = renderable.mesh->vertices[j].position - capsuleCenter;
+
+												const float segmentLength = std::abs(Math::dot(eigen[0].second, positionMinusCenter));
+												if (segmentLength > segmentLengthMax) {
+													segmentLengthMax = segmentLength;
+												}
+
+												const float radius = std::abs(Math::dot(eigen[1].second, positionMinusCenter));
+												if (radius > colliderCapsule->radius) {
+													colliderCapsule->radius = radius;
+												}
+											}
+
+											colliderCapsule->base = capsuleCenter - (eigen[0].second * (segmentLengthMax - colliderCapsule->radius));
+											colliderCapsule->tip = capsuleCenter + (eigen[0].second * (segmentLengthMax - colliderCapsule->radius));
 										}
 										else {
 											// Default capsule collider
