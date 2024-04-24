@@ -2,6 +2,7 @@
 #include <array>
 #include <utility>
 #include <string>
+#include <limits>
 #include <iostream>
 #include <cmath>
 #include <stdexcept>
@@ -1415,39 +1416,60 @@ namespace NtshEngn {
 		}
 
 		inline std::array<std::pair<float, vec3>, 3> mat3::eigen() const {
-			const bool xyIsZero = (x.y > -0.0001f) && (x.y < 0.0001f);
-			const bool yzIsZero = (y.z > -0.0001f) && (y.z < 0.0001f);
-			const bool xzIsZero = (x.z > -0.0001f) && (x.z < 0.0001f);
+			const bool xyIsZero = (x.y > -std::numeric_limits<float>::epsilon()) && (x.y < std::numeric_limits<float>::epsilon());
+			const bool yzIsZero = (y.z > -std::numeric_limits<float>::epsilon()) && (y.z < std::numeric_limits<float>::epsilon());
+			const bool xzIsZero = (x.z > -std::numeric_limits<float>::epsilon()) && (x.z < std::numeric_limits<float>::epsilon());
 
-			float eigenvalue1;
-			float eigenvalue2;
-			float eigenvalue3;
+			std::array<float, 3> eigenvalues;
+			std::array<vec3, 3> eigenvectors;
 
 			if (xyIsZero && yzIsZero && xzIsZero) {
-				eigenvalue1 = x.x;
-				eigenvalue2 = y.y;
-				eigenvalue3 = z.z;
+				eigenvalues[0] = x.x;
+				eigenvalues[1] = y.y;
+				eigenvalues[2] = z.z;
+
+				eigenvectors[0] = vec3(1.0f, 0.0f, 0.0f);
+				eigenvectors[1] = vec3(0.0f, 1.0f, 0.0f);
+				eigenvectors[2] = vec3(0.0f, 0.0f, 1.0f);
 			}
 			else if (xyIsZero && xzIsZero) {
 				const float halfyyMinuszz = (y.y - z.z) / 2.0f;
 
-				eigenvalue1 = x.x;
-				eigenvalue2 = ((y.y + z.z) / 2.0f) + std::sqrt((halfyyMinuszz * halfyyMinuszz) + (y.z * y.z));
-				eigenvalue3 = ((y.y + z.z) / 2.0f) - std::sqrt((halfyyMinuszz * halfyyMinuszz) + (y.z * y.z));
+				eigenvalues[0] = x.x;
+				eigenvalues[1] = ((y.y + z.z) / 2.0f) + std::sqrt((halfyyMinuszz * halfyyMinuszz) + (y.z * y.z));
+				eigenvalues[2] = ((y.y + z.z) / 2.0f) - std::sqrt((halfyyMinuszz * halfyyMinuszz) + (y.z * y.z));
+
+				const float byy1 = y.y - eigenvalues[1];
+
+				eigenvectors[0] = vec3(1.0f, 0.0f, 0.0f);
+				eigenvectors[1] = vec3(0.0f, -(y.z / std::sqrt((byy1 * byy1) + (y.z * y.z))), (y.y / std::sqrt((byy1 * byy1) + (y.z * y.z))));
+				eigenvectors[2] = vec3(0.0f, -(y.y / std::sqrt((byy1 * byy1) + (y.z * y.z))), -(y.z / std::sqrt((byy1 * byy1) + (y.z * y.z))));
 			}
 			else if (xyIsZero && yzIsZero) {
 				const float halfxxMinuszz = (x.x - z.z) / 2.0f;
 
-				eigenvalue1 = ((x.x + z.z) / 2.0f) + std::sqrt((halfxxMinuszz * halfxxMinuszz) + (x.z * x.z));
-				eigenvalue2 = y.y;
-				eigenvalue3 = ((x.x + z.z) / 2.0f) - std::sqrt((halfxxMinuszz * halfxxMinuszz) + (x.z * x.z));
+				eigenvalues[0] = ((x.x + z.z) / 2.0f) + std::sqrt((halfxxMinuszz * halfxxMinuszz) + (x.z * x.z));
+				eigenvalues[1] = y.y;
+				eigenvalues[2] = ((x.x + z.z) / 2.0f) - std::sqrt((halfxxMinuszz * halfxxMinuszz) + (x.z * x.z));
+
+				const float bxx0 = x.x - eigenvalues[0];
+
+				eigenvectors[0] = vec3(-(x.z / std::sqrt((bxx0 * bxx0) + (x.z * x.z))), 0.0f, (bxx0 / std::sqrt((bxx0 * bxx0) + (x.z * x.z))));
+				eigenvectors[1] = vec3(0.0f, 1.0f, 0.0f);
+				eigenvectors[2] = vec3((bxx0 / std::sqrt((bxx0 * bxx0) + (x.z * x.z))), 0.0f, (x.z / std::sqrt((bxx0 * bxx0) + (x.z * x.z))));
 			}
 			else if (yzIsZero && xzIsZero) {
 				const float halfxxMinusyy = (x.x - y.y) / 2.0f;
 
-				eigenvalue1 = ((x.x + y.y) / 2.0f) + std::sqrt((halfxxMinusyy * halfxxMinusyy) + (x.y * x.y));
-				eigenvalue2 = ((x.x + y.y) / 2.0f) - std::sqrt((halfxxMinusyy * halfxxMinusyy) + (x.y * x.y));
-				eigenvalue3 = z.z;
+				eigenvalues[0] = ((x.x + y.y) / 2.0f) + std::sqrt((halfxxMinusyy * halfxxMinusyy) + (x.y * x.y));
+				eigenvalues[1] = ((x.x + y.y) / 2.0f) - std::sqrt((halfxxMinusyy * halfxxMinusyy) + (x.y * x.y));
+				eigenvalues[2] = z.z;
+
+				const float bxx0 = x.x - eigenvalues[0];
+
+				eigenvectors[0] = vec3(-(x.y / std::sqrt((bxx0 * bxx0) + (x.y * x.y))), (bxx0 / std::sqrt((bxx0 * bxx0) + (x.y * x.y))), 0.0f);
+				eigenvectors[1] = vec3(-(bxx0 / std::sqrt((bxx0 * bxx0) + (x.y * x.y))), -(x.y / std::sqrt((bxx0 * bxx0) + (x.y * x.y))), 0.0f);
+				eigenvectors[2] = vec3(0.0f, 0.0f, 1.0f);
 			}
 			else { // General case
 				const float alpha = x.x + y.y + z.z;
@@ -1463,159 +1485,137 @@ namespace NtshEngn {
 
 				const float theta = std::acos(-(q / (2.0f * std::sqrt(pOver3 * pOver3 * pOver3))));
 
-				eigenvalue1 = alphaOver3 + (2.0f * std::sqrt(pOver3) * std::cos(theta / 3.0f));
-				eigenvalue2 = alphaOver3 - (2.0f * std::sqrt(pOver3) * std::cos((theta - PI) / 3.0f));
-				eigenvalue3 = alphaOver3 - (2.0f * std::sqrt(pOver3) * std::cos((theta + PI) / 3.0f));
+				eigenvalues[0] = alphaOver3 + (2.0f * std::sqrt(pOver3) * std::cos(theta / 3.0f));
+				eigenvalues[1] = alphaOver3 - (2.0f * std::sqrt(pOver3) * std::cos((theta - PI) / 3.0f));
+				eigenvalues[2] = alphaOver3 - (2.0f * std::sqrt(pOver3) * std::cos((theta + PI) / 3.0f));
+
+				for (uint8_t i = 0; i < 2; i++) {
+					const mat3 eigenvalueMatrix = mat3(vec3(eigenvalues[i], 0.0f, 0.0f), vec3(0.0f, eigenvalues[i], 0.0f), vec3(0.0f, 0.0f, eigenvalues[i]));
+					const mat3 b = *this - eigenvalueMatrix;
+
+					const float case1One = ((b.x.x * b.y.z) - (b.x.z * b.x.y)) * b.x.z;
+					const float case1Two = ((b.x.y * b.x.y) - (b.x.x * b.y.y)) * b.x.z;
+					const bool case1OneIsZero = (case1One > -std::numeric_limits<float>::epsilon()) && (case1One < std::numeric_limits<float>::epsilon());
+					const bool case1TwoIsZero = (case1Two > -std::numeric_limits<float>::epsilon()) && (case1Two < std::numeric_limits<float>::epsilon());
+
+					const float case2One = ((b.x.x * b.z.z) - (b.x.z * b.x.z)) * b.x.y;
+					const float case2Two = ((b.x.y * b.x.z) - (b.x.x * b.y.z)) * b.x.y;
+					const bool case2OneIsZero = (case2One > -std::numeric_limits<float>::epsilon()) && (case2One < std::numeric_limits<float>::epsilon());
+					const bool case2TwoIsZero = (case2Two > -std::numeric_limits<float>::epsilon()) && (case2Two < std::numeric_limits<float>::epsilon());
+
+					const float case3One = ((b.x.y * b.z.z) - (b.y.z * b.x.z)) * b.x.x;
+					const float case3Two = ((b.y.y * b.x.z) - (b.x.y * b.y.z)) * b.x.x;
+					const bool case3OneIsZero = (case3One > -std::numeric_limits<float>::epsilon()) && (case3One < std::numeric_limits<float>::epsilon());
+					const bool case3TwoIsZero = (case3Two > -std::numeric_limits<float>::epsilon()) && (case3Two < std::numeric_limits<float>::epsilon());
+
+					const float case4One = ((b.x.y * b.y.z) - (b.x.z * b.y.y)) * b.y.z;
+					const float case4Two = ((b.x.x * b.y.y) - (b.x.y * b.x.y)) * b.y.z;
+					const bool case4OneIsZero = (case4One > -std::numeric_limits<float>::epsilon()) && (case4One < std::numeric_limits<float>::epsilon());
+					const bool case4TwoIsZero = (case4Two > -std::numeric_limits<float>::epsilon()) && (case4Two < std::numeric_limits<float>::epsilon());
+
+					const float case5One = ((b.x.y * b.z.z) - (b.x.z * b.y.z)) * b.y.y;
+					const float case5Two = ((b.x.x * b.y.z) - (b.x.y * b.x.z)) * b.y.y;
+					const bool case5OneIsZero = (case5One > -std::numeric_limits<float>::epsilon()) && (case5One < std::numeric_limits<float>::epsilon());
+					const bool case5TwoIsZero = (case5Two > -std::numeric_limits<float>::epsilon()) && (case5Two < std::numeric_limits<float>::epsilon());
+
+					const float case6One = ((b.y.y * b.z.z) - (b.y.z * b.y.z)) * b.x.y;
+					const float case6Two = ((b.x.y * b.y.z) - (b.y.y * b.x.z)) * b.x.y;
+					const bool case6OneIsZero = (case6One > -std::numeric_limits<float>::epsilon()) && (case6One < std::numeric_limits<float>::epsilon());
+					const bool case6TwoIsZero = (case6Two > -std::numeric_limits<float>::epsilon()) && (case6Two < std::numeric_limits<float>::epsilon());
+
+					const float case7One = ((b.x.z * b.y.y) - (b.x.y * b.y.z)) * b.z.z;
+					const float case7Two = ((b.x.x * b.y.z) - (b.x.z * b.x.y)) * b.z.z;
+					const bool case7OneIsZero = (case7One > -std::numeric_limits<float>::epsilon()) && (case7One < std::numeric_limits<float>::epsilon());
+					const bool case7TwoIsZero = (case7Two > -std::numeric_limits<float>::epsilon()) && (case7Two < std::numeric_limits<float>::epsilon());
+
+					const float case8One = ((b.x.z * b.y.z) - (b.x.y * b.z.z)) * b.y.z;
+					const float case8Two = ((b.x.x * b.z.z) - (b.x.z * b.x.z)) * b.y.z;
+					const bool case8OneIsZero = (case8One > -std::numeric_limits<float>::epsilon()) && (case8One < std::numeric_limits<float>::epsilon());
+					const bool case8TwoIsZero = (case8Two > -std::numeric_limits<float>::epsilon()) && (case8Two < std::numeric_limits<float>::epsilon());
+
+					const float case9One = ((b.y.z * b.y.z) - (b.y.y * b.z.z)) * b.x.z;
+					const float case9Two = ((b.x.y * b.z.z) - (b.y.z * b.x.z)) * b.x.z;
+					const bool case9OneIsZero = (case9One > -std::numeric_limits<float>::epsilon()) && (case9One < std::numeric_limits<float>::epsilon());
+					const bool case9TwoIsZero = (case9Two > -std::numeric_limits<float>::epsilon()) && (case9Two < std::numeric_limits<float>::epsilon());
+
+					if (!case1OneIsZero || !case1TwoIsZero) {
+						const float Q = ((b.x.x * b.y.z) - (b.x.z * b.x.y)) / ((b.x.y * b.x.y) - (b.x.x * b.y.y));
+						const float Pn = -(((b.y.z * Q) + b.z.z) / b.x.z);
+
+						const float n = 1.0f / std::sqrt((Pn * Pn) + (Q * Q) + 1.0f);
+
+						eigenvectors[i] = vec3(Pn * n, Q * n, n);
+					}
+					else if (!case2OneIsZero || !case2TwoIsZero) {
+						const float Q = ((b.x.x * b.z.z) - (b.x.z * b.x.z)) / ((b.x.y * b.x.z) - (b.x.x * b.y.z));
+						const float Pn = -(((b.y.y * Q) + b.y.z) / b.x.y);
+
+						const float n = 1.0f / std::sqrt((Pn * Pn) + (Q * Q) + 1.0f);
+
+						eigenvectors[i] = vec3(Pn * n, Q * n, n);
+					}
+					else if (!case3OneIsZero || !case3TwoIsZero) {
+						const float Q = ((b.x.y * b.z.z) - (b.y.z * b.x.z)) / ((b.y.y * b.x.z) - (b.x.y * b.y.z));
+						const float Pn = -(((b.x.y * Q) + b.x.z) / b.x.x);
+
+						const float n = 1.0f / std::sqrt((Pn * Pn) + (Q * Q) + 1.0f);
+
+						eigenvectors[i] = vec3(Pn * n, Q * n, n);
+					}
+					else if (!case4OneIsZero || !case4TwoIsZero) {
+						const float P = ((b.x.y * b.y.z) - (b.x.z * b.y.y)) / ((b.x.x * b.y.y) - (b.x.y * b.x.y));
+						const float Qn = -(((b.x.z * P) + b.z.z) / b.y.z);
+
+						const float n = 1.0f / std::sqrt((P * P) + (Qn * Qn) + 1.0f);
+
+						eigenvectors[i] = vec3(P * n, Qn * n, n);
+					}
+					else if (!case5OneIsZero || !case5TwoIsZero) {
+						const float P = ((b.x.y * b.z.z) - (b.x.z * b.y.z)) / ((b.x.x * b.y.z) - (b.x.y * b.x.z));
+						const float Qn = -(((b.x.y * P) + b.y.z) / b.y.y);
+
+						const float n = 1.0f / std::sqrt((P * P) + (Qn * Qn) + 1.0f);
+
+						eigenvectors[i] = vec3(P * n, Qn * n, n);
+					}
+					else if (!case6OneIsZero || !case6TwoIsZero) {
+						const float P = ((b.y.y * b.z.z) - (b.y.z * b.y.z)) / ((b.x.y * b.y.z) - (b.y.y * b.x.z));
+						const float Qn = -(((b.x.x * P) + b.x.z) / b.x.y);
+
+						const float n = 1.0f / std::sqrt((P * P) + (Qn * Qn) + 1.0f);
+
+						eigenvectors[i] = vec3(P * n, Qn * n, n);
+					}
+					else if (!case7OneIsZero || !case7TwoIsZero) {
+						const float P = ((b.x.z * b.y.y) - (b.x.y * b.y.z)) / ((b.x.x * b.y.z) - (b.x.z * b.x.y));
+						const float Rm = -(((b.x.z * P) + b.y.z) / b.z.z);
+
+						const float m = 1.0f / std::sqrt((P * P) + 1.0f + (Rm * Rm));
+
+						eigenvectors[i] = vec3(P * m, m, Rm * m);
+					}
+					else if (!case8OneIsZero || !case8TwoIsZero) {
+						const float P = ((b.x.z * b.y.z) - (b.x.y * b.z.z)) / ((b.x.x * b.z.z) - (b.x.z * b.x.z));
+						const float Rm = -(((b.x.y * P) + b.y.y) / b.y.z);
+
+						const float m = 1.0f / std::sqrt((P * P) + 1.0f + (Rm * Rm));
+
+						eigenvectors[i] = vec3(P * m, m, Rm * m);
+					}
+					else if (!case9OneIsZero || !case9TwoIsZero) {
+						const float P = ((b.y.z * b.y.z) - (b.y.y * b.z.z)) / ((b.x.y * b.z.z) - (b.y.z * b.x.z));
+						const float Rm = -(((b.x.x * P) + b.x.y) / b.x.z);
+
+						const float m = 1.0f / std::sqrt((P * P) + 1.0f + (Rm * Rm));
+
+						eigenvectors[i] = vec3(P * m, m, Rm * m);
+					}
+				}
+
+				eigenvectors[2] = cross(eigenvectors[0], eigenvectors[1]);
 			}
 
-			const mat3 eigenvalueMatrix = mat3(vec3(eigenvalue1, 0.0f, 0.0f), vec3(0.0f, eigenvalue2, 0.0f), vec3(0.0f, 0.0f, eigenvalue3));
-			const mat3 b = *this - eigenvalueMatrix;
-
-			vec3 eigenvector1;
-			vec3 eigenvector2;
-			vec3 eigenvector3;
-
-			if (xyIsZero && yzIsZero && xzIsZero) {
-				eigenvector1 = vec3(1.0f, 0.0f, 0.0f);
-				eigenvector2 = vec3(0.0f, 1.0f, 0.0f);
-				eigenvector3 = vec3(0.0f, 0.0f, 1.0f);
-			}
-			else if (xyIsZero && xzIsZero) {
-				eigenvector1 = vec3(1.0f, 0.0f, 0.0f);
-				eigenvector2 = vec3(0.0f, -(b.y.z / std::sqrt((b.y.y * b.y.y) + (b.y.z * b.y.z))), (b.y.y / std::sqrt((b.y.y * b.y.y) + (b.y.z * b.y.z))));
-				eigenvector3 = vec3(0.0f, -(b.y.y / std::sqrt((b.y.y * b.y.y) + (b.y.z * b.y.z))), -(b.y.z / std::sqrt((b.y.y * b.y.y) + (b.y.z * b.y.z))));
-			}
-			else if (xyIsZero && yzIsZero) {
-				eigenvector1 = vec3(-(b.x.z / std::sqrt((b.x.x * b.x.x) + (b.x.z * b.x.z))), 0.0f, (b.x.x / std::sqrt((b.x.x * b.x.x) + (b.x.z * b.x.z))));
-				eigenvector2 = vec3(0.0f, 1.0f, 0.0f);
-				eigenvector3 = vec3((b.x.x / std::sqrt((b.x.x * b.x.x) + (b.x.z * b.x.z))), 0.0f, (b.x.z / std::sqrt((b.x.x * b.x.x) + (b.x.z * b.x.z))));
-			}
-			else if (yzIsZero && xzIsZero) {
-				eigenvector1 = vec3(-(b.x.y / std::sqrt((b.x.x * b.x.x) + (b.x.y * b.x.y))), (b.x.x / std::sqrt((b.x.x * b.x.x) + (b.x.y * b.x.y))), 0.0f);
-				eigenvector2 = vec3(-(b.x.x / std::sqrt((b.x.x * b.x.x) + (b.x.y * b.x.y))), -(b.x.y / std::sqrt((b.x.x * b.x.x) + (b.x.y * b.x.y))), 0.0f);
-				eigenvector3 = vec3(0.0f, 0.0f, 1.0f);
-			}
-			else { // General case
-				if (((((b.x.x * b.y.z) - (b.x.z * b.x.y)) * b.x.z) != 0.0f) || ((((b.x.y * b.x.y) - (b.x.x * b.y.y)) * b.x.z) != 0.0f)) {
-					const float Q = ((b.x.x * b.y.z) - (b.x.z * b.x.y)) / ((b.x.y * b.x.y) - (b.x.x * b.y.y));
-					const float R = ((b.x.y * b.x.y) - (b.x.x * b.y.y)) / ((b.x.x * b.y.z) - (b.x.z * b.x.y));
-					const float Pn = -(((b.y.z * Q) + b.z.z) / b.x.z);
-					const float Pm = -((b.y.z + (b.z.z * R)) / b.x.z);
-
-					const float n = 1.0f / std::sqrt((Pn * Pn) + (Q * Q) + 1.0f);
-					const float m = 1.0f / std::sqrt((Pm * Pm) + 1.0f + (R * R));
-
-					eigenvector1 = vec3(Pn * n, Q * n, n);
-					eigenvector2 = vec3(Pm * m, m, R * m);
-					eigenvector3 = cross(eigenvector1, eigenvector2);
-				}
-				else if (((((b.x.x * b.z.z) - (b.x.z * b.x.z)) * b.x.y) != 0.0f) || ((((b.x.y * b.x.z) - (b.x.x * b.y.z)) * b.x.y) != 0.0f)) {
-					const float Q = ((b.x.x * b.z.z) - (b.x.z * b.x.z)) / ((b.x.y * b.x.z) - (b.x.x * b.y.z));
-					const float R = ((b.x.y * b.x.z) - (b.x.x * b.y.z)) / ((b.x.x * b.z.z) - (b.x.z * b.x.z));
-					const float Pn = -(((b.y.y * Q) + b.y.z) / b.x.y);
-					const float Pm = -((b.y.y + (b.y.z * R)) / b.x.y);
-
-					const float n = 1.0f / std::sqrt((Pn * Pn) + (Q * Q) + 1.0f);
-					const float m = 1.0f / std::sqrt((Pm * Pm) + 1.0f + (R * R));
-
-					eigenvector1 = vec3(Pn * n, Q * n, n);
-					eigenvector2 = vec3(Pm * m, m, R * m);
-					eigenvector3 = cross(eigenvector1, eigenvector2);
-				}
-				else if (((((b.x.y * b.z.z) - (b.y.z * b.x.z)) * b.x.x) != 0.0f) || ((((b.y.y * b.x.z) - (b.x.y * b.y.z)) * b.x.x) != 0.0f)) {
-					const float Q = ((b.x.y * b.z.z) - (b.y.z * b.x.z)) / ((b.y.y * b.x.z) - (b.x.y * b.y.z));
-					const float R = ((b.y.y * b.x.z) - (b.x.y * b.y.z)) / ((b.x.y * b.z.z) - (b.y.z * b.x.z));
-					const float Pn = -(((b.x.y * Q) + b.x.z) / b.x.x);
-					const float Pm = -((b.x.y + (b.x.z * R)) / b.x.x);
-
-					const float n = 1.0f / std::sqrt((Pn * Pn) + (Q * Q) + 1.0f);
-					const float m = 1.0f / std::sqrt((Pm * Pm) + 1.0f + (R * R));
-
-					eigenvector1 = vec3(Pn * n, Q * n, n);
-					eigenvector2 = vec3(Pm * m, m, R * m);
-					eigenvector3 = cross(eigenvector1, eigenvector2);
-				}
-				else if (((((b.x.y * b.y.z) - (b.x.z * b.y.y)) * b.y.z) != 0.0f) || ((((b.x.x * b.y.y) - (b.x.y * b.x.y)) * b.y.z) != 0.0f)) {
-					const float P = ((b.x.y * b.y.z) - (b.x.z * b.y.y)) / ((b.x.x * b.y.y) - (b.x.y * b.x.y));
-					const float R = ((b.x.x * b.y.y) - (b.x.y * b.x.y)) / ((b.x.y * b.y.z) - (b.x.z * b.y.y));
-					const float Qn = -(((b.x.z * P) + b.z.z) / b.y.z);
-					const float Ql = -((b.x.z + (b.z.z * R)) / b.y.z);
-
-					const float n = 1.0f / std::sqrt((P * P) + (Qn * Qn) + 1.0f);
-					const float l = 1.0f / std::sqrt(1.0f + (Ql * Ql) + (R * R));
-
-					eigenvector1 = vec3(P * n, Qn * n, n);
-					eigenvector2 = vec3(l, Ql * l, R * l);
-					eigenvector3 = cross(eigenvector1, eigenvector2);
-				}
-				else if (((((b.x.y * b.z.z) - (b.x.z * b.y.z)) * b.y.y) != 0.0f) || ((((b.x.x * b.y.z) - (b.x.y * b.x.z)) * b.y.y) != 0.0f)) {
-					const float P = ((b.x.y * b.z.z) - (b.x.z * b.y.z)) / ((b.x.x * b.y.z) - (b.x.y * b.x.z));
-					const float R = ((b.x.x * b.y.z) - (b.x.y * b.x.z)) / ((b.x.y * b.z.z) - (b.x.z * b.y.z));
-					const float Qn = -(((b.x.y * P) + b.y.z) / b.y.y);
-					const float Ql = -((b.x.y + (b.y.z * R)) / b.y.y);
-
-					const float n = 1.0f / std::sqrt((P * P) + (Qn * Qn) + 1.0f);
-					const float l = 1.0f / std::sqrt(1.0f + (Ql * Ql) + (R * R));
-
-					eigenvector1 = vec3(P * n, Qn * n, n);
-					eigenvector2 = vec3(l, Ql * l, R * l);
-					eigenvector3 = cross(eigenvector1, eigenvector2);
-				}
-				else if (((((b.y.y * b.z.z) - (b.y.z * b.y.z)) * b.x.y) != 0.0f) || ((((b.x.y * b.y.z) - (b.y.y * b.x.z)) * b.x.y) != 0.0f)) {
-					const float P = ((b.y.y * b.z.z) - (b.y.z * b.y.z)) / ((b.x.y * b.y.z) - (b.y.y * b.x.z));
-					const float R = ((b.x.y * b.y.z) - (b.y.y * b.x.z)) / ((b.y.y * b.z.z) - (b.y.z * b.y.z));
-					const float Qn = -(((b.x.x * P) + b.x.z) / b.x.y);
-					const float Ql = -((b.x.x + (b.x.z * R)) / b.x.y);
-
-					const float n = 1.0f / std::sqrt((P * P) + (Qn * Qn) + 1.0f);
-					const float l = 1.0f / std::sqrt(1.0f + (Ql * Ql) + (R * R));
-
-					eigenvector1 = vec3(P * n, Qn * n, n);
-					eigenvector2 = vec3(l, Ql * l, R * l);
-					eigenvector3 = cross(eigenvector1, eigenvector2);
-				}
-				else if (((((b.x.z * b.y.y) - (b.x.y * b.y.z)) * b.z.z) != 0.0f) || ((((b.x.x * b.y.z) - (b.x.z * b.x.y)) * b.z.z) != 0.0f)) {
-					const float P = ((b.x.z * b.y.y) - (b.x.y * b.y.z)) / ((b.x.x * b.y.z) - (b.x.z * b.x.y));
-					const float Q = ((b.x.x * b.y.z) - (b.x.z * b.x.y)) / ((b.x.z * b.y.y) - (b.x.y * b.y.z));
-					const float Rm = -(((b.x.z * P) + b.y.z) / b.z.z);
-					const float Rl = -((b.x.z + (b.y.z * Q)) / b.z.z);
-
-					const float m = 1.0f / std::sqrt((P * P) + 1.0f + (Rm * Rm));
-					const float l = 1.0f / std::sqrt(1.0f + (Q * Q) + (Rl * Rl));
-
-					eigenvector1 = vec3(P * m, m, Rm * m);
-					eigenvector2 = vec3(l, Q * l, Rl * l);
-					eigenvector3 = cross(eigenvector1, eigenvector2);
-				}
-				else if (((((b.x.z * b.y.z) - (b.x.y * b.z.z)) * b.y.z) != 0.0f) || ((((b.x.x * b.z.z) - (b.x.z * b.x.z)) * b.y.z) != 0.0f)) {
-					const float P = ((b.x.z * b.y.z) - (b.x.y * b.z.z)) / ((b.x.x * b.z.z) - (b.x.z * b.x.z));
-					const float Q = ((b.x.x * b.z.z) - (b.x.z * b.x.z)) / ((b.x.z * b.y.z) - (b.x.y * b.z.z));
-					const float Rm = -(((b.x.y * P) + b.y.y) / b.y.z);
-					const float Rl = -((b.x.y + (b.y.y * Q)) / b.y.z);
-
-					const float m = 1.0f / std::sqrt((P * P) + 1.0f + (Rm * Rm));
-					const float l = 1.0f / std::sqrt(1.0f + (Q * Q) + (Rl * Rl));
-
-					eigenvector1 = vec3(P * m, m, Rm * m);
-					eigenvector2 = vec3(l, Q * l, Rl * l);
-					eigenvector3 = cross(eigenvector1, eigenvector2);
-				}
-				else if (((((b.y.z * b.y.z) - (b.y.y * b.z.z)) * b.x.z) != 0.0f) || ((((b.x.y * b.z.z) - (b.y.z * b.x.z)) * b.x.z) != 0.0f)) {
-					const float P = ((b.y.z * b.y.z) - (b.y.y * b.z.z)) / ((b.x.y * b.z.z) - (b.y.z * b.x.z));
-					const float Q = ((b.x.y * b.z.z) - (b.y.z * b.x.z)) / ((b.y.z * b.y.z) - (b.y.y * b.z.z));
-					const float Rm = -(((b.x.x * P) + b.x.y) / b.x.z);
-					const float Rl = -((b.x.x + (b.x.y * Q)) / b.x.z);
-
-					const float m = 1.0f / std::sqrt((P * P) + 1.0f + (Rm * Rm));
-					const float l = 1.0f / std::sqrt(1.0f + (Q * Q) + (Rl * Rl));
-
-					eigenvector1 = vec3(P * m, m, Rm * m);
-					eigenvector2 = vec3(l, Q * l, Rl * l);
-					eigenvector3 = cross(eigenvector1, eigenvector2);
-				}
-			}
-
-			return { std::pair<float, vec3>(eigenvalue1, eigenvector1), std::pair<float, vec3>(eigenvalue2, eigenvector2), std::pair<float, vec3>(eigenvalue3, eigenvector3) };
+			return { std::pair<float, vec3>(eigenvalues[0], eigenvectors[0]), std::pair<float, vec3>(eigenvalues[1], eigenvectors[1]), std::pair<float, vec3>(eigenvalues[2], eigenvectors[2]) };
 		}
 
 		inline float* mat3::data() {
