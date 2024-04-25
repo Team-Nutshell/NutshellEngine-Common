@@ -281,27 +281,27 @@ namespace NtshEngn {
 											const Renderable& renderable = m_ecs->getComponent<Renderable>(entity);
 
 											std::set<std::string> uniqueVertices;
-											std::vector<float> verticesX(renderable.mesh->vertices.size());
-											std::vector<float> verticesY(renderable.mesh->vertices.size());
-											std::vector<float> verticesZ(renderable.mesh->vertices.size());
+											std::vector<float> verticesX;
+											std::vector<float> verticesY;
+											std::vector<float> verticesZ;
 											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
 												const std::string vertexAsString = Math::to_string(renderable.mesh->vertices[j].position);
 												if (uniqueVertices.find(vertexAsString) == uniqueVertices.end()) {
-													verticesX[j] = renderable.mesh->vertices[j].position.x;
-													verticesY[j] = renderable.mesh->vertices[j].position.y;
-													verticesZ[j] = renderable.mesh->vertices[j].position.z;
+													verticesX.push_back(renderable.mesh->vertices[j].position.x);
+													verticesY.push_back(renderable.mesh->vertices[j].position.y);
+													verticesZ.push_back(renderable.mesh->vertices[j].position.z);
 													uniqueVertices.insert(vertexAsString);
 												}
 											}
 
-											float size = static_cast<float>(renderable.mesh->vertices.size());
+											float size = static_cast<float>(uniqueVertices.size());
 
 											const float meanX = std::reduce(verticesX.begin(), verticesX.end()) / size;
 											const float meanY = std::reduce(verticesY.begin(), verticesY.end()) / size;
 											const float meanZ = std::reduce(verticesZ.begin(), verticesZ.end()) / size;
 
 											Math::mat3 covarianceMatrix;
-											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
+											for (size_t j = 0; j < uniqueVertices.size(); j++) {
 												covarianceMatrix.x.x += (meanX - verticesX[j]) * (meanX - verticesX[j]);
 												covarianceMatrix.y.y += (meanY - verticesY[j]) * (meanY - verticesY[j]);
 												covarianceMatrix.z.z += (meanZ - verticesZ[j]) * (meanZ - verticesZ[j]);
@@ -414,27 +414,27 @@ namespace NtshEngn {
 											const Renderable& renderable = m_ecs->getComponent<Renderable>(entity);
 
 											std::set<std::string> uniqueVertices;
-											std::vector<float> verticesX(renderable.mesh->vertices.size());
-											std::vector<float> verticesY(renderable.mesh->vertices.size());
-											std::vector<float> verticesZ(renderable.mesh->vertices.size());
+											std::vector<float> verticesX;
+											std::vector<float> verticesY;
+											std::vector<float> verticesZ;
 											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
 												const std::string vertexAsString = Math::to_string(renderable.mesh->vertices[j].position);
 												if (uniqueVertices.find(vertexAsString) == uniqueVertices.end()) {
-													verticesX[j] = renderable.mesh->vertices[j].position.x;
-													verticesY[j] = renderable.mesh->vertices[j].position.y;
-													verticesZ[j] = renderable.mesh->vertices[j].position.z;
+													verticesX.push_back(renderable.mesh->vertices[j].position.x);
+													verticesY.push_back(renderable.mesh->vertices[j].position.y);
+													verticesZ.push_back(renderable.mesh->vertices[j].position.z);
 													uniqueVertices.insert(vertexAsString);
 												}
 											}
 
-											float size = static_cast<float>(renderable.mesh->vertices.size());
+											float size = static_cast<float>(uniqueVertices.size());
 
 											const float meanX = std::reduce(verticesX.begin(), verticesX.end()) / size;
 											const float meanY = std::reduce(verticesY.begin(), verticesY.end()) / size;
 											const float meanZ = std::reduce(verticesZ.begin(), verticesZ.end()) / size;
 
 											Math::mat3 covarianceMatrix;
-											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
+											for (size_t j = 0; j < uniqueVertices.size(); j++) {
 												covarianceMatrix.x.x += (meanX - verticesX[j]) * (meanX - verticesX[j]);
 												covarianceMatrix.y.y += (meanY - verticesY[j]) * (meanY - verticesY[j]);
 												covarianceMatrix.z.z += (meanZ - verticesZ[j]) * (meanZ - verticesZ[j]);
