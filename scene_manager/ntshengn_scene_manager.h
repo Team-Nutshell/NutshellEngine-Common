@@ -280,17 +280,19 @@ namespace NtshEngn {
 											// Calculate box from Renderable
 											const Renderable& renderable = m_ecs->getComponent<Renderable>(entity);
 
-											std::set<std::string> uniqueVertices;
+											std::vector<uint64_t> uniqueVertices;
+											std::set<std::string> uniqueVerticesAsString;
 											std::vector<float> verticesX;
 											std::vector<float> verticesY;
 											std::vector<float> verticesZ;
 											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
 												const std::string vertexAsString = Math::to_string(renderable.mesh->vertices[j].position);
-												if (uniqueVertices.find(vertexAsString) == uniqueVertices.end()) {
+												if (uniqueVerticesAsString.find(vertexAsString) == uniqueVerticesAsString.end()) {
 													verticesX.push_back(renderable.mesh->vertices[j].position.x);
 													verticesY.push_back(renderable.mesh->vertices[j].position.y);
 													verticesZ.push_back(renderable.mesh->vertices[j].position.z);
-													uniqueVertices.insert(vertexAsString);
+													uniqueVerticesAsString.insert(vertexAsString);
+													uniqueVertices.push_back(j);
 												}
 											}
 
@@ -324,8 +326,8 @@ namespace NtshEngn {
 
 											colliderBox->center = Math::vec3(meanX, meanY, meanZ);
 
-											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
-												const Math::vec3 positionMinusCenter = renderable.mesh->vertices[j].position - colliderBox->center;
+											for (size_t j = 0; j < uniqueVertices.size(); j++) {
+												const Math::vec3 positionMinusCenter = renderable.mesh->vertices[uniqueVertices[j]].position - colliderBox->center;
 
 												const float extentX = std::abs(Math::dot(eigen[0].second, positionMinusCenter));
 												if (extentX > colliderBox->halfExtent.x) {
@@ -413,17 +415,19 @@ namespace NtshEngn {
 											// Calculate capsule from Renderable
 											const Renderable& renderable = m_ecs->getComponent<Renderable>(entity);
 
-											std::set<std::string> uniqueVertices;
+											std::vector<uint64_t> uniqueVertices;
+											std::set<std::string> uniqueVerticesAsString;
 											std::vector<float> verticesX;
 											std::vector<float> verticesY;
 											std::vector<float> verticesZ;
 											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
 												const std::string vertexAsString = Math::to_string(renderable.mesh->vertices[j].position);
-												if (uniqueVertices.find(vertexAsString) == uniqueVertices.end()) {
+												if (uniqueVerticesAsString.find(vertexAsString) == uniqueVerticesAsString.end()) {
 													verticesX.push_back(renderable.mesh->vertices[j].position.x);
 													verticesY.push_back(renderable.mesh->vertices[j].position.y);
 													verticesZ.push_back(renderable.mesh->vertices[j].position.z);
-													uniqueVertices.insert(vertexAsString);
+													uniqueVerticesAsString.insert(vertexAsString);
+													uniqueVertices.push_back(j);
 												}
 											}
 
@@ -461,8 +465,8 @@ namespace NtshEngn {
 											Math::vec3 capsuleCenter = Math::vec3(meanX, meanY, meanZ);
 
 											float segmentLengthMax = 0.0f;
-											for (size_t j = 0; j < renderable.mesh->vertices.size(); j++) {
-												const Math::vec3 positionMinusCenter = renderable.mesh->vertices[j].position - capsuleCenter;
+											for (size_t j = 0; j < uniqueVertices.size(); j++) {
+												const Math::vec3 positionMinusCenter = renderable.mesh->vertices[uniqueVertices[j]].position - capsuleCenter;
 
 												const float segmentLength = std::abs(Math::dot(eigen[0].second, positionMinusCenter));
 												if (segmentLength > segmentLengthMax) {
