@@ -152,14 +152,14 @@ namespace NtshEngn {
 		uint32_t m_numberOfEntities = 0;
 	};
 
-	class IComponentArray {
+	class ComponentArrayInterface {
 	public:
-		virtual ~IComponentArray() = default;
+		virtual ~ComponentArrayInterface() = default;
 		virtual void entityDestroyed(Entity entity) = 0;
 	};
 
 	template <typename T>
-	class ComponentArray : public IComponentArray {
+	class ComponentArray : public ComponentArrayInterface {
 	public:
 		void insertData(Entity entity, T component) {
 			NTSHENGN_ASSERT(m_entityToIndex.find(entity) == m_entityToIndex.end());
@@ -250,14 +250,14 @@ namespace NtshEngn {
 
 		void entityDestroyed(Entity entity) {
 			for (const auto& pair : m_componentArrays) {
-				const std::shared_ptr<IComponentArray>& componentArray = pair.second;
+				const std::shared_ptr<ComponentArrayInterface>& componentArray = pair.second;
 				componentArray->entityDestroyed(entity);
 			}
 		}
 
 	private:
 		std::unordered_map<std::string, Component> m_componentTypes;
-		std::unordered_map<std::string, std::shared_ptr<IComponentArray>> m_componentArrays;
+		std::unordered_map<std::string, std::shared_ptr<ComponentArrayInterface>> m_componentArrays;
 		Component m_nextComponent = 0;
 
 		template <typename T>
@@ -349,81 +349,27 @@ namespace NtshEngn {
 		std::unordered_map<std::string, System*> m_systems;
 	};
 
-	class ECS {
+	class ECSInterface {
 	public:
-		void init() {
-			m_entityManager = std::make_unique<EntityManager>();
-			m_componentManager = std::make_unique<ComponentManager>();
-			m_systemManager = std::make_unique<SystemManager>();
-		}
+		virtual void init() = 0;
 
 		// Entity
-		Entity createEntity() {
-			Entity newEntity = m_entityManager->createEntity();
-			addComponent(newEntity, Transform{});
-			
-			return newEntity;
-		}
+		virtual Entity createEntity() = 0;
+		virtual Entity createEntity(const std::string& name) = 0;
 
-		Entity createEntity(const std::string& name) {
-			Entity newEntity = m_entityManager->createEntity(name);
-			addComponent(newEntity, Transform{});
-			
-			return newEntity;
-		}
+		virtual void destroyEntity(Entity entity) = 0;
+		virtual void destroyAllEntities() = 0;
+		virtual void destroyNonPersistentEntities() = 0;
 
-		void destroyEntity(Entity entity) {
-			ComponentMask entityComponents = m_entityManager->getComponents(entity);
-			m_systemManager->entityDestroyed(entity, entityComponents);
-			m_entityManager->destroyEntity(entity);
-			m_componentManager->entityDestroyed(entity);
-		}
+		virtual bool entityExists(Entity entity) = 0;
 
-		void destroyAllEntities() {
-			while (!m_entityManager->getExistingEntities().empty()) {
-				destroyEntity(*m_entityManager->getExistingEntities().rbegin());
-			}
-		}
+		virtual void setEntityName(Entity entity, const std::string& name) = 0;
+		virtual bool entityHasName(Entity entity) = 0;
+		virtual std::string getEntityName(Entity entity) = 0;
+		virtual Entity findEntityByName(const std::string& name) = 0;
 
-		void destroyNonPersistentEntities() {
-			const std::set<Entity>& existingEntities = m_entityManager->getExistingEntities();
-			const std::set<Entity>& persistentEntities = m_entityManager->getPersistentEntities();
-			std::set<Entity> nonPersistentEntities;
-			std::set_difference(existingEntities.begin(), existingEntities.end(), persistentEntities.begin(), persistentEntities.end(), std::inserter(nonPersistentEntities, nonPersistentEntities.begin()));
-			while (!nonPersistentEntities.empty()) {
-				Entity entityToDestroy = *nonPersistentEntities.rbegin();
-				nonPersistentEntities.erase(entityToDestroy);
-				destroyEntity(entityToDestroy);
-			}
-		}
-
-		bool entityExists(Entity entity) {
-			return m_entityManager->entityExists(entity);
-		}
-
-		void setEntityName(Entity entity, const std::string& name) {
-			m_entityManager->setEntityName(entity, name);
-		}
-
-		bool entityHasName(Entity entity) {
-			return m_entityManager->entityHasName(entity);
-		}
-
-		std::string getEntityName(Entity entity) {
-			return m_entityManager->getEntityName(entity);
-		}
-
-		Entity findEntityByName(const std::string& name) {
-			return m_entityManager->findEntityByName(name);
-		}
-
-		void setEntityPersistence(Entity entity, bool persistent) {
-			m_entityManager->setEntityPersistence(entity, persistent);
-		}
-
-		bool isEntityPersistent(Entity entity) {
-			return m_entityManager->isEntityPersistent(entity);
-		}
+		virtual void setEntityPersistence(Entity entity, bool persistent) = 0;
+		virtual bool isEntityPersistent(Entity entity) = 0;
 
 		// Component
 		template <typename T>
@@ -479,7 +425,7 @@ namespace NtshEngn {
 			m_systemManager->setComponents<T>(componentMask);
 		}
 
-	private:
+	protected:
 		std::unique_ptr<EntityManager> m_entityManager;
 		std::unique_ptr<ComponentManager> m_componentManager;
 		std::unique_ptr<SystemManager> m_systemManager;

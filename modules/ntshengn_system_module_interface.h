@@ -1,8 +1,8 @@
 #pragma once
 #include "ntshengn_module_interface.h"
-#include "../ecs/ntshengn_ecs.h"
-#include "../asset_manager/ntshengn_asset_manager.h"
-#include "../job_system/ntshengn_job_system.h"
+#include "../ecs/ntshengn_ecs_interface.h"
+#include "../asset_manager/ntshengn_asset_manager_interface.h"
+#include "../job_system/ntshengn_job_system_interface.h"
 #include <string>
 
 namespace NtshEngn {
@@ -33,15 +33,15 @@ namespace NtshEngn {
 			audioModule = passAudioModule;
 		}
 
-		void setECS(ECS* passECS) {
+		void setECS(ECSInterface* passECS) {
 			ecs = passECS;
 		}
 
-		void setAssetManager(AssetManager* passAssetManager) {
+		void setAssetManager(AssetManagerInterface* passAssetManager) {
 			assetManager = passAssetManager;
 		}
 
-		void setJobSystem(JobSystem* passJobSystem) {
+		void setJobSystem(JobSystemInterface* passJobSystem) {
 			jobSystem = passJobSystem;
 		}
 		
@@ -51,11 +51,11 @@ namespace NtshEngn {
 		WindowModuleInterface* windowModule = nullptr;
 		AudioModuleInterface* audioModule = nullptr;
 
-		ECS* ecs = nullptr;
+		ECSInterface* ecs = nullptr;
 
-		AssetManager* assetManager = nullptr;
+		AssetManagerInterface* assetManager = nullptr;
 
-		JobSystem* jobSystem = nullptr;
+		JobSystemInterface* jobSystem = nullptr;
 	};
 
 }

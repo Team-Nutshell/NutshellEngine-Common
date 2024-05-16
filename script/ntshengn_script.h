@@ -1,16 +1,16 @@
 #pragma once
 #include "../resources/ntshengn_resources_scripting.h"
-#include "../module_interfaces/ntshengn_graphics_module_interface.h"
-#include "../module_interfaces/ntshengn_physics_module_interface.h"
-#include "../module_interfaces/ntshengn_window_module_interface.h"
-#include "../module_interfaces/ntshengn_audio_module_interface.h"
-#include "../ecs/ntshengn_ecs.h"
-#include "../asset_manager/ntshengn_asset_manager.h"
-#include "../job_system/ntshengn_job_system.h"
-#include "../profiler/ntshengn_profiler.h"
-#include "../frame_limiter/ntshengn_frame_limiter.h"
-#include "../networking/ntshengn_networking.h"
-#include "../scene_manager/ntshengn_scene_manager.h"
+#include "../modules/ntshengn_graphics_module_interface.h"
+#include "../modules/ntshengn_physics_module_interface.h"
+#include "../modules/ntshengn_window_module_interface.h"
+#include "../modules/ntshengn_audio_module_interface.h"
+#include "../ecs/ntshengn_ecs_interface.h"
+#include "../asset_manager/ntshengn_asset_manager_interface.h"
+#include "../job_system/ntshengn_job_system_interface.h"
+#include "../profiler/ntshengn_profiler_interface.h"
+#include "../frame_limiter/ntshengn_frame_limiter_interface.h"
+#include "../networking/ntshengn_networking_interface.h"
+#include "../scene_manager/ntshengn_scene_manager_interface.h"
 #include "../script/ntshengn_script_manager_interface.h"
 
 namespace NtshEngn {
@@ -836,19 +836,19 @@ namespace NtshEngn {
 		}
 
 		// Networking
-		ServerSocket* createServerSocket(uint16_t port, NetworkType networkType = NetworkType::UDP) {
+		ServerSocketInterface* createServerSocket(uint16_t port, NetworkType networkType = NetworkType::UDP) {
 			return networking->createServerSocket(port, networkType);
 		}
 
-		ClientSocket* createClientSocket(NetworkType networkType = NetworkType::UDP) {
+		ClientSocketInterface* createClientSocket(NetworkType networkType = NetworkType::UDP) {
 			return networking->createClientSocket(networkType);
 		}
 
-		void closeServerSocket(ServerSocket* serverSocket) {
+		void closeServerSocket(ServerSocketInterface* serverSocket) {
 			networking->closeServerSocket(serverSocket);
 		}
 
-		void closeClientSocket(ClientSocket* clientSocket) {
+		void closeClientSocket(ClientSocketInterface* clientSocket) {
 			networking->closeClientSocket(clientSocket);
 		}
 
@@ -863,11 +863,11 @@ namespace NtshEngn {
 			profiler->start(profilingSessionName);
 		}
 
-		Profiler::ResultNode getProfilingResults() {
+		ProfilerResultNode getProfilingResults() {
 			return profiler->getResults();
 		}
 
-		Profiler::ResultNode endProfiling() {
+		ProfilerResultNode endProfiling() {
 			return profiler->end();
 		}
 
@@ -892,13 +892,13 @@ namespace NtshEngn {
 			audioModule = passAudioModule;
 		}
 		void setScriptManager(ScriptManagerInterface* passScriptManager) { scriptManager = passScriptManager; }
-		void setECS(ECS* passECS) { ecs = passECS; }
-		void setAssetManager(AssetManager* passAssetManager) { assetManager = passAssetManager; }
-		void setFrameLimiter(FrameLimiter* passFrameLimiter) { frameLimiter = passFrameLimiter; }
-		void setJobSystem(JobSystem* passJobSystem) { jobSystem = passJobSystem; }
-		void setProfiler(Profiler* passProfiler) { profiler = passProfiler; }
-		void setNetworking(Networking* passNetworking) { networking = passNetworking; }
-		void setSceneManager(SceneManager* passSceneManager) { sceneManager = passSceneManager; }
+		void setECS(ECSInterface* passECS) { ecs = passECS; }
+		void setAssetManager(AssetManagerInterface* passAssetManager) { assetManager = passAssetManager; }
+		void setFrameLimiter(FrameLimiterInterface* passFrameLimiter) { frameLimiter = passFrameLimiter; }
+		void setJobSystem(JobSystemInterface* passJobSystem) { jobSystem = passJobSystem; }
+		void setProfiler(ProfilerInterface* passProfiler) { profiler = passProfiler; }
+		void setNetworking(NetworkingInterface* passNetworking) { networking = passNetworking; }
+		void setSceneManager(SceneManagerInterface* passSceneManager) { sceneManager = passSceneManager; }
 
 	protected:
 		Entity entityID = NTSHENGN_ENTITY_UNKNOWN;
@@ -910,19 +910,19 @@ namespace NtshEngn {
 
 		ScriptManagerInterface* scriptManager = nullptr;
 
-		ECS* ecs = nullptr;
+		ECSInterface* ecs = nullptr;
 
-		AssetManager* assetManager = nullptr;
+		AssetManagerInterface* assetManager = nullptr;
 
-		FrameLimiter* frameLimiter = nullptr;
+		FrameLimiterInterface* frameLimiter = nullptr;
 
-		JobSystem* jobSystem = nullptr;
+		JobSystemInterface* jobSystem = nullptr;
 
-		Profiler* profiler = nullptr;
+		ProfilerInterface* profiler = nullptr;
 
-		Networking* networking = nullptr;
+		NetworkingInterface* networking = nullptr;
 
-		SceneManager* sceneManager = nullptr;
+		SceneManagerInterface* sceneManager = nullptr;
 	};
 
 }

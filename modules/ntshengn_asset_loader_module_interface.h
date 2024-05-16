@@ -8,7 +8,7 @@
 
 namespace NtshEngn {
 
-	class AssetManager;
+	class AssetManagerInterface;
 
 	class AssetLoaderModuleInterface : public ModuleInterface {
 	public:
@@ -26,12 +26,12 @@ namespace NtshEngn {
 		virtual Font loadFont(const std::string& filePath, float fontHeight) = 0;
 
 	public:
-		void setAssetManager(AssetManager* passAssetManager) {
+		void setAssetManager(AssetManagerInterface* passAssetManager) {
 			assetManager = passAssetManager;
 		}
 
 	protected:
-		AssetManager* assetManager = nullptr;
+		AssetManagerInterface* assetManager = nullptr;
 	};
 
 }

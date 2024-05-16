@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <cstdint>
 
 #if defined(NTSHENGN_DEBUG)
@@ -42,6 +43,8 @@
 #define NTSHENGN_NETWORKING_HEADER_DISCONNECTION 0xD15C
 
 namespace NtshEngn {
+
+	typedef uint64_t Socket;
 
 	typedef uint32_t ConnectedClientID;
 
