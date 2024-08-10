@@ -605,15 +605,40 @@ namespace NtshEngn {
 				return ior * i - (ior * ndoti + std::sqrt(k)) * n;
 			}
 		}
-		inline vec3 quatToEulerAngles(const quat& qua) {
-			return vec3(std::atan2(2.0f * ((qua.a * qua.b) + (qua.c * qua.d)), 1.0f - (2.0f * ((qua.b * qua.b) + (qua.c * qua.c)))),
-				std::asin(2.0f * ((qua.a * qua.c) - (qua.d * qua.b))),
-				std::atan2(2.0f * ((qua.a * qua.d) + (qua.b * qua.c)), 1.0f - (2.0f * ((qua.c * qua.c) + (qua.d * qua.d)))));
+		inline mat4 quatToRotationMatrix(const quat& qua) { // Defined early for quatToEulerAngles
+			const float ab = qua.a * qua.b;
+			const float ac = qua.a * qua.c;
+			const float ad = qua.a * qua.d;
+			const float bb = qua.b * qua.b;
+			const float bc = qua.b * qua.c;
+			const float bd = qua.b * qua.d;
+			const float cc = qua.c * qua.c;
+			const float cd = qua.c * qua.d;
+			const float dd = qua.d * qua.d;
+
+			return mat4(1.0f - 2.0f * (cc + dd),
+				2.0f * (bc + ad),
+				2.0f * (bd - ac),
+				0.0f,
+				2.0f * (bc - ad),
+				1.0f - 2.0f * (bb + dd),
+				2.0f * (cd + ab),
+				0.0f,
+				2.0f * (bd + ac),
+				2.0f * (cd - ab),
+				1.0f - 2.0f * (bb + cc),
+				0.0f,
+				0.0f, 0.0f, 0.0f, 1.0f);
 		}
-		inline vec3 rotationMatrixToEulerAngles(const mat4& mat) {
+		inline vec3 rotationMatrixToEulerAngles(const mat4& mat) { // Defined early for quatToEulerAngles
 			return vec3(-std::atan2(mat.z.y, mat.z.z),
 				-std::atan2(-mat.z.x, std::sqrt((mat.z.y * mat.z.y) + (mat.z.z * mat.z.z))),
 				-std::atan2(mat.y.x, mat.x.x));
+		}
+		inline vec3 quatToEulerAngles(const quat& qua) {
+			const mat4 rotationMatrix = quatToRotationMatrix(qua);
+
+    		return rotationMatrixToEulerAngles(rotationMatrix);
 		}
 		
 		inline std::string to_string(const vec3& vec) {
@@ -828,31 +853,6 @@ namespace NtshEngn {
 			rotation.b = (baseRotationMat.y.z - baseRotationMat.z.y) / S;
 			rotation.c = (baseRotationMat.z.x - baseRotationMat.x.z) / S;
 			rotation.d = (baseRotationMat.x.y - baseRotationMat.y.x) / S;
-		}
-		inline mat4 quatToRotationMatrix(const quat& qua) {
-			const float ab = qua.a * qua.b;
-			const float ac = qua.a * qua.c;
-			const float ad = qua.a * qua.d;
-			const float bb = qua.b * qua.b;
-			const float bc = qua.b * qua.c;
-			const float bd = qua.b * qua.d;
-			const float cc = qua.c * qua.c;
-			const float cd = qua.c * qua.d;
-			const float dd = qua.d * qua.d;
-
-			return mat4(1.0f - 2.0f * (cc + dd),
-				2.0f * (bc + ad),
-				2.0f * (bd - ac),
-				0.0f,
-				2.0f * (bc - ad),
-				1.0f - 2.0f * (bb + dd),
-				2.0f * (cd + ab),
-				0.0f,
-				2.0f * (bd + ac),
-				2.0f * (cd - ab),
-				1.0f - 2.0f * (bb + cc),
-				0.0f,
-				0.0f, 0.0f, 0.0f, 1.0f);
 		}
 
 		inline std::string to_string(const mat4& mat) {
