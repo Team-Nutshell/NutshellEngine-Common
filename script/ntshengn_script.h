@@ -35,6 +35,10 @@ namespace NtshEngn {
 			return graphicsModule->load(mesh);
 		}
 
+		Material* loadMaterial(const std::string& filePath) {
+			return assetManager->loadMaterial(filePath);
+		}
+
 		Image* loadImage(const std::string& filePath) {
 			return assetManager->loadImage(filePath);
 		}
