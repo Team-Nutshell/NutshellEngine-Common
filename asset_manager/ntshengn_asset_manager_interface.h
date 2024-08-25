@@ -50,6 +50,9 @@ namespace NtshEngn {
 		virtual Model* createModel() = 0;
 		virtual Model* loadModel(const std::string& filePath) = 0;
 
+		virtual Material* createMaterial() = 0;
+		virtual Material* loadMaterial(const std::string& filePath) = 0;
+
 		virtual Image* createImage() = 0;
 		virtual Image* loadImage(const std::string& filePath) = 0;
 
