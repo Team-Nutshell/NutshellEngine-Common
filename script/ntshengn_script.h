@@ -556,6 +556,18 @@ namespace NtshEngn {
 			windowModule->setWindowTitle(windowID, title);
 		}
 
+		std::string getWindowTitle(WindowID windowID = NTSHENGN_WINDOW_UNKNOWN) {
+			if (!windowModule) {
+				return "";
+			}
+
+			if (windowID == NTSHENGN_WINDOW_UNKNOWN) {
+				windowID = windowModule->getMainWindowID();
+			}
+
+			return windowModule->getWindowTitle(windowID);
+		}
+
 		void setWindowIcon(const Image& image, WindowID windowID = NTSHENGN_WINDOW_UNKNOWN) {
 			if (!windowModule) {
 				return;
