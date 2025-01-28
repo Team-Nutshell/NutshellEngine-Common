@@ -1,10 +1,10 @@
 #pragma once
-#if defined(NTSHENGN_OS_LINUX) || defined(NTSHENGN_OS_FREEBSD)
-#include <sys/stat.h>
-#endif
 #include <fstream>
 #include <string>
 #include <cstdio>
+#if defined(NTSHENGN_OS_LINUX) || defined(NTSHENGN_OS_FREEBSD)
+#include <iconv.h>
+#endif
 
 namespace NtshEngn {
 
@@ -17,20 +17,15 @@ namespace NtshEngn {
 			}
 			file.seekg(0);
 			std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-			
+
 			return fileContent;
 		}
 
 		static std::wstring readUtf8(const std::string& filePath) {
 			std::wstring utf8Data;
 
-			std::string mode = "";
-#if defined(NTSHENGN_OS_WINDOWS)
-			mode = "rtS, ccs=UTF-8";
-#elif defined(NTSHENGN_OS_LINUX) || defined(NTSHENGN_OS_FREEBSD)
-			mode = "r";
-#endif
-			FILE* f = fopen(filePath.c_str(), mode.c_str());
+			#if defined(NTSHENGN_OS_WINDOWS)
+			FILE* f = fopen(filePath.c_str(), "rtS, ccs=UTF-8");
 			if (!f) {
 				return L"";
 			}
@@ -45,7 +40,30 @@ namespace NtshEngn {
 			}
 
 			fclose(f);
-			
+			#elif defined(NTSHENGN_OS_LINUX) || defined(NTSHENGN_OS_FREEBSD)
+			std::string baseData = readBinary(filePath);
+
+			iconv_t conv = iconv_open("WCHAR_T", "UTF-8");
+			if (conv == reinterpret_cast<iconv_t>(-1)) {
+				return L"";
+			}
+
+			char* inBuffer = const_cast<char*>(baseData.c_str());
+			size_t inSize = baseData.size();
+
+			std::vector<wchar_t> utf8Vector(inSize + 1);
+			char* outBuffer = reinterpret_cast<char*>(utf8Vector.data());
+			size_t outSize = utf8Vector.size() * sizeof(wchar_t);
+
+			if (iconv(conv, &inBuffer, &inSize, &outBuffer, &outSize) == static_cast<size_t>(-1)) {
+				return L"";
+			}
+
+			utf8Data = std::wstring(utf8Vector.data());
+
+			iconv_close(conv);
+			#endif
+
 			return utf8Data;
 		}
 
@@ -56,7 +74,7 @@ namespace NtshEngn {
 			}
 			file.seekg(0);
 			std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-			
+
 			return fileContent;
 		}
 
@@ -78,7 +96,7 @@ namespace NtshEngn {
 					return filePath;
 				}
 			}
-			
+
 			return filePath.substr(slashPosition + 1);
 		}
 
@@ -87,7 +105,7 @@ namespace NtshEngn {
 			if (dotPosition == std::string::npos) {
 				return "";
 			}
-			
+
 			return filePath.substr(dotPosition + 1);
 		}
 
@@ -99,7 +117,7 @@ namespace NtshEngn {
 					return filePath;
 				}
 			}
-			
+
 			return filePath.substr(0, slashPosition + 1);
 		}
 	};
