@@ -24,7 +24,7 @@ namespace NtshEngn {
 		static std::wstring readUtf8(const std::string& filePath) {
 			std::wstring utf8Data;
 
-			#if defined(NTSHENGN_OS_WINDOWS)
+#if defined(NTSHENGN_OS_WINDOWS)
 			FILE* f = fopen(filePath.c_str(), "rtS, ccs=UTF-8");
 			if (!f) {
 				return L"";
@@ -40,7 +40,7 @@ namespace NtshEngn {
 			}
 
 			fclose(f);
-			#elif defined(NTSHENGN_OS_LINUX) || defined(NTSHENGN_OS_FREEBSD)
+#elif defined(NTSHENGN_OS_LINUX) || defined(NTSHENGN_OS_FREEBSD)
 			std::string baseData = readBinary(filePath);
 
 			iconv_t conv = iconv_open("WCHAR_T", "UTF-8");
@@ -62,7 +62,7 @@ namespace NtshEngn {
 			utf8Data = std::wstring(utf8Vector.data());
 
 			iconv_close(conv);
-			#endif
+#endif
 
 			return utf8Data;
 		}
