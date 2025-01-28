@@ -1,6 +1,10 @@
 #pragma once
+#if defined(NTSHENGN_OS_LINUX) || defined(NTSHENGN_OS_FREEBSD)
+#include <sys/stat.h>
+#endif
 #include <fstream>
 #include <string>
+#include <cstdio>
 
 namespace NtshEngn {
 
@@ -15,6 +19,34 @@ namespace NtshEngn {
 			std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 			
 			return fileContent;
+		}
+
+		static std::wstring readUtf8(const std::string& filePath) {
+			std::wstring utf8Data;
+
+			std::string mode = "";
+#if defined(NTSHENGN_OS_WINDOWS)
+			mode = "rtS, ccs=UTF-8";
+#elif defined(NTSHENGN_OS_LINUX) || defined(NTSHENGN_OS_FREEBSD)
+			mode = "r";
+#endif
+			FILE* f = fopen(filePath.c_str(), mode.c_str());
+			if (!f) {
+				return L"";
+			}
+
+			struct stat fileInfo;
+			stat(filePath.c_str(), &fileInfo);
+			if (fileInfo.st_size > 0) {
+				utf8Data.resize(fileInfo.st_size);
+				size_t wcharRead = fread(&(utf8Data.front()), sizeof(wchar_t), fileInfo.st_size, f);
+				utf8Data.resize(wcharRead);
+				utf8Data.shrink_to_fit();
+			}
+
+			fclose(f);
+			
+			return utf8Data;
 		}
 
 		static std::string readBinary(const std::string& filePath) {
