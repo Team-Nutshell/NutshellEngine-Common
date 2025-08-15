@@ -978,6 +978,49 @@ namespace NtshEngn {
 			return graphicsModule->isAnimationPlaying(entity, animationIndex);
 		}
 
+		// UI
+		void drawUIText(FontID fontID, const std::wstring& text, const Math::vec2& position, const Math::vec2& scale = Math::vec2(1.0f, 1.0f), const Math::vec4& color = Math::vec4(0.0f, 0.0f, 0.0f, 1.0f)) {
+			if (!graphicsModule) {
+				return;
+			}
+
+			graphicsModule->drawUIText(fontID, text, position, scale, color);
+		}
+
+		void drawUIText(FontID fontID, const std::string& text, const Math::vec2& position, const Math::vec2& scale = Math::vec2(1.0f, 1.0f), const Math::vec4& color = Math::vec4(0.0f, 0.0f, 0.0f, 1.0f)) {
+			if (!graphicsModule) {
+				return;
+			}
+
+			std::wstring wideString(text.begin(), text.end());
+
+			graphicsModule->drawUIText(fontID, wideString, position, scale, color);
+		}
+
+		void drawUILine(const Math::vec2& start, const Math::vec2& end, const Math::vec4& color = Math::vec4(1.0f, 1.0f, 1.0f, 1.0f)) {
+			if (!graphicsModule) {
+				return;
+			}
+
+			graphicsModule->drawUILine(start, end, color);
+		}
+
+		void drawUIRectangle(const Math::vec2& position, const Math::vec2& size, const Math::vec4& color = Math::vec4(1.0f, 1.0f, 1.0f, 1.0f)) {
+			if (!graphicsModule) {
+				return;
+			}
+
+			graphicsModule->drawUIRectangle(position, size, color);
+		}
+
+		void drawUIImage(ImageID imageID, ImageSamplerFilter imageSamplerFilter, const Math::vec2& position, float rotation = 0.0f, const Math::vec2& scale = Math::vec2(1.0f, 1.0f), const Math::vec4& color = Math::vec4(1.0f, 1.0f, 1.0f, 1.0f)) {
+			if (!graphicsModule) {
+				return;
+			}
+
+			graphicsModule->drawUIImage(imageID, imageSamplerFilter, position, rotation, scale, color);
+		}
+
 		// Platform
 		PlatformUserInfo getPlatformUserInfo() {
 			if (!platformModule) {
@@ -1033,49 +1076,6 @@ namespace NtshEngn {
 			}
 
 			return platformModule->isOverlayVisible();
-		}
-
-		// UI
-		void drawUIText(FontID fontID, const std::wstring& text, const Math::vec2& position, const Math::vec2& scale = Math::vec2(1.0f, 1.0f), const Math::vec4& color = Math::vec4(0.0f, 0.0f, 0.0f, 1.0f)) {
-			if (!graphicsModule) {
-				return;
-			}
-
-			graphicsModule->drawUIText(fontID, text, position, scale, color);
-		}
-
-		void drawUIText(FontID fontID, const std::string& text, const Math::vec2& position, const Math::vec2& scale = Math::vec2(1.0f, 1.0f), const Math::vec4& color = Math::vec4(0.0f, 0.0f, 0.0f, 1.0f)) {
-			if (!graphicsModule) {
-				return;
-			}
-
-			std::wstring wideString(text.begin(), text.end());
-
-			graphicsModule->drawUIText(fontID, wideString, position, scale, color);
-		}
-
-		void drawUILine(const Math::vec2& start, const Math::vec2& end, const Math::vec4& color = Math::vec4(1.0f, 1.0f, 1.0f, 1.0f)) {
-			if (!graphicsModule) {
-				return;
-			}
-
-			graphicsModule->drawUILine(start, end, color);
-		}
-
-		void drawUIRectangle(const Math::vec2& position, const Math::vec2& size, const Math::vec4& color = Math::vec4(1.0f, 1.0f, 1.0f, 1.0f)) {
-			if (!graphicsModule) {
-				return;
-			}
-
-			graphicsModule->drawUIRectangle(position, size, color);
-		}
-
-		void drawUIImage(ImageID imageID, ImageSamplerFilter imageSamplerFilter, const Math::vec2& position, float rotation = 0.0f, const Math::vec2& scale = Math::vec2(1.0f, 1.0f), const Math::vec4& color = Math::vec4(1.0f, 1.0f, 1.0f, 1.0f)) {
-			if (!graphicsModule) {
-				return;
-			}
-
-			graphicsModule->drawUIImage(imageID, imageSamplerFilter, position, rotation, scale, color);
 		}
 
 		// Frame Limiter
