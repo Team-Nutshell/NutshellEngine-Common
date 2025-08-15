@@ -978,6 +978,63 @@ namespace NtshEngn {
 			return graphicsModule->isAnimationPlaying(entity, animationIndex);
 		}
 
+		// Platform
+		PlatformUserInfo getPlatformUserInfo() {
+			if (!platformModule) {
+				return PlatformUserInfo();
+			}
+
+			return platformModule->getUserInfo();
+		}
+
+		std::vector<PlatformUserInfo> getPlatformUserFriendsInfo() {
+			if (!platformModule) {
+				return {};
+			}
+
+			return platformModule->getUserFriendsInfo();
+		}
+
+		void unlockPlatformAchievement(const std::string& achievementID) {
+			if (!platformModule) {
+				return;
+			}
+
+			platformModule->unlockAchievement(achievementID);
+		}
+
+		void lockPlatformAchievement(const std::string& achievementID) {
+			if (!platformModule) {
+				return;
+			}
+
+			platformModule->lockAchievement(achievementID);
+		}
+
+		bool isAchievementUnlocked(const std::string& achievementID) {
+			if (!platformModule) {
+				return false;
+			}
+
+			return platformModule->isAchievementUnlocked(achievementID);
+		}
+
+		void showPlatformOverlay() {
+			if (!platformModule) {
+				return;
+			}
+
+			platformModule->showOverlay();
+		}
+
+		bool isPlatformOverlayVisible() {
+			if (!platformModule) {
+				return false;
+			}
+
+			return platformModule->isOverlayVisible();
+		}
+
 		// UI
 		void drawUIText(FontID fontID, const std::wstring& text, const Math::vec2& position, const Math::vec2& scale = Math::vec2(1.0f, 1.0f), const Math::vec4& color = Math::vec4(0.0f, 0.0f, 0.0f, 1.0f)) {
 			if (!graphicsModule) {
