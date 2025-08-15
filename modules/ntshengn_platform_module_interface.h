@@ -1,6 +1,7 @@
 #pragma once
 #include "ntshengn_module_interface.h"
-#include <cstdint>
+#include "../resources/ntshengn_resources_platform.h"
+#include <vector>
 
 namespace NtshEngn {
 
@@ -10,10 +11,11 @@ namespace NtshEngn {
 		PlatformModuleInterface(const std::string& name) : ModuleInterface(ModuleType::Platform, name) {}
 		virtual ~PlatformModuleInterface() {}
 
-		// Returns the user's ID on the platform
-		virtual uint64_t getUserID() = 0;
-		// Returns the user's name on the platform
-		virtual std::string getUserName() = 0;
+		// Returns the user's information on the platform
+		virtual PlatformUserInfo getUserInfo() = 0;
+
+		// Returns the list of the user's friends on the platform
+		virtual std::vector<PlatformUserInfo> getUserFriendsInfo() = 0;
 
 		// Show the platform's overlay
 		virtual void showOverlay() = 0;
