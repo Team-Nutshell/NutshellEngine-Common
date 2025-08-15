@@ -1011,7 +1011,7 @@ namespace NtshEngn {
 			platformModule->lockAchievement(achievementID);
 		}
 
-		bool isAchievementUnlocked(const std::string& achievementID) {
+		bool isPlatformAchievementUnlocked(const std::string& achievementID) {
 			if (!platformModule) {
 				return false;
 			}
