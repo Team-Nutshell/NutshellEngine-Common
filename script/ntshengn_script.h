@@ -945,12 +945,12 @@ namespace NtshEngn {
 			return audioModule->isSoundSourceLooping(soundSourceID);
 		}
 
-		void setMasterGain(float gain) {
+		void setMasterGain(float newGain) {
 			if (!audioModule) {
 				return;
 			}
 
-			audioModule->setMasterGain(gain);
+			audioModule->setMasterGain(newGain);
 		}
 
 		float getMasterGain() {
