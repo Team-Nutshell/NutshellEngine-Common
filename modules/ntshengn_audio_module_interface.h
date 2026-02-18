@@ -34,7 +34,7 @@ namespace NtshEngn {
 		virtual float getSoundLength(SoundID soundID) = 0;
 
 		// Sets the current time of a sound source, in seconds
-		virtual void setSoundSourceTime(SoundSourceID soundSourceID, float time) = 0;
+		virtual void setSoundSourceTime(SoundSourceID soundSourceID, float newTime) = 0;
 		// Returns the current time of a sound source, in seconds
 		virtual float getSoundSourceTime(SoundSourceID soundSourceID) = 0;
 

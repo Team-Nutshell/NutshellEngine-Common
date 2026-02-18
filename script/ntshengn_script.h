@@ -889,12 +889,12 @@ namespace NtshEngn {
 			return audioModule->getSoundLength(soundID);
 		}
 
-		void setSoundSourceTime(SoundSourceID soundSourceID, float time) {
+		void setSoundSourceTime(SoundSourceID soundSourceID, float newTime) {
 			if (!audioModule) {
 				return;
 			}
 
-			audioModule->setSoundSourceTime(soundSourceID, time);
+			audioModule->setSoundSourceTime(soundSourceID, newTime);
 		}
 		
 		float getSoundSourceTime(SoundSourceID soundSourceID) {
