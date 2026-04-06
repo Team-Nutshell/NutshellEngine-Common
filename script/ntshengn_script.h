@@ -881,20 +881,20 @@ namespace NtshEngn {
 			return audioModule->isSoundPlaying(soundID);
 		}
 
-		void setSoundSourceTime(SoundSourceID soundSourceID, float newTime) {
+		void setSoundSourceCurrentTime(SoundSourceID soundSourceID, float newTime) {
 			if (!audioModule) {
 				return;
 			}
 
-			audioModule->setSoundSourceTime(soundSourceID, newTime);
+			audioModule->setSoundSourceCurrentTime(soundSourceID, newTime);
 		}
 		
-		float getSoundSourceTime(SoundSourceID soundSourceID) {
+		float getSoundSourceCurrentTime(SoundSourceID soundSourceID) {
 			if (!audioModule) {
 				return false;
 			}
 
-			return audioModule->getSoundSourceTime(soundSourceID);
+			return audioModule->getSoundSourceCurrentTime(soundSourceID);
 		}
 
 
