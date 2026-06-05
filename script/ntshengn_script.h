@@ -217,7 +217,7 @@ namespace NtshEngn {
 
 		// ECS
 		Entity createEntity(const std::string& name = "") {
-			if (name != "") {
+			if (!name.empty()) {
 				return ecs->createEntity(name);
 			}
 
