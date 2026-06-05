@@ -215,6 +215,10 @@ namespace NtshEngn {
 			return sceneManager->getCurrentScenePath();
 		}
 
+		void createEntitiesFromScene(const std::string& filePath) {
+			sceneManager->createEntitiesFromScene(filePath);
+		}
+
 		// ECS
 		Entity createEntity(const std::string& name = "") {
 			if (!name.empty()) {
