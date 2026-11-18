@@ -1,5 +1,5 @@
 #pragma once
-#include "../utils/ntshengn_enums.h"
+#include "../resources/ntshengn_resources_module.h"
 #include "../asset_manager/ntshengn_asset_manager_interface.h"
 #include "../job_system/ntshengn_job_system_interface.h"
 #include "../command_line/ntshengn_command_line_interface.h"
