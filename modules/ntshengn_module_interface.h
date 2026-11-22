@@ -24,6 +24,17 @@ namespace NtshEngn {
 		virtual void update(float dt) = 0;
 		virtual void destroy() = 0;
 
+		virtual void setParameter(const std::string& parameterName, void* data) {
+			NTSHENGN_UNUSED(parameterName);
+			NTSHENGN_UNUSED(data);
+		}
+
+		virtual void* getParameter(const std::string& parameterName) {
+			NTSHENGN_UNUSED(parameterName);
+
+			return nullptr;
+		}
+
 		const ModuleType getType() const {
 			return m_type;
 		}
